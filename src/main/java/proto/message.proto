@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_package = "cn.stream2000.railgunmq.core"; // 指定包名
+option java_outer_classname = "Message"; // 指定类名
+
+enum MessageType {
+    Empty = 0;
+    PubMessageRequestType = 1;
+    PunMessageResponseType = 2;
+    CreateChannelRequestType = 3;
+    CreateChannelResponseType = 4;
+    NodeHeartBeatType = 5;
+    CSHeartBeatType = 6;
+}
+
+enum ErrorType {
+    OK = 0;
+    InternalServerError = 1;
+}
+
+message HeatBeat{
+
+}
