@@ -1,10 +1,10 @@
 package cn.stream2000.railgunmq.broker.server;
 
 import cn.stream2000.railgunmq.broker.BrokerMessageHandler;
-import cn.stream2000.railgunmq.broker.strategy.EchoHandler;
+import cn.stream2000.railgunmq.broker.strategy.ProducerStrategy;
 import cn.stream2000.railgunmq.core.ProducerMessage;
+import cn.stream2000.railgunmq.netty.codec.MessageStrategyProtobufDecoder;
 import cn.stream2000.railgunmq.netty.codec.ProtoRouter;
-import cn.stream2000.railgunmq.netty.codec.ProtobufDecoder;
 import cn.stream2000.railgunmq.netty.codec.ProtobufEncoder;
 import cn.stream2000.railgunmq.netty.codec.RouterInitializer;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -102,10 +102,10 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
         BrokerMessageHandler handler = new BrokerMessageHandler();
 
         @Override protected void initChannel(SocketChannel ch) {
-            handler.setBusinessPool(businessPool);
             ch.pipeline().addLast(encoder);
-            ch.pipeline().addLast(new ProtobufDecoder(router));
-            router.registerHandler(ProducerMessage.PubMessageRequest.getDefaultInstance(), new EchoHandler());
+            ch.pipeline().addLast(new MessageStrategyProtobufDecoder(router));
+            router.registerHandler(ProducerMessage.PubMessageRequest.getDefaultInstance(),
+                new ProducerStrategy.PublishMessageStrategy());
             ch.pipeline().addLast(handler);
         }
     }

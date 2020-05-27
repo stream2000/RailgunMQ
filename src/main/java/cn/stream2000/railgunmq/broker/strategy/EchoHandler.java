@@ -1,12 +1,10 @@
 package cn.stream2000.railgunmq.broker.strategy;
 
 import cn.stream2000.railgunmq.core.ProducerMessage;
+import cn.stream2000.railgunmq.netty.MessageStrategy;
 import io.netty.channel.ChannelHandlerContext;
 
-import java.util.concurrent.ExecutorService;
-
 public class EchoHandler implements MessageStrategy {
-    ExecutorService businessPool;
 
     @Override public void handleMessage(ChannelHandlerContext ctx, Object message) {
         ProducerMessage.PubMessageRequest request = (ProducerMessage.PubMessageRequest)message;
@@ -16,7 +14,4 @@ public class EchoHandler implements MessageStrategy {
         ctx.channel().writeAndFlush(ack);
     }
 
-    @Override public void setBusinessPool(ExecutorService executorService) {
-        businessPool = executorService;
-    }
 }

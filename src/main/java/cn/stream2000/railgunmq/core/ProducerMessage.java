@@ -17,6 +17,12 @@ public final class ProducerMessage {
   public interface CreateChannelRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:CreateChannelRequest)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool ack = 1;</code>
+     * @return The ack.
+     */
+    boolean getAck();
   }
   /**
    * Protobuf type {@code CreateChannelRequest}
@@ -63,6 +69,11 @@ public final class ProducerMessage {
             case 0:
               done = true;
               break;
+            case 8: {
+
+              ack_ = input.readBool();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -95,6 +106,16 @@ public final class ProducerMessage {
               cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.class, cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.Builder.class);
     }
 
+    public static final int ACK_FIELD_NUMBER = 1;
+    private boolean ack_;
+    /**
+     * <code>bool ack = 1;</code>
+     * @return The ack.
+     */
+    public boolean getAck() {
+      return ack_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -109,6 +130,9 @@ public final class ProducerMessage {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (ack_ != false) {
+        output.writeBool(1, ack_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -118,6 +142,10 @@ public final class ProducerMessage {
       if (size != -1) return size;
 
       size = 0;
+      if (ack_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, ack_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -133,6 +161,8 @@ public final class ProducerMessage {
       }
       cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest other = (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest) obj;
 
+      if (getAck()
+          != other.getAck()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -144,6 +174,9 @@ public final class ProducerMessage {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ACK_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getAck());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -277,6 +310,8 @@ public final class ProducerMessage {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        ack_ = false;
+
         return this;
       }
 
@@ -303,6 +338,7 @@ public final class ProducerMessage {
       @java.lang.Override
       public cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest buildPartial() {
         cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest result = new cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest(this);
+        result.ack_ = ack_;
         onBuilt();
         return result;
       }
@@ -351,6 +387,9 @@ public final class ProducerMessage {
 
       public Builder mergeFrom(cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest other) {
         if (other == cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.getDefaultInstance()) return this;
+        if (other.getAck() != false) {
+          setAck(other.getAck());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -377,6 +416,36 @@ public final class ProducerMessage {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private boolean ack_ ;
+      /**
+       * <code>bool ack = 1;</code>
+       * @return The ack.
+       */
+      public boolean getAck() {
+        return ack_;
+      }
+      /**
+       * <code>bool ack = 1;</code>
+       * @param value The ack to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAck(boolean value) {
+        
+        ack_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool ack = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAck() {
+        
+        ack_ = false;
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -437,10 +506,16 @@ public final class ProducerMessage {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 channel_id = 1;</code>
+     * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    int getChannelId();
+    java.lang.String getChannelId();
+    /**
+     * <code>string channel_id = 1;</code>
+     * @return The bytes for channelId.
+     */
+    com.google.protobuf.ByteString
+        getChannelIdBytes();
   }
   /**
    * Protobuf type {@code CreateChannelResponse}
@@ -455,6 +530,7 @@ public final class ProducerMessage {
       super(builder);
     }
     private CreateChannelResponse() {
+      channelId_ = "";
     }
 
     @java.lang.Override
@@ -487,9 +563,10 @@ public final class ProducerMessage {
             case 0:
               done = true;
               break;
-            case 8: {
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              channelId_ = input.readInt32();
+              channelId_ = s;
               break;
             }
             default: {
@@ -525,13 +602,39 @@ public final class ProducerMessage {
     }
 
     public static final int CHANNEL_ID_FIELD_NUMBER = 1;
-    private int channelId_;
+    private volatile java.lang.Object channelId_;
     /**
-     * <code>int32 channel_id = 1;</code>
+     * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    public int getChannelId() {
-      return channelId_;
+    public java.lang.String getChannelId() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        channelId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string channel_id = 1;</code>
+     * @return The bytes for channelId.
+     */
+    public com.google.protobuf.ByteString
+        getChannelIdBytes() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        channelId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -548,8 +651,8 @@ public final class ProducerMessage {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (channelId_ != 0) {
-        output.writeInt32(1, channelId_);
+      if (!getChannelIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, channelId_);
       }
       unknownFields.writeTo(output);
     }
@@ -560,9 +663,8 @@ public final class ProducerMessage {
       if (size != -1) return size;
 
       size = 0;
-      if (channelId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, channelId_);
+      if (!getChannelIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, channelId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -579,8 +681,8 @@ public final class ProducerMessage {
       }
       cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse other = (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse) obj;
 
-      if (getChannelId()
-          != other.getChannelId()) return false;
+      if (!getChannelId()
+          .equals(other.getChannelId())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -593,7 +695,7 @@ public final class ProducerMessage {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + CHANNEL_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getChannelId();
+      hash = (53 * hash) + getChannelId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -727,7 +829,7 @@ public final class ProducerMessage {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        channelId_ = 0;
+        channelId_ = "";
 
         return this;
       }
@@ -804,8 +906,9 @@ public final class ProducerMessage {
 
       public Builder mergeFrom(cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse other) {
         if (other == cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.getDefaultInstance()) return this;
-        if (other.getChannelId() != 0) {
-          setChannelId(other.getChannelId());
+        if (!other.getChannelId().isEmpty()) {
+          channelId_ = other.channelId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -836,32 +939,78 @@ public final class ProducerMessage {
         return this;
       }
 
-      private int channelId_ ;
+      private java.lang.Object channelId_ = "";
       /**
-       * <code>int32 channel_id = 1;</code>
+       * <code>string channel_id = 1;</code>
        * @return The channelId.
        */
-      public int getChannelId() {
-        return channelId_;
+      public java.lang.String getChannelId() {
+        java.lang.Object ref = channelId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          channelId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>int32 channel_id = 1;</code>
+       * <code>string channel_id = 1;</code>
+       * @return The bytes for channelId.
+       */
+      public com.google.protobuf.ByteString
+          getChannelIdBytes() {
+        java.lang.Object ref = channelId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          channelId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string channel_id = 1;</code>
        * @param value The channelId to set.
        * @return This builder for chaining.
        */
-      public Builder setChannelId(int value) {
-        
+      public Builder setChannelId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         channelId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 channel_id = 1;</code>
+       * <code>string channel_id = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearChannelId() {
         
-        channelId_ = 0;
+        channelId_ = getDefaultInstance().getChannelId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string channel_id = 1;</code>
+       * @param value The bytes for channelId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannelIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        channelId_ = value;
         onChanged();
         return this;
       }
@@ -923,10 +1072,16 @@ public final class ProducerMessage {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 channel_id = 1;</code>
+     * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    int getChannelId();
+    java.lang.String getChannelId();
+    /**
+     * <code>string channel_id = 1;</code>
+     * @return The bytes for channelId.
+     */
+    com.google.protobuf.ByteString
+        getChannelIdBytes();
 
     /**
      * <code>int32 letter_id = 2;</code>
@@ -976,6 +1131,7 @@ public final class ProducerMessage {
       super(builder);
     }
     private PubMessageRequest() {
+      channelId_ = "";
       topic_ = "";
       type_ = 0;
       data_ = com.google.protobuf.ByteString.EMPTY;
@@ -1011,9 +1167,10 @@ public final class ProducerMessage {
             case 0:
               done = true;
               break;
-            case 8: {
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              channelId_ = input.readInt32();
+              channelId_ = s;
               break;
             }
             case 16: {
@@ -1184,13 +1341,39 @@ public final class ProducerMessage {
     }
 
     public static final int CHANNEL_ID_FIELD_NUMBER = 1;
-    private int channelId_;
+    private volatile java.lang.Object channelId_;
     /**
-     * <code>int32 channel_id = 1;</code>
+     * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    public int getChannelId() {
-      return channelId_;
+    public java.lang.String getChannelId() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        channelId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string channel_id = 1;</code>
+     * @return The bytes for channelId.
+     */
+    public com.google.protobuf.ByteString
+        getChannelIdBytes() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        channelId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int LETTER_ID_FIELD_NUMBER = 2;
@@ -1282,8 +1465,8 @@ public final class ProducerMessage {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (channelId_ != 0) {
-        output.writeInt32(1, channelId_);
+      if (!getChannelIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, channelId_);
       }
       if (letterId_ != 0) {
         output.writeInt32(2, letterId_);
@@ -1306,9 +1489,8 @@ public final class ProducerMessage {
       if (size != -1) return size;
 
       size = 0;
-      if (channelId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, channelId_);
+      if (!getChannelIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, channelId_);
       }
       if (letterId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -1340,8 +1522,8 @@ public final class ProducerMessage {
       }
       cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest other = (cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest) obj;
 
-      if (getChannelId()
-          != other.getChannelId()) return false;
+      if (!getChannelId()
+          .equals(other.getChannelId())) return false;
       if (getLetterId()
           != other.getLetterId()) return false;
       if (!getTopic()
@@ -1361,7 +1543,7 @@ public final class ProducerMessage {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + CHANNEL_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getChannelId();
+      hash = (53 * hash) + getChannelId().hashCode();
       hash = (37 * hash) + LETTER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getLetterId();
       hash = (37 * hash) + TOPIC_FIELD_NUMBER;
@@ -1503,7 +1685,7 @@ public final class ProducerMessage {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        channelId_ = 0;
+        channelId_ = "";
 
         letterId_ = 0;
 
@@ -1592,8 +1774,9 @@ public final class ProducerMessage {
 
       public Builder mergeFrom(cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest other) {
         if (other == cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.getDefaultInstance()) return this;
-        if (other.getChannelId() != 0) {
-          setChannelId(other.getChannelId());
+        if (!other.getChannelId().isEmpty()) {
+          channelId_ = other.channelId_;
+          onChanged();
         }
         if (other.getLetterId() != 0) {
           setLetterId(other.getLetterId());
@@ -1637,32 +1820,78 @@ public final class ProducerMessage {
         return this;
       }
 
-      private int channelId_ ;
+      private java.lang.Object channelId_ = "";
       /**
-       * <code>int32 channel_id = 1;</code>
+       * <code>string channel_id = 1;</code>
        * @return The channelId.
        */
-      public int getChannelId() {
-        return channelId_;
+      public java.lang.String getChannelId() {
+        java.lang.Object ref = channelId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          channelId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>int32 channel_id = 1;</code>
+       * <code>string channel_id = 1;</code>
+       * @return The bytes for channelId.
+       */
+      public com.google.protobuf.ByteString
+          getChannelIdBytes() {
+        java.lang.Object ref = channelId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          channelId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string channel_id = 1;</code>
        * @param value The channelId to set.
        * @return This builder for chaining.
        */
-      public Builder setChannelId(int value) {
-        
+      public Builder setChannelId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         channelId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 channel_id = 1;</code>
+       * <code>string channel_id = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearChannelId() {
         
-        channelId_ = 0;
+        channelId_ = getDefaultInstance().getChannelId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string channel_id = 1;</code>
+       * @param value The bytes for channelId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannelIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        channelId_ = value;
         onChanged();
         return this;
       }
@@ -1915,10 +2144,16 @@ public final class ProducerMessage {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 channel_id = 1;</code>
+     * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    int getChannelId();
+    java.lang.String getChannelId();
+    /**
+     * <code>string channel_id = 1;</code>
+     * @return The bytes for channelId.
+     */
+    com.google.protobuf.ByteString
+        getChannelIdBytes();
 
     /**
      * <code>int32 letter_id = 2;</code>
@@ -1962,6 +2197,7 @@ public final class ProducerMessage {
       super(builder);
     }
     private PubMessageAck() {
+      channelId_ = "";
       error_ = 0;
       errorMessage_ = "";
     }
@@ -1996,9 +2232,10 @@ public final class ProducerMessage {
             case 0:
               done = true;
               break;
-            case 8: {
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              channelId_ = input.readInt32();
+              channelId_ = s;
               break;
             }
             case 16: {
@@ -2051,13 +2288,39 @@ public final class ProducerMessage {
     }
 
     public static final int CHANNEL_ID_FIELD_NUMBER = 1;
-    private int channelId_;
+    private volatile java.lang.Object channelId_;
     /**
-     * <code>int32 channel_id = 1;</code>
+     * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    public int getChannelId() {
-      return channelId_;
+    public java.lang.String getChannelId() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        channelId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string channel_id = 1;</code>
+     * @return The bytes for channelId.
+     */
+    public com.google.protobuf.ByteString
+        getChannelIdBytes() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        channelId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int LETTER_ID_FIELD_NUMBER = 2;
@@ -2139,8 +2402,8 @@ public final class ProducerMessage {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (channelId_ != 0) {
-        output.writeInt32(1, channelId_);
+      if (!getChannelIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, channelId_);
       }
       if (letterId_ != 0) {
         output.writeInt32(2, letterId_);
@@ -2160,9 +2423,8 @@ public final class ProducerMessage {
       if (size != -1) return size;
 
       size = 0;
-      if (channelId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, channelId_);
+      if (!getChannelIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, channelId_);
       }
       if (letterId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -2190,8 +2452,8 @@ public final class ProducerMessage {
       }
       cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck other = (cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck) obj;
 
-      if (getChannelId()
-          != other.getChannelId()) return false;
+      if (!getChannelId()
+          .equals(other.getChannelId())) return false;
       if (getLetterId()
           != other.getLetterId()) return false;
       if (error_ != other.error_) return false;
@@ -2209,7 +2471,7 @@ public final class ProducerMessage {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + CHANNEL_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getChannelId();
+      hash = (53 * hash) + getChannelId().hashCode();
       hash = (37 * hash) + LETTER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getLetterId();
       hash = (37 * hash) + ERROR_FIELD_NUMBER;
@@ -2349,7 +2611,7 @@ public final class ProducerMessage {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        channelId_ = 0;
+        channelId_ = "";
 
         letterId_ = 0;
 
@@ -2435,8 +2697,9 @@ public final class ProducerMessage {
 
       public Builder mergeFrom(cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck other) {
         if (other == cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.getDefaultInstance()) return this;
-        if (other.getChannelId() != 0) {
-          setChannelId(other.getChannelId());
+        if (!other.getChannelId().isEmpty()) {
+          channelId_ = other.channelId_;
+          onChanged();
         }
         if (other.getLetterId() != 0) {
           setLetterId(other.getLetterId());
@@ -2477,32 +2740,78 @@ public final class ProducerMessage {
         return this;
       }
 
-      private int channelId_ ;
+      private java.lang.Object channelId_ = "";
       /**
-       * <code>int32 channel_id = 1;</code>
+       * <code>string channel_id = 1;</code>
        * @return The channelId.
        */
-      public int getChannelId() {
-        return channelId_;
+      public java.lang.String getChannelId() {
+        java.lang.Object ref = channelId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          channelId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>int32 channel_id = 1;</code>
+       * <code>string channel_id = 1;</code>
+       * @return The bytes for channelId.
+       */
+      public com.google.protobuf.ByteString
+          getChannelIdBytes() {
+        java.lang.Object ref = channelId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          channelId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string channel_id = 1;</code>
        * @param value The channelId to set.
        * @return This builder for chaining.
        */
-      public Builder setChannelId(int value) {
-        
+      public Builder setChannelId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         channelId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 channel_id = 1;</code>
+       * <code>string channel_id = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearChannelId() {
         
-        channelId_ = 0;
+        channelId_ = getDefaultInstance().getChannelId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string channel_id = 1;</code>
+       * @param value The bytes for channelId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannelIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        channelId_ = value;
         onChanged();
         return this;
       }
@@ -2746,18 +3055,18 @@ public final class ProducerMessage {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016producer.proto\032\rmessage.proto\"\026\n\024Creat" +
-      "eChannelRequest\"+\n\025CreateChannelResponse" +
-      "\022\022\n\nchannel_id\030\001 \001(\005\"\271\001\n\021PubMessageReque" +
-      "st\022\022\n\nchannel_id\030\001 \001(\005\022\021\n\tletter_id\030\002 \001(" +
-      "\005\022\r\n\005topic\030\003 \001(\t\022-\n\004type\030\004 \001(\0162\037.PubMess" +
-      "ageRequest.payload_type\022\014\n\004data\030\005 \001(\014\"1\n" +
-      "\014payload_type\022\010\n\004Text\020\000\022\n\n\006Binary\020\001\022\013\n\007I" +
-      "nteger\020\002\"h\n\rPubMessageAck\022\022\n\nchannel_id\030" +
-      "\001 \001(\005\022\021\n\tletter_id\030\002 \001(\005\022\031\n\005error\030\003 \001(\0162" +
-      "\n.ErrorType\022\025\n\rerror_message\030\004 \001(\tB/\n\034cn" +
-      ".stream2000.railgunmq.coreB\017ProducerMess" +
-      "ageb\006proto3"
+      "\n\016producer.proto\032\rmessage.proto\"#\n\024Creat" +
+      "eChannelRequest\022\013\n\003ack\030\001 \001(\010\"+\n\025CreateCh" +
+      "annelResponse\022\022\n\nchannel_id\030\001 \001(\t\"\271\001\n\021Pu" +
+      "bMessageRequest\022\022\n\nchannel_id\030\001 \001(\t\022\021\n\tl" +
+      "etter_id\030\002 \001(\005\022\r\n\005topic\030\003 \001(\t\022-\n\004type\030\004 " +
+      "\001(\0162\037.PubMessageRequest.payload_type\022\014\n\004" +
+      "data\030\005 \001(\014\"1\n\014payload_type\022\010\n\004Text\020\000\022\n\n\006" +
+      "Binary\020\001\022\013\n\007Integer\020\002\"h\n\rPubMessageAck\022\022" +
+      "\n\nchannel_id\030\001 \001(\t\022\021\n\tletter_id\030\002 \001(\005\022\031\n" +
+      "\005error\030\003 \001(\0162\n.ErrorType\022\025\n\rerror_messag" +
+      "e\030\004 \001(\tB/\n\034cn.stream2000.railgunmq.coreB" +
+      "\017ProducerMessageb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2769,7 +3078,7 @@ public final class ProducerMessage {
     internal_static_CreateChannelRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateChannelRequest_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Ack", });
     internal_static_CreateChannelResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_CreateChannelResponse_fieldAccessorTable = new

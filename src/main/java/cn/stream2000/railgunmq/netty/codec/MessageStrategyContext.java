@@ -1,9 +1,7 @@
 package cn.stream2000.railgunmq.netty.codec;
 
-import cn.stream2000.railgunmq.broker.strategy.MessageStrategy;
+import cn.stream2000.railgunmq.netty.MessageStrategy;
 import io.netty.channel.ChannelHandlerContext;
-
-import java.util.concurrent.ExecutorService;
 
 public class MessageStrategyContext {
     private final Object msg;
@@ -22,10 +20,6 @@ public class MessageStrategyContext {
 
     public MessageStrategy getStrategy() {
         return strategy;
-    }
-
-    public void setBusinessPool(ExecutorService executorService) {
-        strategy.setBusinessPool(executorService);
     }
 
     public void invoke() throws Exception {
