@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ProtoRouter {
     private final Map<Byte, GeneratedMessageV3> typeMessageMap = new HashMap<>();
-    private final Map<Class, Byte> messageTypeMap = new HashMap<>();
+    private final Map<Class<? extends GeneratedMessageV3>, Byte> messageTypeMap = new HashMap<>();
     private final Map<Byte, MessageStrategy> handlerMap = new HashMap<>();
 
     public void register(byte messageType, GeneratedMessageV3 message) {
@@ -28,7 +28,7 @@ public class ProtoRouter {
         return typeMessageMap;
     }
 
-    public Map<Class, Byte> getMessageTypeMap() {
+    public Map<Class<? extends GeneratedMessageV3>, Byte> getMessageTypeMap() {
         return messageTypeMap;
     }
 
