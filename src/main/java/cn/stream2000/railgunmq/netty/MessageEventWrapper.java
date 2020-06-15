@@ -2,66 +2,70 @@ package cn.stream2000.railgunmq.netty;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import java.util.concurrent.ExecutorService;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.NameMatchMethodPointcutAdvisor;
 
-import java.util.concurrent.ExecutorService;
-
 public class MessageEventWrapper<T> extends ChannelInboundHandlerAdapter
     implements MessageEventHandler, MessageEventProxy {
-    final public static String proxyMappedName = "handleMessage";
-    protected Throwable cause;
-    protected MessageEventWrapper<T> wrapper;
 
-    public void setBusinessPool(ExecutorService businessPool) {
-        this.businessPool = businessPool;
-    }
+  final public static String proxyMappedName = "handleMessage";
+  protected Throwable cause;
+  protected MessageEventWrapper<T> wrapper;
+  protected ExecutorService businessPool;
 
-    protected ExecutorService businessPool;
-    @Override public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) throws Exception {
+  public void setBusinessPool(ExecutorService businessPool) {
+    this.businessPool = businessPool;
+  }
 
-    }
+  @Override
+  public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message)
+      throws Exception {
 
-    @Override public void beforeMessage(Object msg) {
+  }
 
-    }
+  @Override
+  public void beforeMessage(Object msg) {
 
-    @Override public void afterMessage(Object msg) {
+  }
 
-    }
+  @Override
+  public void afterMessage(Object msg) {
 
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        super.channelRead(ctx, msg);
+  }
 
-        // spring aop
-        ProxyFactory weaver = new ProxyFactory(wrapper);
-        NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor();
-        advisor.setMappedName(MessageEventWrapper.proxyMappedName);
-        advisor.setAdvice(new MessageEventAdvisor(wrapper, msg));
-        weaver.addAdvisor(advisor);
+  public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    super.channelRead(ctx, msg);
 
-        MessageEventHandler proxyObject = (MessageEventHandler)weaver.getProxy();
-        proxyObject.handleMessage(ctx, msg);
-    }
+    // spring aop
+    ProxyFactory weaver = new ProxyFactory(wrapper);
+    NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor();
+    advisor.setMappedName(MessageEventWrapper.proxyMappedName);
+    advisor.setAdvice(new MessageEventAdvisor(wrapper, msg));
+    weaver.addAdvisor(advisor);
 
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        this.cause = cause;
-        cause.printStackTrace();
-    }
+    MessageEventHandler proxyObject = (MessageEventHandler) weaver.getProxy();
+    proxyObject.handleMessage(ctx, msg);
+  }
 
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        super.channelInactive(ctx);
-    }
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    this.cause = cause;
+    cause.printStackTrace();
+  }
 
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        super.channelReadComplete(ctx);
-    }
+  public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    super.channelInactive(ctx);
+  }
 
-    public Throwable getCause() {
-        return cause;
-    }
+  public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+    super.channelReadComplete(ctx);
+  }
 
-    public void setWrapper(MessageEventWrapper<T> wrapper) {
-        this.wrapper = wrapper;
-    }
+  public Throwable getCause() {
+    return cause;
+  }
+
+  public void setWrapper(MessageEventWrapper<T> wrapper) {
+    this.wrapper = wrapper;
+  }
 }

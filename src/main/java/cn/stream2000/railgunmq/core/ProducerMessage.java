@@ -4,7 +4,80 @@
 package cn.stream2000.railgunmq.core;
 
 public final class ProducerMessage {
-  private ProducerMessage() {}
+
+  private static final com.google.protobuf.Descriptors.Descriptor
+      internal_static_CreateChannelRequest_descriptor;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_CreateChannelRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+      internal_static_CreateChannelResponse_descriptor;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_CreateChannelResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+      internal_static_PubMessageRequest_descriptor;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_PubMessageRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+      internal_static_PubMessageAck_descriptor;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_PubMessageAck_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.FileDescriptor
+      descriptor;
+
+  static {
+    java.lang.String[] descriptorData = {
+        "\n\016producer.proto\032\rmessage.proto\"#\n\024Creat" +
+            "eChannelRequest\022\013\n\003ack\030\001 \001(\010\"+\n\025CreateCh" +
+            "annelResponse\022\022\n\nchannel_id\030\001 \001(\t\"\271\001\n\021Pu" +
+            "bMessageRequest\022\022\n\nchannel_id\030\001 \001(\t\022\021\n\tl" +
+            "etter_id\030\002 \001(\005\022\r\n\005topic\030\003 \001(\t\022-\n\004type\030\004 " +
+            "\001(\0162\037.PubMessageRequest.payload_type\022\014\n\004" +
+            "data\030\005 \001(\014\"1\n\014payload_type\022\010\n\004Text\020\000\022\n\n\006" +
+            "Binary\020\001\022\013\n\007Integer\020\002\"h\n\rPubMessageAck\022\022" +
+            "\n\nchannel_id\030\001 \001(\t\022\021\n\tletter_id\030\002 \001(\005\022\031\n" +
+            "\005error\030\003 \001(\0162\n.ErrorType\022\025\n\rerror_messag" +
+            "e\030\004 \001(\tB/\n\034cn.stream2000.railgunmq.coreB" +
+            "\017ProducerMessageb\006proto3"
+    };
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+        .internalBuildGeneratedFileFrom(descriptorData,
+            new com.google.protobuf.Descriptors.FileDescriptor[]{
+                cn.stream2000.railgunmq.core.Message.getDescriptor(),
+            });
+    internal_static_CreateChannelRequest_descriptor =
+        getDescriptor().getMessageTypes().get(0);
+    internal_static_CreateChannelRequest_fieldAccessorTable = new
+        com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_CreateChannelRequest_descriptor,
+        new java.lang.String[]{"Ack",});
+    internal_static_CreateChannelResponse_descriptor =
+        getDescriptor().getMessageTypes().get(1);
+    internal_static_CreateChannelResponse_fieldAccessorTable = new
+        com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_CreateChannelResponse_descriptor,
+        new java.lang.String[]{"ChannelId",});
+    internal_static_PubMessageRequest_descriptor =
+        getDescriptor().getMessageTypes().get(2);
+    internal_static_PubMessageRequest_fieldAccessorTable = new
+        com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_PubMessageRequest_descriptor,
+        new java.lang.String[]{"ChannelId", "LetterId", "Topic", "Type", "Data",});
+    internal_static_PubMessageAck_descriptor =
+        getDescriptor().getMessageTypes().get(3);
+    internal_static_PubMessageAck_fieldAccessorTable = new
+        com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_PubMessageAck_descriptor,
+        new java.lang.String[]{"ChannelId", "LetterId", "Error", "ErrorMessage",});
+    cn.stream2000.railgunmq.core.Message.getDescriptor();
+  }
+
+  private ProducerMessage() {
+  }
+
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
@@ -14,42 +87,195 @@ public final class ProducerMessage {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+
+  public static com.google.protobuf.Descriptors.FileDescriptor
+  getDescriptor() {
+    return descriptor;
+  }
   public interface CreateChannelRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:CreateChannelRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>bool ack = 1;</code>
+     *
      * @return The ack.
      */
     boolean getAck();
   }
+  public interface CreateChannelResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:CreateChannelResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string channel_id = 1;</code>
+     *
+     * @return The channelId.
+     */
+    java.lang.String getChannelId();
+
+    /**
+     * <code>string channel_id = 1;</code>
+     *
+     * @return The bytes for channelId.
+     */
+    com.google.protobuf.ByteString
+    getChannelIdBytes();
+  }
+  public interface PubMessageRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:PubMessageRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string channel_id = 1;</code>
+     *
+     * @return The channelId.
+     */
+    java.lang.String getChannelId();
+
+    /**
+     * <code>string channel_id = 1;</code>
+     *
+     * @return The bytes for channelId.
+     */
+    com.google.protobuf.ByteString
+    getChannelIdBytes();
+
+    /**
+     * <code>int32 letter_id = 2;</code>
+     *
+     * @return The letterId.
+     */
+    int getLetterId();
+
+    /**
+     * <code>string topic = 3;</code>
+     *
+     * @return The topic.
+     */
+    java.lang.String getTopic();
+
+    /**
+     * <code>string topic = 3;</code>
+     *
+     * @return The bytes for topic.
+     */
+    com.google.protobuf.ByteString
+    getTopicBytes();
+
+    /**
+     * <code>.PubMessageRequest.payload_type type = 4;</code>
+     *
+     * @return The enum numeric value on the wire for type.
+     */
+    int getTypeValue();
+
+    /**
+     * <code>.PubMessageRequest.payload_type type = 4;</code>
+     *
+     * @return The type.
+     */
+    cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType();
+
+    /**
+     * <code>bytes data = 5;</code>
+     *
+     * @return The data.
+     */
+    com.google.protobuf.ByteString getData();
+  }
+  public interface PubMessageAckOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:PubMessageAck)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string channel_id = 1;</code>
+     *
+     * @return The channelId.
+     */
+    java.lang.String getChannelId();
+
+    /**
+     * <code>string channel_id = 1;</code>
+     *
+     * @return The bytes for channelId.
+     */
+    com.google.protobuf.ByteString
+    getChannelIdBytes();
+
+    /**
+     * <code>int32 letter_id = 2;</code>
+     *
+     * @return The letterId.
+     */
+    int getLetterId();
+
+    /**
+     * <code>.ErrorType error = 3;</code>
+     *
+     * @return The enum numeric value on the wire for error.
+     */
+    int getErrorValue();
+
+    /**
+     * <code>.ErrorType error = 3;</code>
+     *
+     * @return The error.
+     */
+    cn.stream2000.railgunmq.core.Message.ErrorType getError();
+
+    /**
+     * <code>string error_message = 4;</code>
+     *
+     * @return The errorMessage.
+     */
+    java.lang.String getErrorMessage();
+
+    /**
+     * <code>string error_message = 4;</code>
+     *
+     * @return The bytes for errorMessage.
+     */
+    com.google.protobuf.ByteString
+    getErrorMessageBytes();
+  }
+
   /**
    * Protobuf type {@code CreateChannelRequest}
    */
-  public  static final class CreateChannelRequest extends
+  public static final class CreateChannelRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:CreateChannelRequest)
       CreateChannelRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
+
+    public static final int ACK_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0L;
+    // @@protoc_insertion_point(class_scope:CreateChannelRequest)
+    private static final cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest DEFAULT_INSTANCE;
+    private static final com.google.protobuf.Parser<CreateChannelRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CreateChannelRequest>() {
+      @java.lang.Override
+      public CreateChannelRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CreateChannelRequest(input, extensionRegistry);
+      }
+    };
+
+    static {
+      DEFAULT_INSTANCE = new cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest();
+    }
+
+    private boolean ack_;
+    private byte memoizedIsInitialized = -1;
+
     // Use CreateChannelRequest.newBuilder() to construct.
     private CreateChannelRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
+
     private CreateChannelRequest() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new CreateChannelRequest();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
     }
     private CreateChannelRequest(
         com.google.protobuf.CodedInputStream input,
@@ -93,35 +319,153 @@ public final class ProducerMessage {
         makeExtensionsImmutable();
       }
     }
+
     public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
+    getDescriptor() {
       return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelRequest_descriptor;
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseDelimitedFrom(
+        java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+
+    public static Builder newBuilder(
+        cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    public static com.google.protobuf.Parser<CreateChannelRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CreateChannelRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
+    internalGetFieldAccessorTable() {
       return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.class, cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.Builder.class);
+              cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.class,
+              cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.Builder.class);
     }
 
-    public static final int ACK_FIELD_NUMBER = 1;
-    private boolean ack_;
     /**
      * <code>bool ack = 1;</code>
+     *
      * @return The ack.
      */
     public boolean getAck() {
       return ack_;
     }
 
-    private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0) {
+        return false;
+      }
 
       memoizedIsInitialized = 1;
       return true;
@@ -129,7 +473,7 @@ public final class ProducerMessage {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
+        throws java.io.IOException {
       if (ack_ != false) {
         output.writeBool(1, ack_);
       }
@@ -139,12 +483,14 @@ public final class ProducerMessage {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       if (ack_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(1, ack_);
+            .computeBoolSize(1, ack_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -154,7 +500,7 @@ public final class ProducerMessage {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-       return true;
+        return true;
       }
       if (!(obj instanceof cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest)) {
         return super.equals(obj);
@@ -162,8 +508,12 @@ public final class ProducerMessage {
       cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest other = (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest) obj;
 
       if (getAck()
-          != other.getAck()) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
+          != other.getAck()) {
+        return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) {
+        return false;
+      }
       return true;
     }
 
@@ -182,84 +532,11 @@ public final class ProducerMessage {
       return hash;
     }
 
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+    @java.lang.Override
+    public Builder newBuilderForType() {
+      return newBuilder();
     }
 
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -272,6 +549,17 @@ public final class ProducerMessage {
       Builder builder = new Builder(parent);
       return builder;
     }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CreateChannelRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     /**
      * Protobuf type {@code CreateChannelRequest}
      */
@@ -279,18 +567,8 @@ public final class ProducerMessage {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:CreateChannelRequest)
         cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelRequest_descriptor;
-      }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelRequest_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.class, cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.Builder.class);
-      }
+      private boolean ack_;
 
       // Construct using cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.newBuilder()
       private Builder() {
@@ -302,11 +580,27 @@ public final class ProducerMessage {
         super(parent);
         maybeForceBuilderInitialization();
       }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+      getDescriptor() {
+        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internalGetFieldAccessorTable() {
+        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.class,
+                cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.Builder.class);
+      }
+
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+            .alwaysUseFieldBuilders) {
         }
       }
+
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -317,13 +611,14 @@ public final class ProducerMessage {
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
+      getDescriptorForType() {
         return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelRequest_descriptor;
       }
 
       @java.lang.Override
       public cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest getDefaultInstanceForType() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.getDefaultInstance();
+        return cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest
+            .getDefaultInstance();
       }
 
       @java.lang.Override
@@ -337,7 +632,8 @@ public final class ProducerMessage {
 
       @java.lang.Override
       public cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest buildPartial() {
-        cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest result = new cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest(this);
+        cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest result = new cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest(
+            this);
         result.ack_ = ack_;
         onBuilt();
         return result;
@@ -347,46 +643,57 @@ public final class ProducerMessage {
       public Builder clone() {
         return super.clone();
       }
+
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
+
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
+
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
+
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
+
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
+
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest) {
-          return mergeFrom((cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest)other);
+          return mergeFrom(
+              (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest) other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest other) {
-        if (other == cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(
+          cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest other) {
+        if (other == cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest
+            .getDefaultInstance()) {
+          return this;
+        }
         if (other.getAck() != false) {
           setAck(other.getAck());
         }
@@ -409,7 +716,8 @@ public final class ProducerMessage {
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest) e.getUnfinishedMessage();
+          parsedMessage = (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest) e
+              .getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -419,35 +727,40 @@ public final class ProducerMessage {
         return this;
       }
 
-      private boolean ack_ ;
       /**
        * <code>bool ack = 1;</code>
+       *
        * @return The ack.
        */
       public boolean getAck() {
         return ack_;
       }
+
       /**
        * <code>bool ack = 1;</code>
+       *
        * @param value The ack to set.
        * @return This builder for chaining.
        */
       public Builder setAck(boolean value) {
-        
+
         ack_ = value;
         onChanged();
         return this;
       }
+
       /**
        * <code>bool ack = 1;</code>
+       *
        * @return This builder for chaining.
        */
       public Builder clearAck() {
-        
+
         ack_ = false;
         onChanged();
         return this;
       }
+
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -460,90 +773,48 @@ public final class ProducerMessage {
         return super.mergeUnknownFields(unknownFields);
       }
 
-
       // @@protoc_insertion_point(builder_scope:CreateChannelRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:CreateChannelRequest)
-    private static final cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest();
-    }
-
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<CreateChannelRequest>
-        PARSER = new com.google.protobuf.AbstractParser<CreateChannelRequest>() {
-      @java.lang.Override
-      public CreateChannelRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CreateChannelRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<CreateChannelRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<CreateChannelRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
   }
 
-  public interface CreateChannelResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:CreateChannelResponse)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string channel_id = 1;</code>
-     * @return The channelId.
-     */
-    java.lang.String getChannelId();
-    /**
-     * <code>string channel_id = 1;</code>
-     * @return The bytes for channelId.
-     */
-    com.google.protobuf.ByteString
-        getChannelIdBytes();
-  }
   /**
    * Protobuf type {@code CreateChannelResponse}
    */
-  public  static final class CreateChannelResponse extends
+  public static final class CreateChannelResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:CreateChannelResponse)
       CreateChannelResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
+
+    public static final int CHANNEL_ID_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0L;
+    // @@protoc_insertion_point(class_scope:CreateChannelResponse)
+    private static final cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse DEFAULT_INSTANCE;
+    private static final com.google.protobuf.Parser<CreateChannelResponse>
+        PARSER = new com.google.protobuf.AbstractParser<CreateChannelResponse>() {
+      @java.lang.Override
+      public CreateChannelResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CreateChannelResponse(input, extensionRegistry);
+      }
+    };
+
+    static {
+      DEFAULT_INSTANCE = new cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse();
+    }
+
+    private volatile java.lang.Object channelId_;
+    private byte memoizedIsInitialized = -1;
+
     // Use CreateChannelResponse.newBuilder() to construct.
     private CreateChannelResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
+
     private CreateChannelResponse() {
       channelId_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new CreateChannelResponse();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
     }
     private CreateChannelResponse(
         com.google.protobuf.CodedInputStream input,
@@ -588,23 +859,138 @@ public final class ProducerMessage {
         makeExtensionsImmutable();
       }
     }
+
     public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
+    getDescriptor() {
       return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelResponse_descriptor;
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseDelimitedFrom(
+        java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+
+    public static Builder newBuilder(
+        cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    public static com.google.protobuf.Parser<CreateChannelResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CreateChannelResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
+    internalGetFieldAccessorTable() {
       return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.class, cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.Builder.class);
+              cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.class,
+              cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.Builder.class);
     }
 
-    public static final int CHANNEL_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object channelId_;
     /**
      * <code>string channel_id = 1;</code>
+     *
      * @return The channelId.
      */
     public java.lang.String getChannelId() {
@@ -612,22 +998,24 @@ public final class ProducerMessage {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         channelId_ = s;
         return s;
       }
     }
+
     /**
      * <code>string channel_id = 1;</code>
+     *
      * @return The bytes for channelId.
      */
     public com.google.protobuf.ByteString
-        getChannelIdBytes() {
+    getChannelIdBytes() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         channelId_ = b;
@@ -637,12 +1025,15 @@ public final class ProducerMessage {
       }
     }
 
-    private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0) {
+        return false;
+      }
 
       memoizedIsInitialized = 1;
       return true;
@@ -650,7 +1041,7 @@ public final class ProducerMessage {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
+        throws java.io.IOException {
       if (!getChannelIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, channelId_);
       }
@@ -660,7 +1051,9 @@ public final class ProducerMessage {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       if (!getChannelIdBytes().isEmpty()) {
@@ -674,7 +1067,7 @@ public final class ProducerMessage {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-       return true;
+        return true;
       }
       if (!(obj instanceof cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse)) {
         return super.equals(obj);
@@ -682,8 +1075,12 @@ public final class ProducerMessage {
       cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse other = (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse) obj;
 
       if (!getChannelId()
-          .equals(other.getChannelId())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
+          .equals(other.getChannelId())) {
+        return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) {
+        return false;
+      }
       return true;
     }
 
@@ -701,84 +1098,11 @@ public final class ProducerMessage {
       return hash;
     }
 
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+    @java.lang.Override
+    public Builder newBuilderForType() {
+      return newBuilder();
     }
 
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -791,6 +1115,17 @@ public final class ProducerMessage {
       Builder builder = new Builder(parent);
       return builder;
     }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CreateChannelResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     /**
      * Protobuf type {@code CreateChannelResponse}
      */
@@ -798,18 +1133,8 @@ public final class ProducerMessage {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:CreateChannelResponse)
         cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelResponse_descriptor;
-      }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelResponse_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.class, cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.Builder.class);
-      }
+      private java.lang.Object channelId_ = "";
 
       // Construct using cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.newBuilder()
       private Builder() {
@@ -821,11 +1146,27 @@ public final class ProducerMessage {
         super(parent);
         maybeForceBuilderInitialization();
       }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+      getDescriptor() {
+        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internalGetFieldAccessorTable() {
+        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.class,
+                cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.Builder.class);
+      }
+
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+            .alwaysUseFieldBuilders) {
         }
       }
+
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -836,13 +1177,14 @@ public final class ProducerMessage {
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
+      getDescriptorForType() {
         return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_CreateChannelResponse_descriptor;
       }
 
       @java.lang.Override
       public cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse getDefaultInstanceForType() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.getDefaultInstance();
+        return cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse
+            .getDefaultInstance();
       }
 
       @java.lang.Override
@@ -856,7 +1198,8 @@ public final class ProducerMessage {
 
       @java.lang.Override
       public cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse buildPartial() {
-        cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse result = new cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse(this);
+        cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse result = new cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse(
+            this);
         result.channelId_ = channelId_;
         onBuilt();
         return result;
@@ -866,46 +1209,57 @@ public final class ProducerMessage {
       public Builder clone() {
         return super.clone();
       }
+
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
+
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
+
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
+
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
+
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
+
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse) {
-          return mergeFrom((cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse)other);
+          return mergeFrom(
+              (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse) other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse other) {
-        if (other == cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(
+          cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse other) {
+        if (other == cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse
+            .getDefaultInstance()) {
+          return this;
+        }
         if (!other.getChannelId().isEmpty()) {
           channelId_ = other.channelId_;
           onChanged();
@@ -929,7 +1283,8 @@ public final class ProducerMessage {
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse) e.getUnfinishedMessage();
+          parsedMessage = (cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse) e
+              .getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -939,9 +1294,9 @@ public final class ProducerMessage {
         return this;
       }
 
-      private java.lang.Object channelId_ = "";
       /**
        * <code>string channel_id = 1;</code>
+       *
        * @return The channelId.
        */
       public java.lang.String getChannelId() {
@@ -956,15 +1311,34 @@ public final class ProducerMessage {
           return (java.lang.String) ref;
         }
       }
+
       /**
        * <code>string channel_id = 1;</code>
+       *
+       * @param value The channelId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannelId(
+          java.lang.String value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+
+        channelId_ = value;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>string channel_id = 1;</code>
+       *
        * @return The bytes for channelId.
        */
       public com.google.protobuf.ByteString
-          getChannelIdBytes() {
+      getChannelIdBytes() {
         java.lang.Object ref = channelId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           channelId_ = b;
@@ -973,47 +1347,37 @@ public final class ProducerMessage {
           return (com.google.protobuf.ByteString) ref;
         }
       }
+
       /**
        * <code>string channel_id = 1;</code>
-       * @param value The channelId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setChannelId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        channelId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string channel_id = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearChannelId() {
-        
-        channelId_ = getDefaultInstance().getChannelId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string channel_id = 1;</code>
+       *
        * @param value The bytes for channelId to set.
        * @return This builder for chaining.
        */
       public Builder setChannelIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+          throw new NullPointerException();
+        }
+        checkByteStringIsUtf8(value);
+
         channelId_ = value;
         onChanged();
         return this;
       }
+
+      /**
+       * <code>string channel_id = 1;</code>
+       *
+       * @return This builder for chaining.
+       */
+      public Builder clearChannelId() {
+
+        channelId_ = getDefaultInstance().getChannelId();
+        onChanged();
+        return this;
+      }
+
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1026,128 +1390,59 @@ public final class ProducerMessage {
         return super.mergeUnknownFields(unknownFields);
       }
 
-
       // @@protoc_insertion_point(builder_scope:CreateChannelResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:CreateChannelResponse)
-    private static final cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse();
-    }
-
-    public static cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<CreateChannelResponse>
-        PARSER = new com.google.protobuf.AbstractParser<CreateChannelResponse>() {
-      @java.lang.Override
-      public CreateChannelResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CreateChannelResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<CreateChannelResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<CreateChannelResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public cn.stream2000.railgunmq.core.ProducerMessage.CreateChannelResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
   }
 
-  public interface PubMessageRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PubMessageRequest)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string channel_id = 1;</code>
-     * @return The channelId.
-     */
-    java.lang.String getChannelId();
-    /**
-     * <code>string channel_id = 1;</code>
-     * @return The bytes for channelId.
-     */
-    com.google.protobuf.ByteString
-        getChannelIdBytes();
-
-    /**
-     * <code>int32 letter_id = 2;</code>
-     * @return The letterId.
-     */
-    int getLetterId();
-
-    /**
-     * <code>string topic = 3;</code>
-     * @return The topic.
-     */
-    java.lang.String getTopic();
-    /**
-     * <code>string topic = 3;</code>
-     * @return The bytes for topic.
-     */
-    com.google.protobuf.ByteString
-        getTopicBytes();
-
-    /**
-     * <code>.PubMessageRequest.payload_type type = 4;</code>
-     * @return The enum numeric value on the wire for type.
-     */
-    int getTypeValue();
-    /**
-     * <code>.PubMessageRequest.payload_type type = 4;</code>
-     * @return The type.
-     */
-    cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType();
-
-    /**
-     * <code>bytes data = 5;</code>
-     * @return The data.
-     */
-    com.google.protobuf.ByteString getData();
-  }
   /**
    * Protobuf type {@code PubMessageRequest}
    */
-  public  static final class PubMessageRequest extends
+  public static final class PubMessageRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:PubMessageRequest)
       PubMessageRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
+
+    public static final int CHANNEL_ID_FIELD_NUMBER = 1;
+    public static final int LETTER_ID_FIELD_NUMBER = 2;
+    public static final int TOPIC_FIELD_NUMBER = 3;
+    public static final int TYPE_FIELD_NUMBER = 4;
+    public static final int DATA_FIELD_NUMBER = 5;
+    private static final long serialVersionUID = 0L;
+    // @@protoc_insertion_point(class_scope:PubMessageRequest)
+    private static final cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest DEFAULT_INSTANCE;
+    private static final com.google.protobuf.Parser<PubMessageRequest>
+        PARSER = new com.google.protobuf.AbstractParser<PubMessageRequest>() {
+      @java.lang.Override
+      public PubMessageRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PubMessageRequest(input, extensionRegistry);
+      }
+    };
+
+    static {
+      DEFAULT_INSTANCE = new cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest();
+    }
+
+    private volatile java.lang.Object channelId_;
+    private int letterId_;
+    private volatile java.lang.Object topic_;
+    private int type_;
+    private com.google.protobuf.ByteString data_;
+    private byte memoizedIsInitialized = -1;
+
     // Use PubMessageRequest.newBuilder() to construct.
     private PubMessageRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
+
     private PubMessageRequest() {
       channelId_ = "";
       topic_ = "";
       type_ = 0;
       data_ = com.google.protobuf.ByteString.EMPTY;
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new PubMessageRequest();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
     }
     private PubMessageRequest(
         com.google.protobuf.CodedInputStream input,
@@ -1214,17 +1509,401 @@ public final class ProducerMessage {
         makeExtensionsImmutable();
       }
     }
+
     public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
+    getDescriptor() {
       return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageRequest_descriptor;
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseDelimitedFrom(
+        java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+
+    public static Builder newBuilder(
+        cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    public static com.google.protobuf.Parser<PubMessageRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PubMessageRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
+    internalGetFieldAccessorTable() {
       return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.class, cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.Builder.class);
+              cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.class,
+              cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.Builder.class);
+    }
+
+    /**
+     * <code>string channel_id = 1;</code>
+     *
+     * @return The channelId.
+     */
+    public java.lang.String getChannelId() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        channelId_ = s;
+        return s;
+      }
+    }
+
+    /**
+     * <code>string channel_id = 1;</code>
+     *
+     * @return The bytes for channelId.
+     */
+    public com.google.protobuf.ByteString
+    getChannelIdBytes() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b =
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        channelId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    /**
+     * <code>int32 letter_id = 2;</code>
+     *
+     * @return The letterId.
+     */
+    public int getLetterId() {
+      return letterId_;
+    }
+
+    /**
+     * <code>string topic = 3;</code>
+     *
+     * @return The topic.
+     */
+    public java.lang.String getTopic() {
+      java.lang.Object ref = topic_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        topic_ = s;
+        return s;
+      }
+    }
+
+    /**
+     * <code>string topic = 3;</code>
+     *
+     * @return The bytes for topic.
+     */
+    public com.google.protobuf.ByteString
+    getTopicBytes() {
+      java.lang.Object ref = topic_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b =
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        topic_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    /**
+     * <code>.PubMessageRequest.payload_type type = 4;</code>
+     *
+     * @return The enum numeric value on the wire for type.
+     */
+    public int getTypeValue() {
+      return type_;
+    }
+
+    /**
+     * <code>.PubMessageRequest.payload_type type = 4;</code>
+     *
+     * @return The type.
+     */
+    public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType() {
+      @SuppressWarnings("deprecation")
+      cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type result = cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type
+          .valueOf(type_);
+      return result == null
+          ? cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.UNRECOGNIZED
+          : result;
+    }
+
+    /**
+     * <code>bytes data = 5;</code>
+     *
+     * @return The data.
+     */
+    public com.google.protobuf.ByteString getData() {
+      return data_;
+    }
+
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0) {
+        return false;
+      }
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+        throws java.io.IOException {
+      if (!getChannelIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, channelId_);
+      }
+      if (letterId_ != 0) {
+        output.writeInt32(2, letterId_);
+      }
+      if (!getTopicBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, topic_);
+      }
+      if (type_ != cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.Text
+          .getNumber()) {
+        output.writeEnum(4, type_);
+      }
+      if (!data_.isEmpty()) {
+        output.writeBytes(5, data_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) {
+        return size;
+      }
+
+      size = 0;
+      if (!getChannelIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, channelId_);
+      }
+      if (letterId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(2, letterId_);
+      }
+      if (!getTopicBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, topic_);
+      }
+      if (type_ != cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.Text
+          .getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(4, type_);
+      }
+      if (!data_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(5, data_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+        return true;
+      }
+      if (!(obj instanceof cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest)) {
+        return super.equals(obj);
+      }
+      cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest other = (cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest) obj;
+
+      if (!getChannelId()
+          .equals(other.getChannelId())) {
+        return false;
+      }
+      if (getLetterId()
+          != other.getLetterId()) {
+        return false;
+      }
+      if (!getTopic()
+          .equals(other.getTopic())) {
+        return false;
+      }
+      if (type_ != other.type_) {
+        return false;
+      }
+      if (!getData()
+          .equals(other.getData())) {
+        return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) {
+        return false;
+      }
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CHANNEL_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getChannelId().hashCode();
+      hash = (37 * hash) + LETTER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getLetterId();
+      hash = (37 * hash) + TOPIC_FIELD_NUMBER;
+      hash = (53 * hash) + getTopic().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + type_;
+      hash = (37 * hash) + DATA_FIELD_NUMBER;
+      hash = (53 * hash) + getData().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() {
+      return newBuilder();
+    }
+
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PubMessageRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
     }
 
     /**
@@ -1259,14 +1938,18 @@ public final class ProducerMessage {
        * <code>Integer = 2;</code>
        */
       public static final int Integer_VALUE = 2;
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          payload_type> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<payload_type>() {
+            public payload_type findValueByNumber(int number) {
+              return payload_type.forNumber(number);
+            }
+          };
+      private static final payload_type[] VALUES = values();
+      private final int value;
 
-
-      public final int getNumber() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalArgumentException(
-              "Can't get the number of an unknown enum value.");
-        }
-        return value;
+      private payload_type(int value) {
+        this.value = value;
       }
 
       /**
@@ -1285,45 +1968,33 @@ public final class ProducerMessage {
        */
       public static payload_type forNumber(int value) {
         switch (value) {
-          case 0: return Text;
-          case 1: return Binary;
-          case 2: return Integer;
-          default: return null;
+          case 0:
+            return Text;
+          case 1:
+            return Binary;
+          case 2:
+            return Integer;
+          default:
+            return null;
         }
       }
 
       public static com.google.protobuf.Internal.EnumLiteMap<payload_type>
-          internalGetValueMap() {
+      internalGetValueMap() {
         return internalValueMap;
       }
-      private static final com.google.protobuf.Internal.EnumLiteMap<
-          payload_type> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<payload_type>() {
-              public payload_type findValueByNumber(int number) {
-                return payload_type.forNumber(number);
-              }
-            };
 
-      public final com.google.protobuf.Descriptors.EnumValueDescriptor
-          getValueDescriptor() {
-        return getDescriptor().getValues().get(ordinal());
-      }
-      public final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptorForType() {
-        return getDescriptor();
-      }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptor() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.getDescriptor().getEnumTypes().get(0);
+      getDescriptor() {
+        return cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.getDescriptor()
+            .getEnumTypes().get(0);
       }
-
-      private static final payload_type[] VALUES = values();
 
       public static payload_type valueOf(
           com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
         if (desc.getType() != getDescriptor()) {
           throw new java.lang.IllegalArgumentException(
-            "EnumValueDescriptor is not for this type.");
+              "EnumValueDescriptor is not for this type.");
         }
         if (desc.getIndex() == -1) {
           return UNRECOGNIZED;
@@ -1331,322 +2002,27 @@ public final class ProducerMessage {
         return VALUES[desc.getIndex()];
       }
 
-      private final int value;
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
 
-      private payload_type(int value) {
-        this.value = value;
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+      getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+      getDescriptorForType() {
+        return getDescriptor();
       }
 
       // @@protoc_insertion_point(enum_scope:PubMessageRequest.payload_type)
     }
 
-    public static final int CHANNEL_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object channelId_;
-    /**
-     * <code>string channel_id = 1;</code>
-     * @return The channelId.
-     */
-    public java.lang.String getChannelId() {
-      java.lang.Object ref = channelId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        channelId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string channel_id = 1;</code>
-     * @return The bytes for channelId.
-     */
-    public com.google.protobuf.ByteString
-        getChannelIdBytes() {
-      java.lang.Object ref = channelId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        channelId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int LETTER_ID_FIELD_NUMBER = 2;
-    private int letterId_;
-    /**
-     * <code>int32 letter_id = 2;</code>
-     * @return The letterId.
-     */
-    public int getLetterId() {
-      return letterId_;
-    }
-
-    public static final int TOPIC_FIELD_NUMBER = 3;
-    private volatile java.lang.Object topic_;
-    /**
-     * <code>string topic = 3;</code>
-     * @return The topic.
-     */
-    public java.lang.String getTopic() {
-      java.lang.Object ref = topic_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        topic_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string topic = 3;</code>
-     * @return The bytes for topic.
-     */
-    public com.google.protobuf.ByteString
-        getTopicBytes() {
-      java.lang.Object ref = topic_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        topic_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int TYPE_FIELD_NUMBER = 4;
-    private int type_;
-    /**
-     * <code>.PubMessageRequest.payload_type type = 4;</code>
-     * @return The enum numeric value on the wire for type.
-     */
-    public int getTypeValue() {
-      return type_;
-    }
-    /**
-     * <code>.PubMessageRequest.payload_type type = 4;</code>
-     * @return The type.
-     */
-    public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType() {
-      @SuppressWarnings("deprecation")
-      cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type result = cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.valueOf(type_);
-      return result == null ? cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.UNRECOGNIZED : result;
-    }
-
-    public static final int DATA_FIELD_NUMBER = 5;
-    private com.google.protobuf.ByteString data_;
-    /**
-     * <code>bytes data = 5;</code>
-     * @return The data.
-     */
-    public com.google.protobuf.ByteString getData() {
-      return data_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!getChannelIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, channelId_);
-      }
-      if (letterId_ != 0) {
-        output.writeInt32(2, letterId_);
-      }
-      if (!getTopicBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, topic_);
-      }
-      if (type_ != cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.Text.getNumber()) {
-        output.writeEnum(4, type_);
-      }
-      if (!data_.isEmpty()) {
-        output.writeBytes(5, data_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getChannelIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, channelId_);
-      }
-      if (letterId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, letterId_);
-      }
-      if (!getTopicBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, topic_);
-      }
-      if (type_ != cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.Text.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(4, type_);
-      }
-      if (!data_.isEmpty()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, data_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest)) {
-        return super.equals(obj);
-      }
-      cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest other = (cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest) obj;
-
-      if (!getChannelId()
-          .equals(other.getChannelId())) return false;
-      if (getLetterId()
-          != other.getLetterId()) return false;
-      if (!getTopic()
-          .equals(other.getTopic())) return false;
-      if (type_ != other.type_) return false;
-      if (!getData()
-          .equals(other.getData())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + CHANNEL_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getChannelId().hashCode();
-      hash = (37 * hash) + LETTER_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getLetterId();
-      hash = (37 * hash) + TOPIC_FIELD_NUMBER;
-      hash = (53 * hash) + getTopic().hashCode();
-      hash = (37 * hash) + TYPE_FIELD_NUMBER;
-      hash = (53 * hash) + type_;
-      hash = (37 * hash) + DATA_FIELD_NUMBER;
-      hash = (53 * hash) + getData().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
     /**
      * Protobuf type {@code PubMessageRequest}
      */
@@ -1654,18 +2030,12 @@ public final class ProducerMessage {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:PubMessageRequest)
         cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageRequest_descriptor;
-      }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageRequest_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.class, cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.Builder.class);
-      }
+      private java.lang.Object channelId_ = "";
+      private int letterId_;
+      private java.lang.Object topic_ = "";
+      private int type_ = 0;
+      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
 
       // Construct using cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.newBuilder()
       private Builder() {
@@ -1677,11 +2047,27 @@ public final class ProducerMessage {
         super(parent);
         maybeForceBuilderInitialization();
       }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+      getDescriptor() {
+        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internalGetFieldAccessorTable() {
+        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.class,
+                cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.Builder.class);
+      }
+
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+            .alwaysUseFieldBuilders) {
         }
       }
+
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -1700,7 +2086,7 @@ public final class ProducerMessage {
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
+      getDescriptorForType() {
         return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageRequest_descriptor;
       }
 
@@ -1720,7 +2106,8 @@ public final class ProducerMessage {
 
       @java.lang.Override
       public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest buildPartial() {
-        cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest result = new cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest(this);
+        cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest result = new cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest(
+            this);
         result.channelId_ = channelId_;
         result.letterId_ = letterId_;
         result.topic_ = topic_;
@@ -1734,46 +2121,56 @@ public final class ProducerMessage {
       public Builder clone() {
         return super.clone();
       }
+
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
+
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
+
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
+
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
+
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
+
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest) {
-          return mergeFrom((cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest)other);
+          return mergeFrom((cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest) other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest other) {
-        if (other == cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(
+          cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest other) {
+        if (other == cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest
+            .getDefaultInstance()) {
+          return this;
+        }
         if (!other.getChannelId().isEmpty()) {
           channelId_ = other.channelId_;
           onChanged();
@@ -1810,7 +2207,8 @@ public final class ProducerMessage {
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest) e.getUnfinishedMessage();
+          parsedMessage = (cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest) e
+              .getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -1820,9 +2218,9 @@ public final class ProducerMessage {
         return this;
       }
 
-      private java.lang.Object channelId_ = "";
       /**
        * <code>string channel_id = 1;</code>
+       *
        * @return The channelId.
        */
       public java.lang.String getChannelId() {
@@ -1837,15 +2235,34 @@ public final class ProducerMessage {
           return (java.lang.String) ref;
         }
       }
+
       /**
        * <code>string channel_id = 1;</code>
+       *
+       * @param value The channelId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannelId(
+          java.lang.String value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+
+        channelId_ = value;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>string channel_id = 1;</code>
+       *
        * @return The bytes for channelId.
        */
       public com.google.protobuf.ByteString
-          getChannelIdBytes() {
+      getChannelIdBytes() {
         java.lang.Object ref = channelId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           channelId_ = b;
@@ -1854,81 +2271,74 @@ public final class ProducerMessage {
           return (com.google.protobuf.ByteString) ref;
         }
       }
+
       /**
        * <code>string channel_id = 1;</code>
-       * @param value The channelId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setChannelId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        channelId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string channel_id = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearChannelId() {
-        
-        channelId_ = getDefaultInstance().getChannelId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string channel_id = 1;</code>
+       *
        * @param value The bytes for channelId to set.
        * @return This builder for chaining.
        */
       public Builder setChannelIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+          throw new NullPointerException();
+        }
+        checkByteStringIsUtf8(value);
+
         channelId_ = value;
         onChanged();
         return this;
       }
 
-      private int letterId_ ;
+      /**
+       * <code>string channel_id = 1;</code>
+       *
+       * @return This builder for chaining.
+       */
+      public Builder clearChannelId() {
+
+        channelId_ = getDefaultInstance().getChannelId();
+        onChanged();
+        return this;
+      }
+
       /**
        * <code>int32 letter_id = 2;</code>
+       *
        * @return The letterId.
        */
       public int getLetterId() {
         return letterId_;
       }
+
       /**
        * <code>int32 letter_id = 2;</code>
+       *
        * @param value The letterId to set.
        * @return This builder for chaining.
        */
       public Builder setLetterId(int value) {
-        
+
         letterId_ = value;
         onChanged();
         return this;
       }
+
       /**
        * <code>int32 letter_id = 2;</code>
+       *
        * @return This builder for chaining.
        */
       public Builder clearLetterId() {
-        
+
         letterId_ = 0;
         onChanged();
         return this;
       }
 
-      private java.lang.Object topic_ = "";
       /**
        * <code>string topic = 3;</code>
+       *
        * @return The topic.
        */
       public java.lang.String getTopic() {
@@ -1943,15 +2353,34 @@ public final class ProducerMessage {
           return (java.lang.String) ref;
         }
       }
+
       /**
        * <code>string topic = 3;</code>
+       *
+       * @param value The topic to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTopic(
+          java.lang.String value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+
+        topic_ = value;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>string topic = 3;</code>
+       *
        * @return The bytes for topic.
        */
       public com.google.protobuf.ByteString
-          getTopicBytes() {
+      getTopicBytes() {
         java.lang.Object ref = topic_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           topic_ = b;
@@ -1960,58 +2389,49 @@ public final class ProducerMessage {
           return (com.google.protobuf.ByteString) ref;
         }
       }
+
       /**
        * <code>string topic = 3;</code>
-       * @param value The topic to set.
-       * @return This builder for chaining.
-       */
-      public Builder setTopic(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        topic_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string topic = 3;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearTopic() {
-        
-        topic_ = getDefaultInstance().getTopic();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string topic = 3;</code>
+       *
        * @param value The bytes for topic to set.
        * @return This builder for chaining.
        */
       public Builder setTopicBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+          throw new NullPointerException();
+        }
+        checkByteStringIsUtf8(value);
+
         topic_ = value;
         onChanged();
         return this;
       }
 
-      private int type_ = 0;
+      /**
+       * <code>string topic = 3;</code>
+       *
+       * @return This builder for chaining.
+       */
+      public Builder clearTopic() {
+
+        topic_ = getDefaultInstance().getTopic();
+        onChanged();
+        return this;
+      }
+
       /**
        * <code>.PubMessageRequest.payload_type type = 4;</code>
+       *
        * @return The enum numeric value on the wire for type.
        */
       public int getTypeValue() {
         return type_;
       }
+
       /**
        * <code>.PubMessageRequest.payload_type type = 4;</code>
+       *
        * @param value The enum numeric value on the wire for type to set.
        * @return This builder for chaining.
        */
@@ -2020,72 +2440,87 @@ public final class ProducerMessage {
         onChanged();
         return this;
       }
+
       /**
        * <code>.PubMessageRequest.payload_type type = 4;</code>
+       *
        * @return The type.
        */
       public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType() {
         @SuppressWarnings("deprecation")
-        cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type result = cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.valueOf(type_);
-        return result == null ? cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.UNRECOGNIZED : result;
+        cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type result = cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type
+            .valueOf(type_);
+        return result == null
+            ? cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.UNRECOGNIZED
+            : result;
       }
+
       /**
        * <code>.PubMessageRequest.payload_type type = 4;</code>
+       *
        * @param value The type to set.
        * @return This builder for chaining.
        */
-      public Builder setType(cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type value) {
+      public Builder setType(
+          cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+
         type_ = value.getNumber();
         onChanged();
         return this;
       }
+
       /**
        * <code>.PubMessageRequest.payload_type type = 4;</code>
+       *
        * @return This builder for chaining.
        */
       public Builder clearType() {
-        
+
         type_ = 0;
         onChanged();
         return this;
       }
 
-      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes data = 5;</code>
+       *
        * @return The data.
        */
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
+
       /**
        * <code>bytes data = 5;</code>
+       *
        * @param value The data to set.
        * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  
+          throw new NullPointerException();
+        }
+
         data_ = value;
         onChanged();
         return this;
       }
+
       /**
        * <code>bytes data = 5;</code>
+       *
        * @return This builder for chaining.
        */
       public Builder clearData() {
-        
+
         data_ = getDefaultInstance().getData();
         onChanged();
         return this;
       }
+
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2098,122 +2533,57 @@ public final class ProducerMessage {
         return super.mergeUnknownFields(unknownFields);
       }
 
-
       // @@protoc_insertion_point(builder_scope:PubMessageRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:PubMessageRequest)
-    private static final cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest();
-    }
-
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<PubMessageRequest>
-        PARSER = new com.google.protobuf.AbstractParser<PubMessageRequest>() {
-      @java.lang.Override
-      public PubMessageRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PubMessageRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<PubMessageRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PubMessageRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
   }
 
-  public interface PubMessageAckOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PubMessageAck)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string channel_id = 1;</code>
-     * @return The channelId.
-     */
-    java.lang.String getChannelId();
-    /**
-     * <code>string channel_id = 1;</code>
-     * @return The bytes for channelId.
-     */
-    com.google.protobuf.ByteString
-        getChannelIdBytes();
-
-    /**
-     * <code>int32 letter_id = 2;</code>
-     * @return The letterId.
-     */
-    int getLetterId();
-
-    /**
-     * <code>.ErrorType error = 3;</code>
-     * @return The enum numeric value on the wire for error.
-     */
-    int getErrorValue();
-    /**
-     * <code>.ErrorType error = 3;</code>
-     * @return The error.
-     */
-    cn.stream2000.railgunmq.core.Message.ErrorType getError();
-
-    /**
-     * <code>string error_message = 4;</code>
-     * @return The errorMessage.
-     */
-    java.lang.String getErrorMessage();
-    /**
-     * <code>string error_message = 4;</code>
-     * @return The bytes for errorMessage.
-     */
-    com.google.protobuf.ByteString
-        getErrorMessageBytes();
-  }
   /**
    * Protobuf type {@code PubMessageAck}
    */
-  public  static final class PubMessageAck extends
+  public static final class PubMessageAck extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:PubMessageAck)
       PubMessageAckOrBuilder {
-  private static final long serialVersionUID = 0L;
+
+    public static final int CHANNEL_ID_FIELD_NUMBER = 1;
+    public static final int LETTER_ID_FIELD_NUMBER = 2;
+    public static final int ERROR_FIELD_NUMBER = 3;
+    public static final int ERROR_MESSAGE_FIELD_NUMBER = 4;
+    private static final long serialVersionUID = 0L;
+    // @@protoc_insertion_point(class_scope:PubMessageAck)
+    private static final cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck DEFAULT_INSTANCE;
+    private static final com.google.protobuf.Parser<PubMessageAck>
+        PARSER = new com.google.protobuf.AbstractParser<PubMessageAck>() {
+      @java.lang.Override
+      public PubMessageAck parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PubMessageAck(input, extensionRegistry);
+      }
+    };
+
+    static {
+      DEFAULT_INSTANCE = new cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck();
+    }
+
+    private volatile java.lang.Object channelId_;
+    private int letterId_;
+    private int error_;
+    private volatile java.lang.Object errorMessage_;
+    private byte memoizedIsInitialized = -1;
     // Use PubMessageAck.newBuilder() to construct.
     private PubMessageAck(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
+
     private PubMessageAck() {
       channelId_ = "";
       error_ = 0;
       errorMessage_ = "";
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new PubMessageAck();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
     private PubMessageAck(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2274,23 +2644,137 @@ public final class ProducerMessage {
         makeExtensionsImmutable();
       }
     }
+
     public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
+    getDescriptor() {
       return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageAck_descriptor;
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
+        java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseDelimitedFrom(
+        java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+
+    public static Builder newBuilder(
+        cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    public static com.google.protobuf.Parser<PubMessageAck> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PubMessageAck();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
+    internalGetFieldAccessorTable() {
       return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageAck_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.class, cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.Builder.class);
+              cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.class,
+              cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.Builder.class);
     }
 
-    public static final int CHANNEL_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object channelId_;
     /**
      * <code>string channel_id = 1;</code>
+     *
      * @return The channelId.
      */
     public java.lang.String getChannelId() {
@@ -2298,22 +2782,24 @@ public final class ProducerMessage {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         channelId_ = s;
         return s;
       }
     }
+
     /**
      * <code>string channel_id = 1;</code>
+     *
      * @return The bytes for channelId.
      */
     public com.google.protobuf.ByteString
-        getChannelIdBytes() {
+    getChannelIdBytes() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         channelId_ = b;
@@ -2323,39 +2809,39 @@ public final class ProducerMessage {
       }
     }
 
-    public static final int LETTER_ID_FIELD_NUMBER = 2;
-    private int letterId_;
     /**
      * <code>int32 letter_id = 2;</code>
+     *
      * @return The letterId.
      */
     public int getLetterId() {
       return letterId_;
     }
 
-    public static final int ERROR_FIELD_NUMBER = 3;
-    private int error_;
     /**
      * <code>.ErrorType error = 3;</code>
+     *
      * @return The enum numeric value on the wire for error.
      */
     public int getErrorValue() {
       return error_;
     }
+
     /**
      * <code>.ErrorType error = 3;</code>
+     *
      * @return The error.
      */
     public cn.stream2000.railgunmq.core.Message.ErrorType getError() {
       @SuppressWarnings("deprecation")
-      cn.stream2000.railgunmq.core.Message.ErrorType result = cn.stream2000.railgunmq.core.Message.ErrorType.valueOf(error_);
+      cn.stream2000.railgunmq.core.Message.ErrorType result = cn.stream2000.railgunmq.core.Message.ErrorType
+          .valueOf(error_);
       return result == null ? cn.stream2000.railgunmq.core.Message.ErrorType.UNRECOGNIZED : result;
     }
 
-    public static final int ERROR_MESSAGE_FIELD_NUMBER = 4;
-    private volatile java.lang.Object errorMessage_;
     /**
      * <code>string error_message = 4;</code>
+     *
      * @return The errorMessage.
      */
     public java.lang.String getErrorMessage() {
@@ -2363,22 +2849,24 @@ public final class ProducerMessage {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         errorMessage_ = s;
         return s;
       }
     }
+
     /**
      * <code>string error_message = 4;</code>
+     *
      * @return The bytes for errorMessage.
      */
     public com.google.protobuf.ByteString
-        getErrorMessageBytes() {
+    getErrorMessageBytes() {
       java.lang.Object ref = errorMessage_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         errorMessage_ = b;
@@ -2388,12 +2876,15 @@ public final class ProducerMessage {
       }
     }
 
-    private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0) {
+        return false;
+      }
 
       memoizedIsInitialized = 1;
       return true;
@@ -2401,7 +2892,7 @@ public final class ProducerMessage {
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
+        throws java.io.IOException {
       if (!getChannelIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, channelId_);
       }
@@ -2420,7 +2911,9 @@ public final class ProducerMessage {
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       if (!getChannelIdBytes().isEmpty()) {
@@ -2428,11 +2921,11 @@ public final class ProducerMessage {
       }
       if (letterId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, letterId_);
+            .computeInt32Size(2, letterId_);
       }
       if (error_ != cn.stream2000.railgunmq.core.Message.ErrorType.OK.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(3, error_);
+            .computeEnumSize(3, error_);
       }
       if (!getErrorMessageBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, errorMessage_);
@@ -2445,7 +2938,7 @@ public final class ProducerMessage {
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-       return true;
+        return true;
       }
       if (!(obj instanceof cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck)) {
         return super.equals(obj);
@@ -2453,13 +2946,23 @@ public final class ProducerMessage {
       cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck other = (cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck) obj;
 
       if (!getChannelId()
-          .equals(other.getChannelId())) return false;
+          .equals(other.getChannelId())) {
+        return false;
+      }
       if (getLetterId()
-          != other.getLetterId()) return false;
-      if (error_ != other.error_) return false;
+          != other.getLetterId()) {
+        return false;
+      }
+      if (error_ != other.error_) {
+        return false;
+      }
       if (!getErrorMessage()
-          .equals(other.getErrorMessage())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
+          .equals(other.getErrorMessage())) {
+        return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) {
+        return false;
+      }
       return true;
     }
 
@@ -2483,84 +2986,11 @@ public final class ProducerMessage {
       return hash;
     }
 
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+    @java.lang.Override
+    public Builder newBuilderForType() {
+      return newBuilder();
     }
 
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -2573,6 +3003,17 @@ public final class ProducerMessage {
       Builder builder = new Builder(parent);
       return builder;
     }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PubMessageAck> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     /**
      * Protobuf type {@code PubMessageAck}
      */
@@ -2580,18 +3021,11 @@ public final class ProducerMessage {
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:PubMessageAck)
         cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAckOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageAck_descriptor;
-      }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageAck_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.class, cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.Builder.class);
-      }
+      private java.lang.Object channelId_ = "";
+      private int letterId_;
+      private int error_ = 0;
+      private java.lang.Object errorMessage_ = "";
 
       // Construct using cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.newBuilder()
       private Builder() {
@@ -2603,11 +3037,27 @@ public final class ProducerMessage {
         super(parent);
         maybeForceBuilderInitialization();
       }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+      getDescriptor() {
+        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageAck_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internalGetFieldAccessorTable() {
+        return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageAck_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.class,
+                cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.Builder.class);
+      }
+
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+            .alwaysUseFieldBuilders) {
         }
       }
+
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -2624,7 +3074,7 @@ public final class ProducerMessage {
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
+      getDescriptorForType() {
         return cn.stream2000.railgunmq.core.ProducerMessage.internal_static_PubMessageAck_descriptor;
       }
 
@@ -2644,7 +3094,8 @@ public final class ProducerMessage {
 
       @java.lang.Override
       public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck buildPartial() {
-        cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck result = new cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck(this);
+        cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck result = new cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck(
+            this);
         result.channelId_ = channelId_;
         result.letterId_ = letterId_;
         result.error_ = error_;
@@ -2657,38 +3108,44 @@ public final class ProducerMessage {
       public Builder clone() {
         return super.clone();
       }
+
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.setField(field, value);
       }
+
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
+
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
+
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
+
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
+
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck) {
-          return mergeFrom((cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck)other);
+          return mergeFrom((cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck) other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -2696,7 +3153,10 @@ public final class ProducerMessage {
       }
 
       public Builder mergeFrom(cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck other) {
-        if (other == cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck.getDefaultInstance()) return this;
+        if (other == cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck
+            .getDefaultInstance()) {
+          return this;
+        }
         if (!other.getChannelId().isEmpty()) {
           channelId_ = other.channelId_;
           onChanged();
@@ -2730,7 +3190,8 @@ public final class ProducerMessage {
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck) e.getUnfinishedMessage();
+          parsedMessage = (cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck) e
+              .getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -2740,9 +3201,9 @@ public final class ProducerMessage {
         return this;
       }
 
-      private java.lang.Object channelId_ = "";
       /**
        * <code>string channel_id = 1;</code>
+       *
        * @return The channelId.
        */
       public java.lang.String getChannelId() {
@@ -2757,15 +3218,34 @@ public final class ProducerMessage {
           return (java.lang.String) ref;
         }
       }
+
       /**
        * <code>string channel_id = 1;</code>
+       *
+       * @param value The channelId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannelId(
+          java.lang.String value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+
+        channelId_ = value;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>string channel_id = 1;</code>
+       *
        * @return The bytes for channelId.
        */
       public com.google.protobuf.ByteString
-          getChannelIdBytes() {
+      getChannelIdBytes() {
         java.lang.Object ref = channelId_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           channelId_ = b;
@@ -2774,88 +3254,83 @@ public final class ProducerMessage {
           return (com.google.protobuf.ByteString) ref;
         }
       }
+
       /**
        * <code>string channel_id = 1;</code>
-       * @param value The channelId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setChannelId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        channelId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string channel_id = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearChannelId() {
-        
-        channelId_ = getDefaultInstance().getChannelId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string channel_id = 1;</code>
+       *
        * @param value The bytes for channelId to set.
        * @return This builder for chaining.
        */
       public Builder setChannelIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+          throw new NullPointerException();
+        }
+        checkByteStringIsUtf8(value);
+
         channelId_ = value;
         onChanged();
         return this;
       }
 
-      private int letterId_ ;
+      /**
+       * <code>string channel_id = 1;</code>
+       *
+       * @return This builder for chaining.
+       */
+      public Builder clearChannelId() {
+
+        channelId_ = getDefaultInstance().getChannelId();
+        onChanged();
+        return this;
+      }
+
       /**
        * <code>int32 letter_id = 2;</code>
+       *
        * @return The letterId.
        */
       public int getLetterId() {
         return letterId_;
       }
+
       /**
        * <code>int32 letter_id = 2;</code>
+       *
        * @param value The letterId to set.
        * @return This builder for chaining.
        */
       public Builder setLetterId(int value) {
-        
+
         letterId_ = value;
         onChanged();
         return this;
       }
+
       /**
        * <code>int32 letter_id = 2;</code>
+       *
        * @return This builder for chaining.
        */
       public Builder clearLetterId() {
-        
+
         letterId_ = 0;
         onChanged();
         return this;
       }
 
-      private int error_ = 0;
       /**
        * <code>.ErrorType error = 3;</code>
+       *
        * @return The enum numeric value on the wire for error.
        */
       public int getErrorValue() {
         return error_;
       }
+
       /**
        * <code>.ErrorType error = 3;</code>
+       *
        * @param value The enum numeric value on the wire for error to set.
        * @return This builder for chaining.
        */
@@ -2864,17 +3339,23 @@ public final class ProducerMessage {
         onChanged();
         return this;
       }
+
       /**
        * <code>.ErrorType error = 3;</code>
+       *
        * @return The error.
        */
       public cn.stream2000.railgunmq.core.Message.ErrorType getError() {
         @SuppressWarnings("deprecation")
-        cn.stream2000.railgunmq.core.Message.ErrorType result = cn.stream2000.railgunmq.core.Message.ErrorType.valueOf(error_);
-        return result == null ? cn.stream2000.railgunmq.core.Message.ErrorType.UNRECOGNIZED : result;
+        cn.stream2000.railgunmq.core.Message.ErrorType result = cn.stream2000.railgunmq.core.Message.ErrorType
+            .valueOf(error_);
+        return result == null ? cn.stream2000.railgunmq.core.Message.ErrorType.UNRECOGNIZED
+            : result;
       }
+
       /**
        * <code>.ErrorType error = 3;</code>
+       *
        * @param value The error to set.
        * @return This builder for chaining.
        */
@@ -2882,25 +3363,27 @@ public final class ProducerMessage {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+
         error_ = value.getNumber();
         onChanged();
         return this;
       }
+
       /**
        * <code>.ErrorType error = 3;</code>
+       *
        * @return This builder for chaining.
        */
       public Builder clearError() {
-        
+
         error_ = 0;
         onChanged();
         return this;
       }
 
-      private java.lang.Object errorMessage_ = "";
       /**
        * <code>string error_message = 4;</code>
+       *
        * @return The errorMessage.
        */
       public java.lang.String getErrorMessage() {
@@ -2915,15 +3398,34 @@ public final class ProducerMessage {
           return (java.lang.String) ref;
         }
       }
+
       /**
        * <code>string error_message = 4;</code>
+       *
+       * @param value The errorMessage to set.
+       * @return This builder for chaining.
+       */
+      public Builder setErrorMessage(
+          java.lang.String value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+
+        errorMessage_ = value;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>string error_message = 4;</code>
+       *
        * @return The bytes for errorMessage.
        */
       public com.google.protobuf.ByteString
-          getErrorMessageBytes() {
+      getErrorMessageBytes() {
         java.lang.Object ref = errorMessage_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           errorMessage_ = b;
@@ -2932,47 +3434,37 @@ public final class ProducerMessage {
           return (com.google.protobuf.ByteString) ref;
         }
       }
+
       /**
        * <code>string error_message = 4;</code>
-       * @param value The errorMessage to set.
-       * @return This builder for chaining.
-       */
-      public Builder setErrorMessage(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        errorMessage_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string error_message = 4;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearErrorMessage() {
-        
-        errorMessage_ = getDefaultInstance().getErrorMessage();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string error_message = 4;</code>
+       *
        * @param value The bytes for errorMessage to set.
        * @return This builder for chaining.
        */
       public Builder setErrorMessageBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+          throw new NullPointerException();
+        }
+        checkByteStringIsUtf8(value);
+
         errorMessage_ = value;
         onChanged();
         return this;
       }
+
+      /**
+       * <code>string error_message = 4;</code>
+       *
+       * @return This builder for chaining.
+       */
+      public Builder clearErrorMessage() {
+
+        errorMessage_ = getDefaultInstance().getErrorMessage();
+        onChanged();
+        return this;
+      }
+
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2985,119 +3477,9 @@ public final class ProducerMessage {
         return super.mergeUnknownFields(unknownFields);
       }
 
-
       // @@protoc_insertion_point(builder_scope:PubMessageAck)
     }
 
-    // @@protoc_insertion_point(class_scope:PubMessageAck)
-    private static final cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck();
-    }
-
-    public static cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<PubMessageAck>
-        PARSER = new com.google.protobuf.AbstractParser<PubMessageAck>() {
-      @java.lang.Override
-      public PubMessageAck parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PubMessageAck(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<PubMessageAck> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PubMessageAck> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageAck getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_CreateChannelRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_CreateChannelRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_CreateChannelResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_CreateChannelResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_PubMessageRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_PubMessageRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_PubMessageAck_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_PubMessageAck_fieldAccessorTable;
-
-  public static com.google.protobuf.Descriptors.FileDescriptor
-      getDescriptor() {
-    return descriptor;
-  }
-  private static  com.google.protobuf.Descriptors.FileDescriptor
-      descriptor;
-  static {
-    java.lang.String[] descriptorData = {
-      "\n\016producer.proto\032\rmessage.proto\"#\n\024Creat" +
-      "eChannelRequest\022\013\n\003ack\030\001 \001(\010\"+\n\025CreateCh" +
-      "annelResponse\022\022\n\nchannel_id\030\001 \001(\t\"\271\001\n\021Pu" +
-      "bMessageRequest\022\022\n\nchannel_id\030\001 \001(\t\022\021\n\tl" +
-      "etter_id\030\002 \001(\005\022\r\n\005topic\030\003 \001(\t\022-\n\004type\030\004 " +
-      "\001(\0162\037.PubMessageRequest.payload_type\022\014\n\004" +
-      "data\030\005 \001(\014\"1\n\014payload_type\022\010\n\004Text\020\000\022\n\n\006" +
-      "Binary\020\001\022\013\n\007Integer\020\002\"h\n\rPubMessageAck\022\022" +
-      "\n\nchannel_id\030\001 \001(\t\022\021\n\tletter_id\030\002 \001(\005\022\031\n" +
-      "\005error\030\003 \001(\0162\n.ErrorType\022\025\n\rerror_messag" +
-      "e\030\004 \001(\tB/\n\034cn.stream2000.railgunmq.coreB" +
-      "\017ProducerMessageb\006proto3"
-    };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
-      .internalBuildGeneratedFileFrom(descriptorData,
-        new com.google.protobuf.Descriptors.FileDescriptor[] {
-          cn.stream2000.railgunmq.core.Message.getDescriptor(),
-        });
-    internal_static_CreateChannelRequest_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_CreateChannelRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_CreateChannelRequest_descriptor,
-        new java.lang.String[] { "Ack", });
-    internal_static_CreateChannelResponse_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_CreateChannelResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_CreateChannelResponse_descriptor,
-        new java.lang.String[] { "ChannelId", });
-    internal_static_PubMessageRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_PubMessageRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_PubMessageRequest_descriptor,
-        new java.lang.String[] { "ChannelId", "LetterId", "Topic", "Type", "Data", });
-    internal_static_PubMessageAck_descriptor =
-      getDescriptor().getMessageTypes().get(3);
-    internal_static_PubMessageAck_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_PubMessageAck_descriptor,
-        new java.lang.String[] { "ChannelId", "LetterId", "Error", "ErrorMessage", });
-    cn.stream2000.railgunmq.core.Message.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
