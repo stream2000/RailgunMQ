@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.tuple.Pair;
 import org.rocksdb.BlockBasedTableConfig;
 import org.rocksdb.BloomFilter;
 import org.rocksdb.ColumnFamilyDescriptor;
@@ -70,6 +71,29 @@ public class RDB {
                 cfh.toString(), new String(prefixKey), e);
         }
         return values;
+    }
+
+    public Pair<List<byte[]>, String> getRange(final ColumnFamilyHandle cfh,
+        final byte[] startKey,
+        int expect) {
+        List<byte[]> values = new ArrayList<>();
+        String endKey = "";
+        try {
+            RocksIterator iterator = this.newIterator(cfh);
+            int count = 0;
+            for (iterator.seek(startKey); iterator.isValid() && count < expect; iterator.next()) {
+                values.add(iterator.value());
+                count += 1;
+            }
+            endKey = new String(iterator.key(), StandardCharsets.UTF_8);
+            log.info("[RocksDB] -> success while get by prefix,columnFamilyHandle:{}, prefixKey:{}",
+                cfh.toString(), new String(startKey));
+        } catch (Exception e) {
+            log.error(
+                "[RocksDB] ->  error while get by prefix, columnFamilyHandle:{}, prefixKey:{}, err:{}",
+                cfh.toString(), new String(startKey), e);
+        }
+        return Pair.of(values, endKey);
     }
 
     public boolean deleteByPrefix(final ColumnFamilyHandle cfh, final byte[] prefixKey) {
