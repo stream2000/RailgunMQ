@@ -1,28 +1,29 @@
 package cn.stream2000.railgunmq.store;
 
 import cn.stream2000.railgunmq.common.config.LoggerName;
-import cn.stream2000.railgunmq.core.InnerMessage;
-import cn.stream2000.railgunmq.common.helper.SerializeHelper;
 import cn.stream2000.railgunmq.store.db.RDB;
 import cn.stream2000.railgunmq.store.db.RDBStorePrefix;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
 import org.rocksdb.ColumnFamilyHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PersistenceMessageStore {
+// support add and batch gets
+public class OfflineMessageStore {
 
     private static final Logger log = LoggerFactory.getLogger(LoggerName.STORE);
     private final RDB rdb;
 
-    public PersistenceMessageStore(RDB rdb) {
+    public OfflineMessageStore(RDB rdb) {
         this.rdb = rdb;
     }
 
-    public boolean storeMessage(String topic, String msgId, InnerMessage message) {
+    public boolean addMessage(String topic, String msgId) {
         try {
             this.rdb.putSync(columnFamilyHandle(), key(topic, msgId),
-                SerializeHelper.serialize(message));
+                new byte[]{1});
             return true;
         } catch (Exception ex) {
             log.warn("Cache store message failure,cause={}", ex.getCause().toString());
@@ -30,16 +31,20 @@ public class PersistenceMessageStore {
         }
     }
 
-    public InnerMessage releaseMessage(String topic, String msgId) {
+    public boolean checkMessage(String topic, String msgId) {
         byte[] key = key(topic, msgId);
         byte[] value = this.rdb.get(columnFamilyHandle(), key);
-        if (value == null) {
-            log.warn("The message is not exist,topic={},msgId={}", topic, msgId);
-            return null;
-        }
-        InnerMessage ret = SerializeHelper.deserialize(value, InnerMessage.class);
-        this.rdb.delete(columnFamilyHandle(), key);
-        return ret;
+        return value != null;
+    }
+
+    public boolean deleteMessage(String topic, String msgId) {
+        byte[] key = key(topic, msgId);
+        return this.rdb.delete(columnFamilyHandle(), key);
+    }
+
+    public Pair<List<byte[]>, String> getMessages(String topic, int expect) {
+        byte[] prefix = keyPrefix(topic);
+        return rdb.getRange(columnFamilyHandle(), prefix, expect);
     }
 
     private byte[] keyPrefix(String topic) {
@@ -47,11 +52,11 @@ public class PersistenceMessageStore {
     }
 
     private byte[] key(String topic, String msgId) {
-        return (RDBStorePrefix.PERSISTENCE_MESSAGE + topic + msgId)
+        return (RDBStorePrefix.UN_ACK_MESSAGE + topic + msgId)
             .getBytes(StandardCharsets.UTF_8);
     }
 
     private ColumnFamilyHandle columnFamilyHandle() {
-        return this.rdb.getColumnFamilyHandle(RDBStorePrefix.PERSISTENCE_MESSAGE);
+        return this.rdb.getColumnFamilyHandle(RDBStorePrefix.UN_ACK_MESSAGE);
     }
 }
