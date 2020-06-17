@@ -1,4 +1,4 @@
-package cn.stream2000.railgunmq.config;
+package cn.stream2000.railgunmq.common.config;
 
 import lombok.Data;
 import org.yaml.snakeyaml.Yaml;

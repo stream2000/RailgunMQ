@@ -1,7 +1,7 @@
 package cn.stream2000.railgunmq.store.db;
 
-import cn.stream2000.railgunmq.config.LoggerName;
-import cn.stream2000.railgunmq.config.StoreConfig;
+import cn.stream2000.railgunmq.common.config.LoggerName;
+import cn.stream2000.railgunmq.common.config.StoreConfig;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

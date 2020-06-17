@@ -1,7 +1,7 @@
 package cn.stream2000.railgunmq.broker.server;
 
 import cn.stream2000.railgunmq.broker.SendAckController;
-import cn.stream2000.railgunmq.config.ServerConfig;
+import cn.stream2000.railgunmq.common.config.ServerConfig;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
