@@ -1,7 +1,7 @@
 package cn.stream2000.railgunmq.store;
 
 import cn.stream2000.railgunmq.common.config.LoggerName;
-import cn.stream2000.railgunmq.core.FreshQueueItem;
+import cn.stream2000.railgunmq.core.InnerMessage;
 import cn.stream2000.railgunmq.core.Store.RocksDBMessage;
 import cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type;
 import cn.stream2000.railgunmq.store.db.RDB;
@@ -21,7 +21,7 @@ public class PersistenceMessageStore {
         this.rdb = rdb;
     }
 
-    public boolean storeMessage(FreshQueueItem message) {
+    public boolean storeMessage(InnerMessage message) {
         try {
             RocksDBMessage value = RocksDBMessage.newBuilder().
                 setType(payload_type.forNumber(message.getType()))
@@ -37,7 +37,7 @@ public class PersistenceMessageStore {
         }
     }
 
-    public FreshQueueItem releaseMessage(String topic, String msgId) {
+    public InnerMessage releaseMessage(String topic, String msgId) {
         byte[] key = key(topic, msgId);
         byte[] value = this.rdb.get(columnFamilyHandle(), key);
         if (value == null) {
@@ -52,7 +52,7 @@ public class PersistenceMessageStore {
             return null;
         }
         this.rdb.delete(columnFamilyHandle(), key);
-        FreshQueueItem ret = new FreshQueueItem(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+        InnerMessage ret = new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
             msg.getData().toByteArray());
         return ret;
     }

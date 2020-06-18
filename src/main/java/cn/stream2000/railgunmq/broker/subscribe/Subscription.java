@@ -1,5 +1,6 @@
 package cn.stream2000.railgunmq.broker.subscribe;
 
+import cn.stream2000.railgunmq.core.InnerMessage;
 import java.nio.channels.Channel;
 
 // corresponding to a client
@@ -14,12 +15,13 @@ public class Subscription {
         this.topic = topic;
     }
 
-    public String getClientId() {
-        return clientId;
+    // todo : send the message to consumer
+    public void dispatchMessage(InnerMessage message){
+
     }
 
-    public Channel getChannel() {
-        return channel;
+    public String getClientId() {
+        return clientId;
     }
 
     public String getTopic() {
