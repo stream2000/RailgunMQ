@@ -36,7 +36,6 @@ public class Topic {
                 return false;
             }
         }
-        //TODO if
         subscriptions.add(sub);
         if(subscriptions.size() == 1){
             // TODO start fake client of this topic to send offline and un-ack messages
