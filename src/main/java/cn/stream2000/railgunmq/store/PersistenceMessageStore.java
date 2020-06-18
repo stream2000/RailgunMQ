@@ -1,10 +1,12 @@
 package cn.stream2000.railgunmq.store;
 
 import cn.stream2000.railgunmq.common.config.LoggerName;
-import cn.stream2000.railgunmq.core.InnerMessage;
-import cn.stream2000.railgunmq.common.helper.SerializeHelper;
+import cn.stream2000.railgunmq.core.FreshQueueItem;
+import cn.stream2000.railgunmq.core.Store.RocksDBMessage;
+import cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type;
 import cn.stream2000.railgunmq.store.db.RDB;
 import cn.stream2000.railgunmq.store.db.RDBStorePrefix;
+import com.google.protobuf.ByteString;
 import java.nio.charset.StandardCharsets;
 import org.rocksdb.ColumnFamilyHandle;
 import org.slf4j.Logger;
@@ -19,10 +21,15 @@ public class PersistenceMessageStore {
         this.rdb = rdb;
     }
 
-    public boolean storeMessage(String topic, String msgId, InnerMessage message) {
+    public boolean storeMessage(FreshQueueItem message) {
         try {
-            this.rdb.putSync(columnFamilyHandle(), key(topic, msgId),
-                SerializeHelper.serialize(message));
+            RocksDBMessage value = RocksDBMessage.newBuilder().
+                setType(payload_type.forNumber(message.getType()))
+                .setMsgId(message.getMsgId())
+                .setTopic(message.getTopic())
+                .setData(ByteString.copyFrom(message.getPayload())).build();
+            this.rdb.putSync(columnFamilyHandle(), key(message.getTopic(), message.getMsgId()),
+                value.toByteArray());
             return true;
         } catch (Exception ex) {
             log.warn("Cache store message failure,cause={}", ex.getCause().toString());
@@ -30,15 +37,23 @@ public class PersistenceMessageStore {
         }
     }
 
-    public InnerMessage releaseMessage(String topic, String msgId) {
+    public FreshQueueItem releaseMessage(String topic, String msgId) {
         byte[] key = key(topic, msgId);
         byte[] value = this.rdb.get(columnFamilyHandle(), key);
         if (value == null) {
             log.warn("The message is not exist,topic={},msgId={}", topic, msgId);
             return null;
         }
-        InnerMessage ret = SerializeHelper.deserialize(value, InnerMessage.class);
+        RocksDBMessage msg;
+        try {
+            msg = RocksDBMessage.parseFrom(value);
+        } catch (Exception ex) {
+            log.error("[RocksDB] parse protobuf data error{}", ex.getCause().toString());
+            return null;
+        }
         this.rdb.delete(columnFamilyHandle(), key);
+        FreshQueueItem ret = new FreshQueueItem(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+            msg.getData().toByteArray());
         return ret;
     }
 

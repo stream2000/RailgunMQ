@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "cn.stream2000.railgunmq.core"; // 指定包名
+option java_outer_classname = "Store"; // 指定类名
+
+message RocksDBMessage {
+  string topic = 1;
+  string msg_id = 2;
+  enum payload_type {
+    Text = 0;
+    Binary = 1;
+    Integer = 2;
+  }
+  payload_type type = 3;
+  bytes data = 4;
+}
