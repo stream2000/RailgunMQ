@@ -241,7 +241,7 @@ public class RDB {
             DB = RocksDB.open(DB_OPTIONS, storeConfig.getRocksDbPath(), cfDescriptors, cfHandles);
             cacheCFHandles(cfHandles);
             long end = System.currentTimeMillis();
-            log.info("[RocksDB] -> start RocksDB success,consumeTime:{}", (end - start));
+            log.info("[RocksDB] -> start RocksDB success,consumeTime: {}ms", (end - start));
         } catch (RocksDBException e) {
             log.error("[RocksDB] -> init RocksDB error,ex:{}", e);
             System.exit(-1);

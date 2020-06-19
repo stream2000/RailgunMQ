@@ -25,10 +25,9 @@ public class MessageDispatcher {
     private volatile boolean stopped = false;
     private ThreadPoolExecutor pollThread;
 
-    public MessageDispatcher(int pollThreadNum, ThreadPoolExecutor pollThread,
+    public MessageDispatcher(int pollThreadNum,
         OfflineMessageStore offlineMessageStore) {
         this.pollThreadNum = pollThreadNum;
-        this.pollThread = pollThread;
         this.offlineMessageStore = offlineMessageStore;
     }
 
