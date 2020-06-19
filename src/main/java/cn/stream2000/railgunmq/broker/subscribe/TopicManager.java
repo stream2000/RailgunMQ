@@ -16,7 +16,7 @@ public class TopicManager {
         return topicMap.get(topic);
     }
 
-    public void addTopic(Topic topic, String topicName) {
-        topicMap.put(topicName, topic);
+    public void addTopic(Topic topic) {
+        topicMap.put(topic.getTopicName(), topic);
     }
 }
