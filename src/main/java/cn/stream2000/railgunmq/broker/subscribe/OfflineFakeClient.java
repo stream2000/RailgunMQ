@@ -76,7 +76,6 @@ public class OfflineFakeClient implements Runnable {
                     continue;
                 }
 
-                // why there are so many situations??????? I don't want to deal with it anymore
                 if (!messageDispatcher.appendMessage(msg)) {
                     // a rude implementation: try until the end of the world
                     try {

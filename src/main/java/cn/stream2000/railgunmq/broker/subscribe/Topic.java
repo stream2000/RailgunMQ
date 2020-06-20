@@ -53,7 +53,6 @@ public class Topic {
         }
         subscriptions.add(sub);
         if (subscriptions.size() == 1) {
-            // TODO start a fake client of this topic to send offline and un-ack messages
             offlineFakeClient = OfflineFakeClientFactory.newOfflineFakeClient(topicName);
             new Thread(offlineFakeClient).start();
         }

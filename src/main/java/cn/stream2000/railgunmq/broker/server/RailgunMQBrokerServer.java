@@ -113,7 +113,6 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
         protected void initChannel(SocketChannel ch) {
             ch.pipeline().addLast(encoder);
             ch.pipeline().addLast(new MessageStrategyProtobufDecoder(router));
-            //TODO add more handlers to handler different kinds of messages
             router.registerHandler(ProducerMessage.PubMessageRequest.getDefaultInstance(),
                 new ProducerStrategy.PublishMessageStrategy());
             ch.pipeline().addLast(handler);

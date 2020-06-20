@@ -36,7 +36,6 @@ public class PubMessageTask implements Callable<Void> {
         Topic topic = TopicManager.getInstance().getTopic(request.getTopic());
         if (topic == null) {
             // the topic producer desired doesn't exist
-            //  TODO return error message to the corresponding producer. assigned ZX
             ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder()
                     .setError(Message.ErrorType.InvalidTopic)
                     .setErrorMessage("无效的Topic")
@@ -62,7 +61,6 @@ public class PubMessageTask implements Callable<Void> {
         if (!isOffline) {
             if (!messageDispatcher.appendMessage(msg)) {
                 // the message queue is full
-                // TODO return an error message to the producer to tell him that the message is discarded
                 ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder()
                         .setError(Message.ErrorType.FullMessageQuene)
                         .setErrorMessage("消息队列已满，该条消息已经被舍弃")
