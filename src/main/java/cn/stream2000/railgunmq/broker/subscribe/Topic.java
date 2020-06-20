@@ -8,16 +8,15 @@ public class Topic {
     // use array to organize subscriptions so that we can access them by index
     // we don't provide a fanout queue in this iteration.
     private final ArrayList<Subscription> subscriptions = new ArrayList<>();
+    private OfflineFakeClient offlineFakeClient;
+    private final String topicName;
+    private int consumedIndex = 0;
+    public Topic(String topicName) {
+        this.topicName = topicName;
+    }
 
     public String getTopicName() {
         return topicName;
-    }
-
-    private final String topicName;
-    private int consumedIndex = 0;
-
-    public Topic(String topicName) {
-        this.topicName = topicName;
     }
 
     synchronized public Subscription getNextSubscription() {
@@ -34,6 +33,11 @@ public class Topic {
         for (Subscription c : subscriptions) {
             if (c.getClientId().equals(clientId)) {
                 subscriptions.remove(c);
+                if(subscriptions.size() == 0){
+                    if(offlineFakeClient != null){
+                        offlineFakeClient.stop();
+                    }
+                }
                 return true;
             }
         }
@@ -50,6 +54,8 @@ public class Topic {
         subscriptions.add(sub);
         if (subscriptions.size() == 1) {
             // TODO start a fake client of this topic to send offline and un-ack messages
+            offlineFakeClient = OfflineFakeClientFactory.newOfflineFakeClient(topicName);
+            new Thread(offlineFakeClient).start();
         }
         return true;
     }

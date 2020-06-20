@@ -4,6 +4,7 @@ import cn.stream2000.railgunmq.broker.AckManager;
 import cn.stream2000.railgunmq.broker.MessageDispatcher;
 import cn.stream2000.railgunmq.broker.PubMessageTaskFactory;
 import cn.stream2000.railgunmq.broker.SendAckController;
+import cn.stream2000.railgunmq.broker.subscribe.OfflineFakeClientFactory;
 import cn.stream2000.railgunmq.common.config.ServerConfig;
 import cn.stream2000.railgunmq.common.config.StoreConfig;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
@@ -35,6 +36,8 @@ public class BrokerParallelServer {
             .SetUpPubMessageTaskFactory(offlineMessageStore, persistenceMessageStore,
                 messageDispatcher, ackManager);
         this.messageDispatcher = messageDispatcher;
+        OfflineFakeClientFactory
+            .SetupOfflineFakeClientFactory(persistenceMessageStore, messageDispatcher, ackManager);
     }
 
     public void start() {

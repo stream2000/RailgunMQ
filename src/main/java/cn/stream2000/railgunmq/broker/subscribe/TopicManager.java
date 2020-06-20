@@ -18,5 +18,6 @@ public class TopicManager {
 
     public void addTopic(Topic topic) {
         topicMap.put(topic.getTopicName(), topic);
+        // todo start fake client
     }
 }

@@ -42,8 +42,12 @@ public class OfflineMessageStore {
         return this.rdb.delete(columnFamilyHandle(), key);
     }
 
-    public Pair<List<byte[]>, String> getMessages(String topic,String startId, int expect) {
-        byte[] startKey = key(topic , startId);
+    public Pair<List<byte[]>, byte[]> getMessages(String topic, String startId, int expect) {
+        byte[] startKey = key(topic, startId);
+        return rdb.getRange(columnFamilyHandle(), startKey, expect);
+    }
+
+    public Pair<List<byte[]>, byte[]> getMessages(byte[] startKey, int expect) {
         return rdb.getRange(columnFamilyHandle(), startKey, expect);
     }
 

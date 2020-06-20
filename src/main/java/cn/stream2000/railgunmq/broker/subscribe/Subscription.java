@@ -9,6 +9,7 @@ public class Subscription {
     private final Channel channel;
     private final String topic;
 
+
     public Subscription(String clientId, Channel channel, String topic) {
         this.clientId = clientId;
         this.channel = channel;
