@@ -37,6 +37,12 @@ public class PubMessageTask implements Callable<Void> {
         if (topic == null) {
             // the topic producer desired doesn't exist
             //  TODO return error message to the corresponding producer. assigned ZX
+            ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder()
+                    .setError(Message.ErrorType.InvalidTopic)
+                    .setErrorMessage("无效的Topic")
+                    .setLetterId(request.getLetterId())
+                    .setChannelId(request.getChannelId()).build();
+            ProducerAckQueue.pushAck(ack);
             return null;
         }
 
@@ -57,6 +63,12 @@ public class PubMessageTask implements Callable<Void> {
             if (!messageDispatcher.appendMessage(msg)) {
                 // the message queue is full
                 // TODO return an error message to the producer to tell him that the message is discarded
+                ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder()
+                        .setError(Message.ErrorType.FullMessageQuene)
+                        .setErrorMessage("消息队列已满，该条消息已经被舍弃")
+                        .setLetterId(request.getLetterId())
+                        .setChannelId(request.getChannelId()).build();
+                ProducerAckQueue.pushAck(ack);
                 return null;
             } else {
                 // start to monitor the ack of this message
