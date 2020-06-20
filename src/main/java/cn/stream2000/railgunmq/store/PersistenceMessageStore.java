@@ -8,6 +8,8 @@ import cn.stream2000.railgunmq.store.db.RDB;
 import cn.stream2000.railgunmq.store.db.RDBStorePrefix;
 import com.google.protobuf.ByteString;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
 import org.rocksdb.ColumnFamilyHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +41,33 @@ public class PersistenceMessageStore {
 
     public InnerMessage releaseMessage(String topic, String msgId) {
         byte[] key = key(topic, msgId);
+        RocksDBMessage msg = innerGetMessage(key);
+        if (msg == null) {
+            log.warn("The message is not exist,topic={},msgId={}", topic, msgId);
+            return null;
+        }
+        this.rdb.delete(columnFamilyHandle(), key);
+        InnerMessage ret = new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+            msg.getData().toByteArray());
+        return ret;
+    }
+
+    public InnerMessage getMessage(String topic, String msgId) {
+        byte[] key = key(topic, msgId);
+        RocksDBMessage msg = innerGetMessage(key);
+        if (msg == null) {
+            log.warn("The message is not exist,topic={},msgId={}", topic, msgId);
+            return null;
+        }
+        InnerMessage ret = new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+            msg.getData().toByteArray());
+        return ret;
+    }
+
+
+    public RocksDBMessage innerGetMessage(byte[] key) {
         byte[] value = this.rdb.get(columnFamilyHandle(), key);
         if (value == null) {
-            log.warn("The message is not exist,topic={},msgId={}", topic, msgId);
             return null;
         }
         RocksDBMessage msg;
@@ -51,11 +77,33 @@ public class PersistenceMessageStore {
             log.error("[RocksDB] parse protobuf data error{}", ex.getCause().toString());
             return null;
         }
-        this.rdb.delete(columnFamilyHandle(), key);
-        InnerMessage ret = new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
-            msg.getData().toByteArray());
-        return ret;
+        return msg;
     }
+
+    public Pair<List<byte[]>, byte[]> getMessages(String topic, String startId, int expect) {
+        byte[] startKey = key(topic, startId);
+        return rdb.getRange(columnFamilyHandle(), startKey, expect);
+    }
+
+    public InnerMessage parseMessage(byte[] value) {
+        if (value == null) {
+            return null;
+        }
+        RocksDBMessage msg;
+        try {
+            msg = RocksDBMessage.parseFrom(value);
+            return new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+                msg.getData().toByteArray());
+        } catch (Exception ex) {
+            log.error("[RocksDB] parse protobuf data error{}", ex.getCause().toString());
+            return null;
+        }
+    }
+
+    public Pair<List<byte[]>, byte[]> getMessages(byte[] startKey, int expect) {
+        return rdb.getRange(columnFamilyHandle(), startKey, expect);
+    }
+
 
     private byte[] keyPrefix(String topic) {
         return (RDBStorePrefix.PERSISTENCE_MESSAGE + topic).getBytes(StandardCharsets.UTF_8);

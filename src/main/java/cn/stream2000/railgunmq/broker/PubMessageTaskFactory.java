@@ -10,11 +10,12 @@ public class PubMessageTaskFactory {
     private OfflineMessageStore offlineMessageStore;
     private PersistenceMessageStore persistenceMessageStore;
     private MessageDispatcher messageDispatcher;
+    private AckManager ackManager;
 
     public static PubMessageTask newPubMessageTask(PubMessageRequest request) {
         return new PubMessageTask(request, factory.offlineMessageStore,
             factory.persistenceMessageStore,
-            factory.messageDispatcher);
+            factory.messageDispatcher, factory.ackManager);
     }
 
     public static PubMessageTaskFactory getInstance() {
@@ -22,10 +23,12 @@ public class PubMessageTaskFactory {
     }
 
     public void SetUpPubMessageTaskFactory(OfflineMessageStore offlineMessageStore,
-        PersistenceMessageStore persistenceMessageStore, MessageDispatcher messageDispatcher) {
+        PersistenceMessageStore persistenceMessageStore, MessageDispatcher messageDispatcher,
+        AckManager ackManager) {
         this.offlineMessageStore = offlineMessageStore;
         this.persistenceMessageStore = persistenceMessageStore;
         this.messageDispatcher = messageDispatcher;
+        this.ackManager = ackManager;
     }
 
 }

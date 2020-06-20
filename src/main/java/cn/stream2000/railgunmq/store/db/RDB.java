@@ -73,19 +73,20 @@ public class RDB {
         return values;
     }
 
-    public Pair<List<byte[]>, String> getRange(final ColumnFamilyHandle cfh,
+    public Pair<List<byte[]>, byte[]> getRange(final ColumnFamilyHandle cfh,
         final byte[] startKey,
         int expect) {
         List<byte[]> values = new ArrayList<>();
-        String endKey = "";
+        byte[] endKey = new byte[0];
         try {
             RocksIterator iterator = this.newIterator(cfh);
             int count = 0;
-            for (iterator.seek(startKey); iterator.isValid() && count < expect; iterator.next()) {
+            for (iterator.seek(startKey); iterator.isValid() && count < expect; ){
                 values.add(iterator.value());
                 count += 1;
+                iterator.next();
             }
-            endKey = new String(iterator.key(), StandardCharsets.UTF_8);
+            endKey = iterator.key();
             log.info("[RocksDB] -> success while get by prefix,columnFamilyHandle:{}, prefixKey:{}",
                 cfh.toString(), new String(startKey));
         } catch (Exception e) {
