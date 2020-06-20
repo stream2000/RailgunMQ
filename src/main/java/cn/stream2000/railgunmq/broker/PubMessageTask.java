@@ -3,6 +3,7 @@ package cn.stream2000.railgunmq.broker;
 import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.core.InnerMessage;
+import cn.stream2000.railgunmq.core.Message;
 import cn.stream2000.railgunmq.core.ProducerAckQueue;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest;
@@ -10,7 +11,6 @@ import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import java.util.UUID;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 public class PubMessageTask implements Callable<Void> {
 
@@ -35,6 +35,11 @@ public class PubMessageTask implements Callable<Void> {
         if (topic == null) {
             // the topic producer desired doesn't exist
             //  TODO return error message to the corresponding producer. assigned ZX
+            ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder()
+                    .setLetterId(request.getLetterId())
+                    .setChannelId(request.getChannelId())
+                    .setError(Message.ErrorType.InvalidTopic).setErrorMessage("无效的Topic").build();
+            ProducerAckQueue.pushAck(ack);
             return null;
         }
 
@@ -55,6 +60,11 @@ public class PubMessageTask implements Callable<Void> {
             if (!messageDispatcher.appendMessage(msg)) {
                 // the message queue is full
                 // TODO return error message to producer, tell him that the message is discarded
+                ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder()
+                        .setLetterId(request.getLetterId())
+                        .setChannelId(request.getChannelId())
+                        .setError(Message.ErrorType.FullMessageQuene).setErrorMessage("消息队列已满，该消息已被舍弃").build();
+                ProducerAckQueue.pushAck(ack);
                 return null;
             }
         }

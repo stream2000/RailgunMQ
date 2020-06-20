@@ -8,7 +8,6 @@ import cn.stream2000.railgunmq.netty.codec.MessageStrategyProtobufDecoder;
 import cn.stream2000.railgunmq.netty.codec.ProtoRouter;
 import cn.stream2000.railgunmq.netty.codec.ProtobufEncoder;
 import cn.stream2000.railgunmq.netty.codec.RouterInitializer;
-import com.google.common.primitives.Bytes;
 import com.google.protobuf.ByteString;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -18,8 +17,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-
-import java.nio.ByteBuffer;
 
 public class RailgunMQClient {
     private final String host;
@@ -121,6 +118,10 @@ public class RailgunMQClient {
             if(ack.getError()== Message.ErrorType.OK)
             {
                 channelHandlerContext.close();
+            }
+            else
+            {
+
             }
         }
     }

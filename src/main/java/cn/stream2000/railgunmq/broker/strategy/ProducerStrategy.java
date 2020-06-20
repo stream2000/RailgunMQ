@@ -3,10 +3,7 @@ package cn.stream2000.railgunmq.broker.strategy;
 import cn.stream2000.railgunmq.broker.PubMessageTaskFactory;
 import cn.stream2000.railgunmq.core.Message;
 import cn.stream2000.railgunmq.core.ProducerMessage;
-import com.google.protobuf.ByteString;
 import io.netty.channel.ChannelHandlerContext;
-
-import java.nio.ByteBuffer;
 
 public class ProducerStrategy {
 
@@ -40,8 +37,8 @@ public class ProducerStrategy {
                 getBusinessPool().submit(PubMessageTaskFactory.newPubMessageTask(request));
 
 
-                ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder().setError(Message.ErrorType.OK).setErrorMessage("消息已被Broker接收").build();
-                ctx.channel().writeAndFlush(ack);
+                /*ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder().setError(Message.ErrorType.OK).setErrorMessage("消息已被Broker接收").build();
+                ctx.channel().writeAndFlush(ack);*/
 
             }catch (Exception e)
             {
