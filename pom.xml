@@ -104,12 +104,17 @@
       <scope>(default)</scope>
       <version>6.8.1</version>
     </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.59</version>
+    </dependency>
   </dependencies>
   <groupId>cn.stream2000</groupId>
   <modelVersion>4.0.0</modelVersion>
 
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>11</java.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
