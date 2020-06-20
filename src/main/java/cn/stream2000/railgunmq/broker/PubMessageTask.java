@@ -3,6 +3,7 @@ package cn.stream2000.railgunmq.broker;
 import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.core.InnerMessage;
+import cn.stream2000.railgunmq.core.Message;
 import cn.stream2000.railgunmq.core.ProducerAckQueue;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest;

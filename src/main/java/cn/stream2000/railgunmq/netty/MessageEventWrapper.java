@@ -1,8 +1,9 @@
 package cn.stream2000.railgunmq.netty;
 
+import java.util.concurrent.ExecutorService;
+
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import java.util.concurrent.ExecutorService;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.NameMatchMethodPointcutAdvisor;
 
@@ -34,6 +35,7 @@ public class MessageEventWrapper<T> extends ChannelInboundHandlerAdapter
 
   }
 
+  @Override
   public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
     super.channelRead(ctx, msg);
 
@@ -48,15 +50,18 @@ public class MessageEventWrapper<T> extends ChannelInboundHandlerAdapter
     proxyObject.handleMessage(ctx, msg);
   }
 
+  @Override
   public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
     this.cause = cause;
     cause.printStackTrace();
   }
 
+  @Override
   public void channelInactive(ChannelHandlerContext ctx) throws Exception {
     super.channelInactive(ctx);
   }
 
+  @Override
   public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
     super.channelReadComplete(ctx);
   }

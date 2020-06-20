@@ -453,6 +453,7 @@ public final class ProducerMessage {
      *
      * @return The ack.
      */
+    @Override
     public boolean getAck() {
       return ack_;
     }
@@ -732,6 +733,7 @@ public final class ProducerMessage {
        *
        * @return The ack.
        */
+      @Override
       public boolean getAck() {
         return ack_;
       }
@@ -993,6 +995,7 @@ public final class ProducerMessage {
      *
      * @return The channelId.
      */
+    @Override
     public java.lang.String getChannelId() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
@@ -1011,6 +1014,7 @@ public final class ProducerMessage {
      *
      * @return The bytes for channelId.
      */
+    @Override
     public com.google.protobuf.ByteString
     getChannelIdBytes() {
       java.lang.Object ref = channelId_;
@@ -1299,6 +1303,7 @@ public final class ProducerMessage {
        *
        * @return The channelId.
        */
+      @Override
       public java.lang.String getChannelId() {
         java.lang.Object ref = channelId_;
         if (!(ref instanceof java.lang.String)) {
@@ -1334,6 +1339,7 @@ public final class ProducerMessage {
        *
        * @return The bytes for channelId.
        */
+      @Override
       public com.google.protobuf.ByteString
       getChannelIdBytes() {
         java.lang.Object ref = channelId_;
@@ -1643,6 +1649,7 @@ public final class ProducerMessage {
      *
      * @return The channelId.
      */
+    @Override
     public java.lang.String getChannelId() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
@@ -1661,6 +1668,7 @@ public final class ProducerMessage {
      *
      * @return The bytes for channelId.
      */
+    @Override
     public com.google.protobuf.ByteString
     getChannelIdBytes() {
       java.lang.Object ref = channelId_;
@@ -1680,6 +1688,7 @@ public final class ProducerMessage {
      *
      * @return The letterId.
      */
+    @Override
     public int getLetterId() {
       return letterId_;
     }
@@ -1689,6 +1698,7 @@ public final class ProducerMessage {
      *
      * @return The topic.
      */
+    @Override
     public java.lang.String getTopic() {
       java.lang.Object ref = topic_;
       if (ref instanceof java.lang.String) {
@@ -1707,6 +1717,7 @@ public final class ProducerMessage {
      *
      * @return The bytes for topic.
      */
+    @Override
     public com.google.protobuf.ByteString
     getTopicBytes() {
       java.lang.Object ref = topic_;
@@ -1726,6 +1737,7 @@ public final class ProducerMessage {
      *
      * @return The enum numeric value on the wire for type.
      */
+    @Override
     public int getTypeValue() {
       return type_;
     }
@@ -1735,6 +1747,7 @@ public final class ProducerMessage {
      *
      * @return The type.
      */
+    @Override
     public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType() {
       @SuppressWarnings("deprecation")
       cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type result = cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type
@@ -1749,6 +1762,7 @@ public final class ProducerMessage {
      *
      * @return The data.
      */
+    @Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
@@ -2223,6 +2237,7 @@ public final class ProducerMessage {
        *
        * @return The channelId.
        */
+      @Override
       public java.lang.String getChannelId() {
         java.lang.Object ref = channelId_;
         if (!(ref instanceof java.lang.String)) {
@@ -2258,6 +2273,7 @@ public final class ProducerMessage {
        *
        * @return The bytes for channelId.
        */
+      @Override
       public com.google.protobuf.ByteString
       getChannelIdBytes() {
         java.lang.Object ref = channelId_;
@@ -2307,6 +2323,7 @@ public final class ProducerMessage {
        *
        * @return The letterId.
        */
+      @Override
       public int getLetterId() {
         return letterId_;
       }
@@ -2341,6 +2358,7 @@ public final class ProducerMessage {
        *
        * @return The topic.
        */
+      @Override
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
         if (!(ref instanceof java.lang.String)) {
@@ -2376,6 +2394,7 @@ public final class ProducerMessage {
        *
        * @return The bytes for topic.
        */
+      @Override
       public com.google.protobuf.ByteString
       getTopicBytes() {
         java.lang.Object ref = topic_;
@@ -2425,6 +2444,7 @@ public final class ProducerMessage {
        *
        * @return The enum numeric value on the wire for type.
        */
+      @Override
       public int getTypeValue() {
         return type_;
       }
@@ -2446,6 +2466,7 @@ public final class ProducerMessage {
        *
        * @return The type.
        */
+      @Override
       public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType() {
         @SuppressWarnings("deprecation")
         cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type result = cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type
@@ -2489,6 +2510,7 @@ public final class ProducerMessage {
        *
        * @return The data.
        */
+      @Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
@@ -2777,6 +2799,7 @@ public final class ProducerMessage {
      *
      * @return The channelId.
      */
+    @Override
     public java.lang.String getChannelId() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
@@ -2795,6 +2818,7 @@ public final class ProducerMessage {
      *
      * @return The bytes for channelId.
      */
+    @Override
     public com.google.protobuf.ByteString
     getChannelIdBytes() {
       java.lang.Object ref = channelId_;
@@ -2814,6 +2838,7 @@ public final class ProducerMessage {
      *
      * @return The letterId.
      */
+    @Override
     public int getLetterId() {
       return letterId_;
     }
@@ -2823,6 +2848,7 @@ public final class ProducerMessage {
      *
      * @return The enum numeric value on the wire for error.
      */
+    @Override
     public int getErrorValue() {
       return error_;
     }
@@ -2832,6 +2858,7 @@ public final class ProducerMessage {
      *
      * @return The error.
      */
+    @Override
     public cn.stream2000.railgunmq.core.Message.ErrorType getError() {
       @SuppressWarnings("deprecation")
       cn.stream2000.railgunmq.core.Message.ErrorType result = cn.stream2000.railgunmq.core.Message.ErrorType
@@ -2844,6 +2871,7 @@ public final class ProducerMessage {
      *
      * @return The errorMessage.
      */
+    @Override
     public java.lang.String getErrorMessage() {
       java.lang.Object ref = errorMessage_;
       if (ref instanceof java.lang.String) {
@@ -2862,6 +2890,7 @@ public final class ProducerMessage {
      *
      * @return The bytes for errorMessage.
      */
+    @Override
     public com.google.protobuf.ByteString
     getErrorMessageBytes() {
       java.lang.Object ref = errorMessage_;
@@ -3206,6 +3235,7 @@ public final class ProducerMessage {
        *
        * @return The channelId.
        */
+      @Override
       public java.lang.String getChannelId() {
         java.lang.Object ref = channelId_;
         if (!(ref instanceof java.lang.String)) {
@@ -3241,6 +3271,7 @@ public final class ProducerMessage {
        *
        * @return The bytes for channelId.
        */
+      @Override
       public com.google.protobuf.ByteString
       getChannelIdBytes() {
         java.lang.Object ref = channelId_;
@@ -3290,6 +3321,7 @@ public final class ProducerMessage {
        *
        * @return The letterId.
        */
+      @Override
       public int getLetterId() {
         return letterId_;
       }
@@ -3324,6 +3356,7 @@ public final class ProducerMessage {
        *
        * @return The enum numeric value on the wire for error.
        */
+      @Override
       public int getErrorValue() {
         return error_;
       }
@@ -3345,6 +3378,7 @@ public final class ProducerMessage {
        *
        * @return The error.
        */
+      @Override
       public cn.stream2000.railgunmq.core.Message.ErrorType getError() {
         @SuppressWarnings("deprecation")
         cn.stream2000.railgunmq.core.Message.ErrorType result = cn.stream2000.railgunmq.core.Message.ErrorType
@@ -3386,6 +3420,7 @@ public final class ProducerMessage {
        *
        * @return The errorMessage.
        */
+      @Override
       public java.lang.String getErrorMessage() {
         java.lang.Object ref = errorMessage_;
         if (!(ref instanceof java.lang.String)) {
@@ -3421,6 +3456,7 @@ public final class ProducerMessage {
        *
        * @return The bytes for errorMessage.
        */
+      @Override
       public com.google.protobuf.ByteString
       getErrorMessageBytes() {
         java.lang.Object ref = errorMessage_;
