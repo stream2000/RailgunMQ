@@ -39,9 +39,33 @@ public class PersistenceMessageStore {
 
     public InnerMessage releaseMessage(String topic, String msgId) {
         byte[] key = key(topic, msgId);
+        RocksDBMessage msg = innerGetMessage(key);
+        if(msg == null){
+            log.warn("The message is not exist,topic={},msgId={}", topic, msgId);
+            return  null;
+        }
+        this.rdb.delete(columnFamilyHandle(), key);
+        InnerMessage ret = new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+            msg.getData().toByteArray());
+        return ret;
+    }
+
+    public InnerMessage getMessage(String topic, String msgId) {
+        byte[] key = key(topic, msgId);
+        RocksDBMessage msg = innerGetMessage(key);
+        if(msg == null){
+            log.warn("The message is not exist,topic={},msgId={}", topic, msgId);
+            return  null;
+        }
+        InnerMessage ret = new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+            msg.getData().toByteArray());
+        return ret;
+    }
+
+
+    public RocksDBMessage innerGetMessage(byte[] key)  {
         byte[] value = this.rdb.get(columnFamilyHandle(), key);
         if (value == null) {
-            log.warn("The message is not exist,topic={},msgId={}", topic, msgId);
             return null;
         }
         RocksDBMessage msg;
@@ -51,10 +75,7 @@ public class PersistenceMessageStore {
             log.error("[RocksDB] parse protobuf data error{}", ex.getCause().toString());
             return null;
         }
-        this.rdb.delete(columnFamilyHandle(), key);
-        InnerMessage ret = new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
-            msg.getData().toByteArray());
-        return ret;
+        return msg;
     }
 
     private byte[] keyPrefix(String topic) {

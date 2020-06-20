@@ -10,7 +10,6 @@ import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import java.util.UUID;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 public class PubMessageTask implements Callable<Void> {
 
@@ -18,15 +17,17 @@ public class PubMessageTask implements Callable<Void> {
     private final OfflineMessageStore offlineMessageStore;
     private final PersistenceMessageStore persistenceMessageStore;
     private final MessageDispatcher messageDispatcher;
+    private final AckManager ackManager;
 
     public PubMessageTask(PubMessageRequest request,
         OfflineMessageStore offlineMessageStore,
         PersistenceMessageStore persistenceMessageStore,
-        MessageDispatcher messageDispatcher) {
+        MessageDispatcher messageDispatcher, AckManager ackManager) {
         this.request = request;
         this.offlineMessageStore = offlineMessageStore;
         this.persistenceMessageStore = persistenceMessageStore;
         this.messageDispatcher = messageDispatcher;
+        this.ackManager = ackManager;
     }
 
     @Override
@@ -54,8 +55,11 @@ public class PubMessageTask implements Callable<Void> {
         if (!isOffline) {
             if (!messageDispatcher.appendMessage(msg)) {
                 // the message queue is full
-                // TODO return error message to producer, tell him that the message is discarded
+                // TODO return an error message to the producer to tell him that the message is discarded
                 return null;
+            } else {
+                // start to monitor the ack of this message
+                ackManager.monitorMessageAck(msg.getTopic(),msgId);
             }
         }
 

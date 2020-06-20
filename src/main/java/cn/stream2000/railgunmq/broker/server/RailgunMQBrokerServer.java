@@ -1,18 +1,12 @@
 package cn.stream2000.railgunmq.broker.server;
 
 import cn.stream2000.railgunmq.broker.BrokerMessageHandler;
-import cn.stream2000.railgunmq.broker.MessageDispatcher;
-import cn.stream2000.railgunmq.broker.PubMessageTaskFactory;
 import cn.stream2000.railgunmq.broker.strategy.ProducerStrategy;
-import cn.stream2000.railgunmq.common.config.StoreConfig;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.netty.codec.MessageStrategyProtobufDecoder;
 import cn.stream2000.railgunmq.netty.codec.ProtoRouter;
 import cn.stream2000.railgunmq.netty.codec.ProtobufEncoder;
 import cn.stream2000.railgunmq.netty.codec.RouterInitializer;
-import cn.stream2000.railgunmq.store.OfflineMessageStore;
-import cn.stream2000.railgunmq.store.PersistenceMessageStore;
-import cn.stream2000.railgunmq.store.db.RDB;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -48,7 +42,6 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
     private EventLoopGroup boss;
     private EventLoopGroup workers;
     private ServerBootstrap bootstrap;
-    private MessageDispatcher messageDispatcher;
 
     public RailgunMQBrokerServer() {
 
@@ -82,23 +75,9 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
             .option(ChannelOption.SO_REUSEADDR, true).option(ChannelOption.SO_KEEPALIVE, false)
             .childOption(ChannelOption.TCP_NODELAY, true).handler(new LoggingHandler(LogLevel.INFO))
             .localAddress(new InetSocketAddress(addr, port)).childHandler(new ServerInitializer());
-
         super.init();
 
-        // init the core services
-        StoreConfig storeConfig = new StoreConfig();
-        RDB db = new RDB(storeConfig);
-        db.init();
 
-        OfflineMessageStore offlineMessageStore = new OfflineMessageStore(db);
-        PersistenceMessageStore persistenceMessageStore = new PersistenceMessageStore(db);
-        int pollNum = Runtime.getRuntime().availableProcessors() * 2;
-
-        MessageDispatcher messageDispatcher = new MessageDispatcher(pollNum, offlineMessageStore);
-        PubMessageTaskFactory.getInstance()
-            .SetUpPubMessageTaskFactory(offlineMessageStore, persistenceMessageStore,
-                messageDispatcher);
-        this.messageDispatcher  = messageDispatcher;
     }
 
     @Override
@@ -117,9 +96,8 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
     @Override
     public void start() {
         try {
-            ChannelFuture sync = this.bootstrap.bind().sync();
             super.start();
-            messageDispatcher.start();
+            ChannelFuture sync = this.bootstrap.bind().sync();
             sync.channel().closeFuture().sync();
         } catch (InterruptedException ex) {
             Logger.getLogger(RailgunMQBrokerServer.class.getName()).log(Level.SEVERE, null, ex);

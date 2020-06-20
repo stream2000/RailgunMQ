@@ -49,7 +49,7 @@ public class Topic {
         }
         subscriptions.add(sub);
         if (subscriptions.size() == 1) {
-            // TODO start fake client of this topic to send offline and un-ack messages
+            // TODO start a fake client of this topic to send offline and un-ack messages
         }
         return true;
     }
