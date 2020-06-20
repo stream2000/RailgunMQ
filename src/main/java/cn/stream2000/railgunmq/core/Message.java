@@ -120,6 +120,7 @@ public final class Message {
     private static final com.google.protobuf.Internal.EnumLiteMap<
         MessageType> internalValueMap =
         new com.google.protobuf.Internal.EnumLiteMap<MessageType>() {
+          @Override
           public MessageType findValueByNumber(int number) {
             return MessageType.forNumber(number);
           }
@@ -188,6 +189,7 @@ public final class Message {
       return VALUES[desc.getIndex()];
     }
 
+    @Override
     public final int getNumber() {
       if (this == UNRECOGNIZED) {
         throw new java.lang.IllegalArgumentException(
@@ -196,11 +198,13 @@ public final class Message {
       return value;
     }
 
+    @Override
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
     getValueDescriptor() {
       return getDescriptor().getValues().get(ordinal());
     }
 
+    @Override
     public final com.google.protobuf.Descriptors.EnumDescriptor
     getDescriptorForType() {
       return getDescriptor();
@@ -236,6 +240,7 @@ public final class Message {
     private static final com.google.protobuf.Internal.EnumLiteMap<
         ErrorType> internalValueMap =
         new com.google.protobuf.Internal.EnumLiteMap<ErrorType>() {
+          @Override
           public ErrorType findValueByNumber(int number) {
             return ErrorType.forNumber(number);
           }
@@ -294,6 +299,7 @@ public final class Message {
       return VALUES[desc.getIndex()];
     }
 
+    @Override
     public final int getNumber() {
       if (this == UNRECOGNIZED) {
         throw new java.lang.IllegalArgumentException(
@@ -302,11 +308,13 @@ public final class Message {
       return value;
     }
 
+    @Override
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
     getValueDescriptor() {
       return getDescriptor().getValues().get(ordinal());
     }
 
+    @Override
     public final com.google.protobuf.Descriptors.EnumDescriptor
     getDescriptorForType() {
       return getDescriptor();
