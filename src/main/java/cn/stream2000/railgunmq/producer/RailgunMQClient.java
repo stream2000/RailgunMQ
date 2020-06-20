@@ -1,5 +1,6 @@
 package cn.stream2000.railgunmq.producer;
 
+import cn.stream2000.railgunmq.core.Message;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.core.SemaphoreCache;
 import cn.stream2000.railgunmq.netty.MessageStrategy;
@@ -52,7 +53,6 @@ public class RailgunMQClient {
                             .setType(ProducerMessage.PubMessageRequest.payload_type.Text)
                             .setData(ByteString.copyFromUtf8(message))
                             .setTopic(topic).build();
-            System.out.println(request.getData());
             channel.writeAndFlush(request);
             channel.closeFuture().sync();
         } catch (Exception e) {
@@ -77,7 +77,6 @@ public class RailgunMQClient {
                             .setType(ProducerMessage.PubMessageRequest.payload_type.Binary)
                             .setData(ByteString.copyFrom(bytes))
                             .setTopic(topic).build();
-            System.out.println(request.getData());
             channel.writeAndFlush(request);
             channel.closeFuture().sync();
 
@@ -100,9 +99,8 @@ public class RailgunMQClient {
             ProducerMessage.PubMessageRequest request =
                     ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
                             .setType(ProducerMessage.PubMessageRequest.payload_type.Integer)
-                            .setData(ByteString.copyFrom(ByteBuffer.allocateDirect(value)))
+                            .setData(ByteString.copyFromUtf8(Integer.toString(value)))
                             .setTopic(topic).build();
-            System.out.println(request.getData());
             channel.writeAndFlush(request);
             channel.closeFuture().sync();
         } catch (Exception e) {
@@ -111,11 +109,19 @@ public class RailgunMQClient {
             group.shutdownGracefully();
         }
     }
+    //处理返回的函数，在ClientInitializer中注册
     public static class PubMessageResponseStrategy implements MessageStrategy {
 
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
-            System.out.println(message);
+            ProducerMessage.PubMessageAck ack= (ProducerMessage.PubMessageAck)message;
+            System.out.println("返回码为：  "+ack.getError());
+            System.out.println(ack.getErrorMessage());
+            //如果成功收到ack就关闭连接
+            if(ack.getError()== Message.ErrorType.OK)
+            {
+                channelHandlerContext.close();
+            }
         }
     }
 
