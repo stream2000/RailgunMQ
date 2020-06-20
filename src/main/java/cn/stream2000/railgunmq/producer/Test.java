@@ -8,7 +8,6 @@ public class Test {
         railgunMQClient.Publish("字符串测试","文本内容");
         ProducerMessage.PubMessageAck pubMessageAck= ProducerMessage.PubMessageAck.newBuilder().setErrorMessage("HELLO").build();
         railgunMQClient.Publish("字节流测试",pubMessageAck.toByteArray());
-
         railgunMQClient.Publish("数字测试",5);
     }
 }
