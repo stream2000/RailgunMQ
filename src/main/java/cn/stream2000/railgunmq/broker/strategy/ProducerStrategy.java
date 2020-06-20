@@ -11,9 +11,6 @@ public class ProducerStrategy {
     @Override
     public void handleMessage(ChannelHandlerContext ctx, Object message) {
       ProducerMessage.PubMessageRequest request = (ProducerMessage.PubMessageRequest) message;
-
-      
-
       getBusinessPool().submit(new PubMessageTask(request));
     }
 
