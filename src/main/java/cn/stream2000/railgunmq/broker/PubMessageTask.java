@@ -36,11 +36,11 @@ public class PubMessageTask implements Callable<Void> {
         Topic topic = TopicManager.getInstance().getTopic(request.getTopic());
         if (topic == null) {
             // the topic producer desired doesn't exist
-            ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder()
-                    .setError(Message.ErrorType.InvalidTopic)
-                    .setErrorMessage("无效的Topic")
-                    .setLetterId(request.getLetterId())
-                    .setChannelId(request.getChannelId()).build();
+            ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck.newBuilder()
+                .setError(Message.ErrorType.InvalidTopic)
+                .setErrorMessage("无效的Topic")
+                .setLetterId(request.getLetterId())
+                .setChannelId(request.getChannelId()).build();
             ProducerAckQueue.pushAck(ack);
             return null;
         }
@@ -49,8 +49,8 @@ public class PubMessageTask implements Callable<Void> {
         InnerMessage msg = new InnerMessage(request.getTopic(), msgId,
             request.getType().getNumber(), request.getData().toByteArray());
         persistenceMessageStore.storeMessage(msg);
-        var isOffline = false;
 
+        var isOffline = false;
         synchronized (topic) {
             if (!topic.isActive()) {
                 offlineMessageStore.addMessage(topic.getTopicName(), msgId);
@@ -61,16 +61,16 @@ public class PubMessageTask implements Callable<Void> {
         if (!isOffline) {
             if (!messageDispatcher.appendMessage(msg)) {
                 // the message queue is full
-                ProducerMessage.PubMessageAck ack= ProducerMessage.PubMessageAck.newBuilder()
-                        .setError(Message.ErrorType.FullMessageQuene)
-                        .setErrorMessage("消息队列已满，该条消息已经被舍弃")
-                        .setLetterId(request.getLetterId())
-                        .setChannelId(request.getChannelId()).build();
+                ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck.newBuilder()
+                    .setError(Message.ErrorType.FullMessageQuene)
+                    .setErrorMessage("消息队列已满，该条消息已经被舍弃")
+                    .setLetterId(request.getLetterId())
+                    .setChannelId(request.getChannelId()).build();
                 ProducerAckQueue.pushAck(ack);
                 return null;
             } else {
                 // start to monitor the ack of this message
-                ackManager.monitorMessageAck(msg.getTopic(),msgId);
+                ackManager.monitorMessageAck(msg.getTopic(), msgId);
             }
         }
 

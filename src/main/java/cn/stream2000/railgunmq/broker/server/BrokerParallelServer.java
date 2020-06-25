@@ -5,10 +5,13 @@ import cn.stream2000.railgunmq.broker.MessageDispatcher;
 import cn.stream2000.railgunmq.broker.PubMessageTaskFactory;
 import cn.stream2000.railgunmq.broker.SendAckController;
 import cn.stream2000.railgunmq.broker.subscribe.OfflineFakeClientFactory;
+import cn.stream2000.railgunmq.broker.subscribe.Topic;
+import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.ServerConfig;
 import cn.stream2000.railgunmq.common.config.StoreConfig;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
+import cn.stream2000.railgunmq.store.TopicStore;
 import cn.stream2000.railgunmq.store.db.RDB;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,6 +30,9 @@ public class BrokerParallelServer {
 
         OfflineMessageStore offlineMessageStore = new OfflineMessageStore(db);
         PersistenceMessageStore persistenceMessageStore = new PersistenceMessageStore(db);
+        TopicStore topicStore = new TopicStore(db);
+        // recover from down
+        recover(topicStore);
         int pollNum = Runtime.getRuntime().availableProcessors() * 2;
 
         MessageDispatcher messageDispatcher = new MessageDispatcher(pollNum, offlineMessageStore);
@@ -38,6 +44,21 @@ public class BrokerParallelServer {
         this.messageDispatcher = messageDispatcher;
         OfflineFakeClientFactory
             .SetupOfflineFakeClientFactory(persistenceMessageStore, messageDispatcher, ackManager);
+    }
+
+    private void recover(TopicStore store) {
+        var previousTopics = store.getAllTopics();
+        for (var topic : previousTopics) {
+            TopicManager.getInstance().addTopic(topic);
+        }
+        if (TopicManager.getInstance().getTopic("default") == null) {
+            store.addTopic("default");
+            TopicManager.getInstance().addTopic(new Topic("default"));
+        }
+        if (TopicManager.getInstance().getTopic("error") == null) {
+            store.addTopic("error");
+            TopicManager.getInstance().addTopic(new Topic("error"));
+        }
     }
 
     public void start() {

@@ -4,7 +4,6 @@ import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
 import cn.stream2000.railgunmq.common.helper.ThreadFactoryImpl;
 import cn.stream2000.railgunmq.core.InnerMessage;
-import cn.stream2000.railgunmq.core.ProducerAckQueue;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +94,8 @@ public class MessageDispatcher {
                             var sub = topic.getNextSubscription();
                             // store this message into offline messages
                             if (sub == null) {
-                                offlineMessageStore.addMessage(message.getTopic(), message.getMsgId());
+                                offlineMessageStore
+                                    .addMessage(message.getTopic(), message.getMsgId());
                             } else {
                                 sub.dispatchMessage(message);
                             }

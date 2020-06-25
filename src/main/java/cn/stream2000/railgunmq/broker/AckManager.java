@@ -34,7 +34,6 @@ public class AckManager {
     }
 
     public void monitorMessageAck(String topic, String msgId) {
-        // currently we only use msgId, because the msgId can identify a unique message independently
         ackMap.compute(key(topic, msgId), (key, oldValue) -> {
             if (oldValue == null || !oldValue) {
                 hashedWheelTimer.newTimeout(this.new TimerFiredEvent(topic, msgId)::OnTimerFired, 5,
@@ -48,7 +47,7 @@ public class AckManager {
         ackMap.compute(msgId, (key, oldValue) -> {
             if (oldValue != null && oldValue) {
                 var p = split(key);
-                // TODO use a thread pool to execute time-consuming logic
+                // TODO use a thread pool to execute time-consuming task
                 offlineMessageStore.deleteMessage(p.getLeft(), p.getRight());
             }
             return null;
