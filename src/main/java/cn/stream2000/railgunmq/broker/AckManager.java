@@ -79,7 +79,7 @@ public class AckManager {
                     return null;
                 } else {
                     // oldValue is true, so we haven't received the ack
-                    var t = TopicManager.getInstance().getTopic(topic);
+                    var t = TopicManager.getTopic(topic);
                     if (t == null) {
                         // the topic is deleted, so we discard the message
                         offlineMessageStore.deleteMessage(topic, msgId);
@@ -114,8 +114,9 @@ public class AckManager {
         Boolean sendMessage(InnerMessage msg) {
             if (!messageDispatcher.appendMessage(msg)) {
                 // the message queue is full, we will retry with a backoff
-                hashedWheelTimer.newTimeout((t) -> retrySendingMessageWithBackoff(1000, 1, msg), 1000,
-                    TimeUnit.MILLISECONDS);
+                hashedWheelTimer
+                    .newTimeout((t) -> retrySendingMessageWithBackoff(1000, 1, msg), 1000,
+                        TimeUnit.MILLISECONDS);
                 return null;
             } else {
                 // start to monitor the ack of this message

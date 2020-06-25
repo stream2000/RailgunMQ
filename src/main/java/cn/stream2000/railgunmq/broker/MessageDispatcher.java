@@ -19,7 +19,6 @@ public class MessageDispatcher {
 
     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER);
     private final BlockingQueue<InnerMessage> freshQueue = new LinkedBlockingQueue<>();
-    private final TopicManager topicManager = TopicManager.getInstance();
     private final int pollThreadNum;
     private final OfflineMessageStore offlineMessageStore;
     private volatile boolean stopped = false;
@@ -89,7 +88,7 @@ public class MessageDispatcher {
             if (Objects.nonNull(messages)) {
                 try {
                     for (InnerMessage message : messages) {
-                        var topic = topicManager.getTopic(message.getTopic());
+                        var topic = TopicManager.getTopic(message.getTopic());
                         if (topic != null) {
                             var sub = topic.getNextSubscription();
                             // store this message into offline messages

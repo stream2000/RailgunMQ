@@ -5,7 +5,6 @@ import cn.stream2000.railgunmq.broker.MessageDispatcher;
 import cn.stream2000.railgunmq.broker.PubMessageTaskFactory;
 import cn.stream2000.railgunmq.broker.SendAckController;
 import cn.stream2000.railgunmq.broker.subscribe.OfflineFakeClientFactory;
-import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.ServerConfig;
 import cn.stream2000.railgunmq.common.config.StoreConfig;
@@ -31,8 +30,8 @@ public class BrokerParallelServer {
         OfflineMessageStore offlineMessageStore = new OfflineMessageStore(db);
         PersistenceMessageStore persistenceMessageStore = new PersistenceMessageStore(db);
         TopicStore topicStore = new TopicStore(db);
-        // recover from down
-        recover(topicStore);
+
+        TopicManager.setup(topicStore);
         int pollNum = Runtime.getRuntime().availableProcessors() * 2;
 
         MessageDispatcher messageDispatcher = new MessageDispatcher(pollNum, offlineMessageStore);
@@ -46,20 +45,6 @@ public class BrokerParallelServer {
             .SetupOfflineFakeClientFactory(persistenceMessageStore, messageDispatcher, ackManager);
     }
 
-    private void recover(TopicStore store) {
-        var previousTopics = store.getAllTopics();
-        for (var topic : previousTopics) {
-            TopicManager.getInstance().addTopic(topic);
-        }
-        if (TopicManager.getInstance().getTopic("default") == null) {
-            store.addTopic("default");
-            TopicManager.getInstance().addTopic(new Topic("default"));
-        }
-        if (TopicManager.getInstance().getTopic("error") == null) {
-            store.addTopic("error");
-            TopicManager.getInstance().addTopic(new Topic("error"));
-        }
-    }
 
     public void start() {
         messageDispatcher.start();

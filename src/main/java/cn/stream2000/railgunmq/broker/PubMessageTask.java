@@ -33,7 +33,7 @@ public class PubMessageTask implements Callable<Void> {
 
     @Override
     public Void call() throws Exception {
-        Topic topic = TopicManager.getInstance().getTopic(request.getTopic());
+        Topic topic = TopicManager.getTopic(request.getTopic());
         if (topic == null) {
             // the topic producer desired doesn't exist
             ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck.newBuilder()
