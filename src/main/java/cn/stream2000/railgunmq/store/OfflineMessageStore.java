@@ -52,7 +52,7 @@ public class OfflineMessageStore {
     }
 
     private byte[] keyPrefix(String topic) {
-        return (RDBStorePrefix.PERSISTENCE_MESSAGE + topic).getBytes(StandardCharsets.UTF_8);
+        return (RDBStorePrefix.UN_ACK_MESSAGE + topic).getBytes(StandardCharsets.UTF_8);
     }
 
     private byte[] key(String topic, String msgId) {
