@@ -18,24 +18,34 @@ public class TopicManager {
         return getInstance().topicMap.get(topic);
     }
 
-    public static void addTopic(Topic topic) {
+    public static void addTopic(String topicName) {
+        Topic topic = new Topic(topicName);
         getInstance().store.addTopic(topic.getTopicName());
         getInstance().topicMap.put(topic.getTopicName(), topic);
     }
+
+    // NOTE: delete a topic may cause something unexpected. Make sure you understand what you're going
+    // to do.
+    public static void deleteTopic(String topicName) {
+        Topic topic = new Topic(topicName);
+        getInstance().store.deleteTopic(topic.getTopicName());
+        getInstance().topicMap.remove(topic.getTopicName());
+    }
+
 
     public static void setup(TopicStore topicStore) {
         getInstance().store = topicStore;
         var previousTopics = getInstance().store.getAllTopics();
         for (var topic : previousTopics) {
-            addTopic(topic);
+            addTopic(topic.getTopicName());
         }
         if (getTopic("default") == null) {
             getInstance().store.addTopic("default");
-            addTopic(new Topic("default"));
+            addTopic("default");
         }
         if (getTopic("error") == null) {
             getInstance().store.addTopic("error");
-            addTopic(new Topic("error"));
+            addTopic("error");
         }
     }
 }

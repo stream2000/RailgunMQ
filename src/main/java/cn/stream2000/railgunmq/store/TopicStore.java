@@ -46,8 +46,8 @@ public class TopicStore {
         byte[] startKey = key("");
         List<Topic> topics = new ArrayList<>();
         var kvs = rdb.enumerate(columnFamilyHandle(), startKey);
-        for(var kv: kvs){
-            String topic = new String(kv.getLeft(), StandardCharsets.UTF_8);
+        for (var kv : kvs) {
+            String topic = new String(kv.getLeft(), StandardCharsets.UTF_8).split("-")[1];
             topics.add(new Topic(topic));
         }
         return topics;

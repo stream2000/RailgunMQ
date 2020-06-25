@@ -129,7 +129,7 @@ public class RDB {
             if (item > 0) {
                 this.DB.write(WRITE_OPTIONS_SYNC, writeBatch);
             }
-            log.info(
+            log.debug(
                 "[RocksDB] -> succ while delete by prefix,columnFamilyHandle:{}, prefixKey:{}, nums:{}",
                 cfh.toString(), new String(prefixKey), item);
         } catch (RocksDBException e) {
