@@ -19,6 +19,7 @@ public class TopicManager {
     }
 
     public static void addTopic(Topic topic) {
+        getInstance().store.addTopic(topic.getTopicName());
         getInstance().topicMap.put(topic.getTopicName(), topic);
     }
 
