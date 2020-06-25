@@ -81,7 +81,7 @@ public class RDB {
         try {
             RocksIterator iterator = this.newIterator(cfh);
             int count = 0;
-            for (iterator.seek(startKey); iterator.isValid() && count < expect; ){
+            for (iterator.seek(startKey); iterator.isValid() && count < expect; ) {
                 values.add(iterator.value());
                 count += 1;
                 iterator.next();
@@ -95,6 +95,26 @@ public class RDB {
                 cfh.toString(), new String(startKey), e);
         }
         return Pair.of(values, endKey);
+    }
+
+    public List<Pair<byte[], byte[]>> enumerate(final ColumnFamilyHandle cfh,
+        final byte[] startKey) {
+        List<Pair<byte[], byte[]>> kvs = new ArrayList<>();
+        try {
+            RocksIterator iterator = this.newIterator(cfh);
+            for (iterator.seek(startKey); iterator.isValid(); iterator.next()) {
+                byte[] key = iterator.key();
+                byte[] value = iterator.value();
+                kvs.add(Pair.of(key, value));
+            }
+            log.info("[RocksDB] -> success while get by prefix,columnFamilyHandle:{}, prefixKey:{}",
+                cfh.toString(), new String(startKey));
+        } catch (Exception e) {
+            log.error(
+                "[RocksDB] ->  error while get by prefix, columnFamilyHandle:{}, prefixKey:{}, err:{}",
+                cfh.toString(), new String(startKey), e);
+        }
+        return kvs;
     }
 
     public boolean deleteByPrefix(final ColumnFamilyHandle cfh, final byte[] prefixKey) {
@@ -260,6 +280,9 @@ public class RDB {
         list.add(
             new ColumnFamilyDescriptor(
                 RDBStorePrefix.UN_ACK_MESSAGE.getBytes(StandardCharsets.UTF_8)));
+        list.add(
+            new ColumnFamilyDescriptor(
+                RDBStorePrefix.TOPIC_STORE.getBytes(StandardCharsets.UTF_8)));
         return list;
     }
 
