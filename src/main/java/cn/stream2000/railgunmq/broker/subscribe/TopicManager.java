@@ -15,6 +15,10 @@ public class TopicManager {
         return topicManager;
     }
 
+    public static List<String> getAll() {
+        return getInstance().store.getAllTopics();
+    }
+
     public static Topic getTopic(String topic) {
         return getInstance().topicMap.get(topic);
     }
@@ -36,9 +40,9 @@ public class TopicManager {
 
     public static void setup(TopicStore topicStore) {
         getInstance().store = topicStore;
-        List<Topic> previousTopics = getInstance().store.getAllTopics();
-        for (Topic topic : previousTopics) {
-            addTopic(topic.getTopicName());
+        List<String> previousTopics = getInstance().store.getAllTopics();
+        for (String topic : previousTopics) {
+            addTopic(topic);
         }
         if (getTopic("default") == null) {
             getInstance().store.addTopic("default");

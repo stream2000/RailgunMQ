@@ -9,7 +9,6 @@ import cn.stream2000.railgunmq.netty.codec.ProtobufEncoder;
 import cn.stream2000.railgunmq.netty.codec.RouterInitializer;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -23,7 +22,11 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.ThreadFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RailgunMQBrokerServer extends BrokerParallelServer {
 
     private final ThreadFactory threadBossFactory =
@@ -36,31 +39,12 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
             .build();
 
     private final ProtoRouter router = RouterInitializer.initialize();
-    private String addr = "127.0.0.1";
-    private int port = 8080;
+    @Value("${netty.port}")
+    private Integer port;
     private DefaultEventExecutorGroup defaultEventExecutorGroup;
     private EventLoopGroup boss;
     private EventLoopGroup workers;
     private ServerBootstrap bootstrap;
-
-    public RailgunMQBrokerServer() {
-
-    }
-
-    public RailgunMQBrokerServer(int port) {
-        this.port = port;
-    }
-
-    public RailgunMQBrokerServer(String addr, int port) {
-        this.addr = addr;
-        this.port = port;
-    }
-
-    public static void main(String[] args) {
-        RailgunMQBrokerServer server = new RailgunMQBrokerServer(9999);
-        server.init();
-        server.start();
-    }
 
     @Override
     public void init() {
@@ -74,7 +58,7 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
             .option(ChannelOption.SO_BACKLOG, 1024)
             .option(ChannelOption.SO_REUSEADDR, true).option(ChannelOption.SO_KEEPALIVE, false)
             .childOption(ChannelOption.TCP_NODELAY, true).handler(new LoggingHandler(LogLevel.INFO))
-            .localAddress(new InetSocketAddress(addr, port)).childHandler(new ServerInitializer());
+            .localAddress(new InetSocketAddress(port)).childHandler(new ServerInitializer());
         super.init();
 
 
@@ -94,11 +78,12 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
     }
 
     @Override
+    @PostConstruct
     public void start() {
+        this.init();
         try {
             super.start();
-            ChannelFuture sync = this.bootstrap.bind().sync();
-            sync.channel().closeFuture().sync();
+            this.bootstrap.bind().sync();
         } catch (InterruptedException ex) {
             Logger.getLogger(RailgunMQBrokerServer.class.getName()).log(Level.SEVERE, null, ex);
         }

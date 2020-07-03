@@ -24,8 +24,8 @@ class TopicStoreTest {
 
     @Test
     void testTopic() {
-        for (Topic topic : topicStore.getAllTopics()) {
-            System.out.println(topic.getTopicName());
+        for (String topic : topicStore.getAllTopics()) {
+            System.out.println(topic);
         }
         Assert.assertNotNull(TopicManager.getTopic("default"));
         Assert.assertNotNull(TopicManager.getTopic("error"));

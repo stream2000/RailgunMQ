@@ -43,13 +43,13 @@ public class TopicStore {
         return this.rdb.delete(columnFamilyHandle(), key);
     }
 
-    public List<Topic> getAllTopics() {
+    public List<String> getAllTopics() {
         byte[] startKey = key("");
-        List<Topic> topics = new ArrayList<>();
+        List<String> topics = new ArrayList<>();
         List<Pair<byte[],byte[]>> kvs = rdb.enumerate(columnFamilyHandle(), startKey);
         for (Pair<byte[],byte[]> kv : kvs) {
             String topic = new String(kv.getLeft(), StandardCharsets.UTF_8).split("-")[1];
-            topics.add(new Topic(topic));
+            topics.add(topic);
         }
         return topics;
     }
