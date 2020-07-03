@@ -23,7 +23,7 @@ public class Topic {
         if (subscriptions.size() == 0) {
             return null;
         } else {
-            var sub = subscriptions.get(subscriptions.size() % consumedIndex);
+            Subscription sub = subscriptions.get(subscriptions.size() % consumedIndex);
             consumedIndex++;
             return sub;
         }

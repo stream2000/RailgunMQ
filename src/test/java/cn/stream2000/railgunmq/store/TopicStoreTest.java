@@ -1,5 +1,6 @@
 package cn.stream2000.railgunmq.store;
 
+import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.StoreConfig;
 import cn.stream2000.railgunmq.store.db.RDB;
@@ -23,7 +24,7 @@ class TopicStoreTest {
 
     @Test
     void testTopic() {
-        for (var topic : topicStore.getAllTopics()) {
+        for (Topic topic : topicStore.getAllTopics()) {
             System.out.println(topic.getTopicName());
         }
         Assert.assertNotNull(TopicManager.getTopic("default"));

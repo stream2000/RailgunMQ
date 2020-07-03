@@ -7,6 +7,7 @@ import cn.stream2000.railgunmq.store.db.RDBStorePrefix;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
 import org.rocksdb.ColumnFamilyHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +46,8 @@ public class TopicStore {
     public List<Topic> getAllTopics() {
         byte[] startKey = key("");
         List<Topic> topics = new ArrayList<>();
-        var kvs = rdb.enumerate(columnFamilyHandle(), startKey);
-        for (var kv : kvs) {
+        List<Pair<byte[],byte[]>> kvs = rdb.enumerate(columnFamilyHandle(), startKey);
+        for (Pair<byte[],byte[]> kv : kvs) {
             String topic = new String(kv.getLeft(), StandardCharsets.UTF_8).split("-")[1];
             topics.add(new Topic(topic));
         }

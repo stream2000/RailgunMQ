@@ -1,6 +1,7 @@
 package cn.stream2000.railgunmq.broker.subscribe;
 
 import cn.stream2000.railgunmq.store.TopicStore;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,8 +36,8 @@ public class TopicManager {
 
     public static void setup(TopicStore topicStore) {
         getInstance().store = topicStore;
-        var previousTopics = getInstance().store.getAllTopics();
-        for (var topic : previousTopics) {
+        List<Topic> previousTopics = getInstance().store.getAllTopics();
+        for (Topic topic : previousTopics) {
             addTopic(topic.getTopicName());
         }
         if (getTopic("default") == null) {

@@ -50,7 +50,7 @@ public class PubMessageTask implements Callable<Void> {
             request.getType().getNumber(), request.getData().toByteArray());
         persistenceMessageStore.storeMessage(msg);
 
-        var isOffline = false;
+        boolean isOffline = false;
         synchronized (topic) {
             if (!topic.isActive()) {
                 offlineMessageStore.addMessage(topic.getTopicName(), msgId);

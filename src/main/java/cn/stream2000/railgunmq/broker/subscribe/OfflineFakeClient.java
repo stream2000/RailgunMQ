@@ -3,6 +3,7 @@ package cn.stream2000.railgunmq.broker.subscribe;
 import cn.stream2000.railgunmq.broker.AckManager;
 import cn.stream2000.railgunmq.broker.MessageDispatcher;
 import cn.stream2000.railgunmq.common.config.LoggerName;
+import cn.stream2000.railgunmq.core.InnerMessage;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -67,11 +68,11 @@ public class OfflineFakeClient implements Runnable {
 
             startKey = pair.getRight();
 
-            var values = pair.getLeft();
+            List<byte[]> values = pair.getLeft();
 
             for (int i = 0; i < values.size(); ) {
-                var value = values.get(i);
-                var msg = persistenceMessageStore.parseMessage(value);
+                byte[] value = values.get(i);
+                InnerMessage msg = persistenceMessageStore.parseMessage(value);
                 if (msg == null) {
                     continue;
                 }

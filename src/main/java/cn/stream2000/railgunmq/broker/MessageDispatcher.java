@@ -1,5 +1,7 @@
 package cn.stream2000.railgunmq.broker;
 
+import cn.stream2000.railgunmq.broker.subscribe.Subscription;
+import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
 import cn.stream2000.railgunmq.common.helper.ThreadFactoryImpl;
@@ -88,9 +90,9 @@ public class MessageDispatcher {
             if (Objects.nonNull(messages)) {
                 try {
                     for (InnerMessage message : messages) {
-                        var topic = TopicManager.getTopic(message.getTopic());
+                        Topic topic = TopicManager.getTopic(message.getTopic());
                         if (topic != null) {
-                            var sub = topic.getNextSubscription();
+                            Subscription sub = topic.getNextSubscription();
                             // store this message into offline messages
                             if (sub == null) {
                                 offlineMessageStore

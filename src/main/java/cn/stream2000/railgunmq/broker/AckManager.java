@@ -1,5 +1,6 @@
 package cn.stream2000.railgunmq.broker;
 
+import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
 import cn.stream2000.railgunmq.core.InnerMessage;
@@ -46,7 +47,7 @@ public class AckManager {
     public void ackMessage(String topic, String msgId) {
         ackMap.compute(msgId, (key, oldValue) -> {
             if (oldValue != null && oldValue) {
-                var p = split(key);
+                Pair<String,String> p = split(key);
                 // TODO use a thread pool to execute time-consuming task
                 offlineMessageStore.deleteMessage(p.getLeft(), p.getRight());
             }
@@ -59,7 +60,7 @@ public class AckManager {
     }
 
     private Pair<String, String> split(String key) {
-        var result = StringUtils.split(key, "-");
+        String[] result = StringUtils.split(key, "-");
         return Pair.of(result[0], result[1]);
     }
 
@@ -79,7 +80,7 @@ public class AckManager {
                     return null;
                 } else {
                     // oldValue is true, so we haven't received the ack
-                    var t = TopicManager.getTopic(topic);
+                    Topic t = TopicManager.getTopic(topic);
                     if (t == null) {
                         // the topic is deleted, so we discard the message
                         offlineMessageStore.deleteMessage(topic, msgId);
@@ -91,7 +92,7 @@ public class AckManager {
                         return null;
                     } else {
                         // there exists another subscriber so we push the message to the dispatcher
-                        var msg = persistenceMessageStore.getMessage(topic, msgId);
+                        InnerMessage msg = persistenceMessageStore.getMessage(topic, msgId);
                         return sendMessage(msg);
                     }
                 }
