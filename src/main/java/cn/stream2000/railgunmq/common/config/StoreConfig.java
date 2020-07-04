@@ -11,6 +11,10 @@ public class StoreConfig {
         return rocksDbPath;
     }
 
+    public void setRocksDbPath(String rocksDbPath) {
+        this.rocksDbPath = rocksDbPath;
+    }
+
     /* rocksdb store configuration start */
     private String rocksDbPath =
         System.getProperty("user.home", System.getenv("user.home")) + File.separator + "rocksdb";
