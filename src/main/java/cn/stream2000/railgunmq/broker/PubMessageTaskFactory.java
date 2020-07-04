@@ -13,9 +13,7 @@ public class PubMessageTaskFactory {
     private AckManager ackManager;
 
     public static PubMessageTask newPubMessageTask(PubMessageRequest request) {
-        return new PubMessageTask(request, factory.offlineMessageStore,
-            factory.persistenceMessageStore,
-            factory.messageDispatcher, factory.ackManager);
+        return new PubMessageTask(request, factory.messageDispatcher);
     }
 
     public static PubMessageTaskFactory getInstance() {
