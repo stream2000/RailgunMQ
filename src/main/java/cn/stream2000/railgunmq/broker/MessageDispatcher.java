@@ -97,60 +97,74 @@ public class MessageDispatcher {
             this.messages = messages;
         }
 
+        private void processPubMessageRequest(Topic topic, QueueMessage message) throws Exception {
+            if (topic == null) {
+                log.warn(
+                    "[MessageDispatcher] topic {} not found, discard the message with id {}",
+                    message.getTopic(), message.getMsgId());
+                if (message.isNeedAck()) {
+                    ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
+                        .newBuilder()
+                        .setError(Message.ErrorType.InvalidTopic)
+                        .setErrorMessage("invalid topic")
+                        .setLetterId(message.getLetterId())
+                        .setChannelId(message.getChannelId()).build();
+                    ProducerAckQueue.pushAck(ack);
+                }
+                return;
+            }
+            Subscription sub = topic.getNextSubscription();
+            if (sub == null) {
+                offlineMessageStore.addMessage(message.getTopic(), message.getMsgId());
+                return;
+            }
+            // is a pubMessageRequest, we store it at first
+            StoredMessage storedMessage = new StoredMessage(
+                message.getTopic(), message.getMsgId(), message.getType(),
+                message.getPayload());
+            persistenceMessageStore.storeMessage(storedMessage);
+            // return ack to user
+            if (message.isNeedAck()) {
+                ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
+                    .newBuilder()
+                    .setLetterId(message.getLetterId())
+                    .setChannelId(message.getChannelId())
+                    .build();
+                ProducerAckQueue.pushAck(ack);
+            }
+            sub.dispatchMessage(message);
+            ackManager.monitorMessageAck(message.getTopic(), message.getMsgId());
+        }
+
+        private void processStoredMessage(Topic topic, QueueMessage message) throws Exception {
+            if (topic == null) {
+                log.warn(
+                    "[MessageDispatcher] topic {} not found, discard the message with id {}",
+                    message.getTopic(), message.getMsgId());
+                persistenceMessageStore
+                    .releaseMessage(message.getTopic(), message.getMsgId());
+                return;
+            }
+            Subscription sub = topic.getNextSubscription();
+            if (sub == null) {
+                return;
+            }
+            // return ack to user
+            sub.dispatchMessage(message);
+            ackManager.monitorMessageAck(message.getTopic(), message.getMsgId());
+        }
+
+
         @Override
         public void run() {
             if (Objects.nonNull(messages)) {
                 try {
                     for (QueueMessage message : messages) {
                         Topic topic = TopicManager.getTopic(message.getTopic());
-                        if (topic != null) {
-                            Subscription sub = topic.getNextSubscription();
-                            // store this message into offline messages
-                            if (sub == null) {
-                                if (!StringUtils.isEmpty(message.getChannelId())) {
-                                    offlineMessageStore
-                                        .addMessage(message.getTopic(), message.getMsgId());
-                                }
-                            } else {
-                                // is a pubMessageRequest, we store it at first
-                                if (!StringUtils.isEmpty(message.getChannelId())) {
-                                    StoredMessage storedMessage = new StoredMessage(
-                                        message.getTopic(), message.getMsgId(), message.getType(),
-                                        message.getPayload());
-                                    persistenceMessageStore.storeMessage(storedMessage);
-                                    // return ack to user
-                                    if (message.isNeedAck()) {
-                                        ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
-                                            .newBuilder()
-                                            .setLetterId(message.getLetterId())
-                                            .setChannelId(message.getChannelId())
-                                            .build();
-                                        ProducerAckQueue.pushAck(ack);
-                                    }
-                                }
-                                sub.dispatchMessage(message);
-                                ackManager
-                                    .monitorMessageAck(message.getTopic(), message.getMsgId());
-                            }
+                        if (!StringUtils.isEmpty(message.getChannelId())) {
+                            processPubMessageRequest(topic, message);
                         } else {
-                            log.warn(
-                                "[MessageDispatcher] topic {} not found, discard the message with id {}",
-                                message.getTopic(), message.getMsgId());
-                            if (!StringUtils.isEmpty(message.getChannelId())) {
-                                // return ack to user
-                                if (message.isNeedAck()) {
-                                    ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
-                                        .newBuilder()
-                                        .setError(Message.ErrorType.InvalidTopic)
-                                        .setErrorMessage("invalid topic")
-                                        .setLetterId(message.getLetterId())
-                                        .setChannelId(message.getChannelId()).build();
-                                    ProducerAckQueue.pushAck(ack);
-                                }
-                            } else {
-                                persistenceMessageStore
-                                    .releaseMessage(message.getTopic(), message.getMsgId());
-                            }
+                            processStoredMessage(topic, message);
                         }
                     }
                 } catch (Exception e) {

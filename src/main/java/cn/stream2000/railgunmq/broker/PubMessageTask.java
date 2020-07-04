@@ -7,8 +7,9 @@ import cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest;
 import cn.stream2000.railgunmq.core.QueueMessage;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import javax.print.DocFlavor.STRING;
 
-public class PubMessageTask implements Callable<Void> {
+public class PubMessageTask implements Callable<String> {
 
     private final ProducerMessage.PubMessageRequest request;
     private final MessageDispatcher messageDispatcher;
@@ -19,7 +20,7 @@ public class PubMessageTask implements Callable<Void> {
     }
 
     @Override
-    public Void call() throws Exception {
+    public String call() throws Exception {
 
         String msgId = UUID.randomUUID().toString();
         if (!messageDispatcher
@@ -31,7 +32,8 @@ public class PubMessageTask implements Callable<Void> {
                 .setLetterId(request.getLetterId())
                 .setChannelId(request.getChannelId()).build();
             ProducerAckQueue.pushAck(ack);
+            return  null;
         }
-        return null;
+        return msgId;
     }
 }
