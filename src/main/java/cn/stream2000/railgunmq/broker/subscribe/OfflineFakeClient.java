@@ -3,7 +3,8 @@ package cn.stream2000.railgunmq.broker.subscribe;
 import cn.stream2000.railgunmq.broker.AckManager;
 import cn.stream2000.railgunmq.broker.MessageDispatcher;
 import cn.stream2000.railgunmq.common.config.LoggerName;
-import cn.stream2000.railgunmq.core.InnerMessage;
+import cn.stream2000.railgunmq.core.QueueMessage;
+import cn.stream2000.railgunmq.core.StoredMessage;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -72,12 +73,12 @@ public class OfflineFakeClient implements Runnable {
 
             for (int i = 0; i < values.size(); ) {
                 byte[] value = values.get(i);
-                InnerMessage msg = persistenceMessageStore.parseMessage(value);
+                StoredMessage msg = persistenceMessageStore.parseMessage(value);
                 if (msg == null) {
                     continue;
                 }
 
-                if (!messageDispatcher.appendMessage(msg)) {
+                if (!messageDispatcher.appendMessage(QueueMessage.storedMessageMapper(msg))) {
                     // a rude implementation: try until the end of the world
                     try {
                         TimeUnit.MILLISECONDS.sleep(100);
@@ -87,10 +88,7 @@ public class OfflineFakeClient implements Runnable {
                             "[OfflineFakeClient]: be interrupted, discard all messages and return");
                         return;
                     }
-                } else {
-                    ackManager.monitorMessageAck(msg.getTopic(), msg.getMsgId());
                 }
-
                 i++;
             }
         }

@@ -1,9 +1,8 @@
 package cn.stream2000.railgunmq.broker;
 
-import cn.stream2000.railgunmq.broker.subscribe.Topic;
-import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
-import cn.stream2000.railgunmq.core.InnerMessage;
+import cn.stream2000.railgunmq.core.QueueMessage;
+import cn.stream2000.railgunmq.core.StoredMessage;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import io.netty.util.HashedWheelTimer;
@@ -22,15 +21,18 @@ public class AckManager {
         TimeUnit.MILLISECONDS, 16);
     private final OfflineMessageStore offlineMessageStore;
     private final PersistenceMessageStore persistenceMessageStore;
-    private final MessageDispatcher messageDispatcher;
     private final Map<String, Boolean> ackMap = new ConcurrentHashMap<>();
     private final Logger log = LoggerFactory.getLogger(LoggerName.BROKER);
+    private MessageDispatcher messageDispatcher;
 
     public AckManager(OfflineMessageStore offlineMessageStore,
-        PersistenceMessageStore persistenceMessageStore,
-        MessageDispatcher messageDispatcher) {
+        PersistenceMessageStore persistenceMessageStore
+    ) {
         this.offlineMessageStore = offlineMessageStore;
         this.persistenceMessageStore = persistenceMessageStore;
+    }
+
+    public void setMessageDispatcher(MessageDispatcher messageDispatcher) {
         this.messageDispatcher = messageDispatcher;
     }
 
@@ -47,7 +49,7 @@ public class AckManager {
     public void ackMessage(String topic, String msgId) {
         ackMap.compute(msgId, (key, oldValue) -> {
             if (oldValue != null && oldValue) {
-                Pair<String,String> p = split(key);
+                Pair<String, String> p = split(key);
                 // TODO use a thread pool to execute time-consuming task
                 offlineMessageStore.deleteMessage(p.getLeft(), p.getRight());
             }
@@ -80,49 +82,30 @@ public class AckManager {
                     return null;
                 } else {
                     // oldValue is true, so we haven't received the ack
-                    Topic t = TopicManager.getTopic(topic);
-                    if (t == null) {
-                        // the topic is deleted, so we discard the message
-                        offlineMessageStore.deleteMessage(topic, msgId);
-                        persistenceMessageStore.releaseMessage(topic, msgId);
-                        return null;
-                    }
-                    if (!t.isActive()) {
-                        // the topic is inActive currently, so we return null directly
-                        return null;
-                    } else {
-                        // there exists another subscriber so we push the message to the dispatcher
-                        InnerMessage msg = persistenceMessageStore.getMessage(topic, msgId);
-                        return sendMessage(msg);
-                    }
+                    StoredMessage msg = persistenceMessageStore.getMessage(topic, msgId);
+                    return sendMessage(msg);
                 }
             });
         }
 
-        void retrySendingMessageWithBackoff(long delay, int times, InnerMessage msg) {
-            if (!messageDispatcher.appendMessage(msg)) {
+        void retrySendingMessageWithBackoff(long delay, int times, StoredMessage msg) {
+            if (!messageDispatcher.appendMessage(QueueMessage.storedMessageMapper(msg))) {
                 // the dispatcher is still full, retry with a backoff
                 final long newDelay = times > 5 ? 5000 : delay + 1000;
                 hashedWheelTimer.newTimeout((t) ->
                         retrySendingMessageWithBackoff(newDelay, times + 1, msg), newDelay,
                     TimeUnit.MILLISECONDS);
-            } else {
-                // successfully sent the message, start to monitor the ack of this message
-                monitorMessageAck(msg.getTopic(), msgId);
             }
         }
 
-        Boolean sendMessage(InnerMessage msg) {
-            if (!messageDispatcher.appendMessage(msg)) {
+        Boolean sendMessage(StoredMessage msg) {
+            if (!messageDispatcher.appendMessage(QueueMessage.storedMessageMapper(msg))) {
                 // the message queue is full, we will retry with a backoff
                 hashedWheelTimer
                     .newTimeout((t) -> retrySendingMessageWithBackoff(1000, 1, msg), 1000,
                         TimeUnit.MILLISECONDS);
                 return null;
             } else {
-                // start to monitor the ack of this message
-                hashedWheelTimer.newTimeout(new TimerFiredEvent(topic, msgId)::OnTimerFired, 5,
-                    TimeUnit.SECONDS);
                 return true;
             }
         }

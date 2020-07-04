@@ -34,9 +34,10 @@ public class BrokerParallelServer {
         TopicManager.setup(topicStore);
         int pollNum = Runtime.getRuntime().availableProcessors() * 2;
 
-        MessageDispatcher messageDispatcher = new MessageDispatcher(pollNum, offlineMessageStore);
-        AckManager ackManager = new AckManager(offlineMessageStore, persistenceMessageStore,
-            messageDispatcher);
+        AckManager ackManager = new AckManager(offlineMessageStore, persistenceMessageStore);
+        MessageDispatcher messageDispatcher = new MessageDispatcher(pollNum, offlineMessageStore,
+            persistenceMessageStore, ackManager);
+        ackManager.setMessageDispatcher(messageDispatcher);
         PubMessageTaskFactory.getInstance()
             .SetUpPubMessageTaskFactory(offlineMessageStore, persistenceMessageStore,
                 messageDispatcher, ackManager);

@@ -1,7 +1,7 @@
 package cn.stream2000.railgunmq.store;
 
 import cn.stream2000.railgunmq.common.config.LoggerName;
-import cn.stream2000.railgunmq.core.InnerMessage;
+import cn.stream2000.railgunmq.core.StoredMessage;
 import cn.stream2000.railgunmq.core.Store.RocksDBMessage;
 import cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type;
 import cn.stream2000.railgunmq.store.db.RDB;
@@ -23,7 +23,7 @@ public class PersistenceMessageStore {
         this.rdb = rdb;
     }
 
-    public boolean storeMessage(InnerMessage message) {
+    public boolean storeMessage(StoredMessage message) {
         try {
             RocksDBMessage value = RocksDBMessage.newBuilder().
                 setType(payload_type.forNumber(message.getType()))
@@ -39,7 +39,7 @@ public class PersistenceMessageStore {
         }
     }
 
-    public InnerMessage releaseMessage(String topic, String msgId) {
+    public StoredMessage releaseMessage(String topic, String msgId) {
         byte[] key = key(topic, msgId);
         RocksDBMessage msg = innerGetMessage(key);
         if (msg == null) {
@@ -47,19 +47,19 @@ public class PersistenceMessageStore {
             return null;
         }
         this.rdb.delete(columnFamilyHandle(), key);
-        InnerMessage ret = new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+        StoredMessage ret = new StoredMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
             msg.getData().toByteArray());
         return ret;
     }
 
-    public InnerMessage getMessage(String topic, String msgId) {
+    public StoredMessage getMessage(String topic, String msgId) {
         byte[] key = key(topic, msgId);
         RocksDBMessage msg = innerGetMessage(key);
         if (msg == null) {
             log.warn("The message is not exist,topic={},msgId={}", topic, msgId);
             return null;
         }
-        InnerMessage ret = new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+        StoredMessage ret = new StoredMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
             msg.getData().toByteArray());
         return ret;
     }
@@ -85,14 +85,14 @@ public class PersistenceMessageStore {
         return rdb.getRange(columnFamilyHandle(), startKey, expect);
     }
 
-    public InnerMessage parseMessage(byte[] value) {
+    public StoredMessage parseMessage(byte[] value) {
         if (value == null) {
             return null;
         }
         RocksDBMessage msg;
         try {
             msg = RocksDBMessage.parseFrom(value);
-            return new InnerMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
+            return new StoredMessage(msg.getTopic(), msg.getMsgId(), msg.getTypeValue(),
                 msg.getData().toByteArray());
         } catch (Exception ex) {
             log.error("[RocksDB] parse protobuf data error{}", ex.getCause().toString());

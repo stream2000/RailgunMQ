@@ -1,13 +1,13 @@
 package cn.stream2000.railgunmq.core;
 
-public class InnerMessage {
+public class StoredMessage {
 
     private final String topic;
     private final String msgId;
     private final int type;
     private final byte[] payload;
 
-    public InnerMessage(String topic, String msgId, int type, byte[] payload) {
+    public StoredMessage(String topic, String msgId, int type, byte[] payload) {
         this.topic = topic;
         this.msgId = msgId;
         this.type = type;
