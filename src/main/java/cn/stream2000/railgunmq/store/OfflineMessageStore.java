@@ -44,11 +44,11 @@ public class OfflineMessageStore {
 
     public Pair<List<byte[]>, byte[]> getMessages(String topic, String startId, int expect) {
         byte[] startKey = key(topic, startId);
-        return rdb.getRange(columnFamilyHandle(), startKey, expect);
+        return rdb.getRangeKeys(columnFamilyHandle(), startKey, expect);
     }
 
     public Pair<List<byte[]>, byte[]> getMessages(byte[] startKey, int expect) {
-        return rdb.getRange(columnFamilyHandle(), startKey, expect);
+        return rdb.getRangeKeys(columnFamilyHandle(), startKey, expect);
     }
 
     private byte[] keyPrefix(String topic) {
@@ -56,7 +56,7 @@ public class OfflineMessageStore {
     }
 
     private byte[] key(String topic, String msgId) {
-        return (RDBStorePrefix.UN_ACK_MESSAGE + topic + msgId)
+        return (RDBStorePrefix.UN_ACK_MESSAGE + topic + "-" + msgId)
             .getBytes(StandardCharsets.UTF_8);
     }
 

@@ -1,15 +1,13 @@
 package cn.stream2000.railgunmq.store;
 
 import cn.stream2000.railgunmq.common.config.LoggerName;
-import cn.stream2000.railgunmq.core.StoredMessage;
 import cn.stream2000.railgunmq.core.Store.RocksDBMessage;
 import cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type;
+import cn.stream2000.railgunmq.core.StoredMessage;
 import cn.stream2000.railgunmq.store.db.RDB;
 import cn.stream2000.railgunmq.store.db.RDBStorePrefix;
 import com.google.protobuf.ByteString;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
 import org.rocksdb.ColumnFamilyHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,9 +93,9 @@ public class PersistenceMessageStore {
         }
     }
 
-    public Pair<List<byte[]>, byte[]> getMessages(byte[] startKey, int expect) {
-        return rdb.getRange(columnFamilyHandle(), startKey, expect);
-    }
+//    public Pair<List<byte[]>, byte[]> getMessages(byte[] startKey, int expect) {
+//        return rdb.getRangeKeys(columnFamilyHandle(), startKey, expect);
+//    }
 
 
     private byte[] keyPrefix(String topic) {
@@ -105,7 +103,7 @@ public class PersistenceMessageStore {
     }
 
     private byte[] key(String topic, String msgId) {
-        return (RDBStorePrefix.PERSISTENCE_MESSAGE + topic + msgId)
+        return (RDBStorePrefix.PERSISTENCE_MESSAGE + topic + "-" + msgId)
             .getBytes(StandardCharsets.UTF_8);
     }
 

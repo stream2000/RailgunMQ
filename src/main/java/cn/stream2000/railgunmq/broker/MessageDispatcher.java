@@ -58,7 +58,7 @@ public class MessageDispatcher {
                     for (int i = 0; i < 32; i++) {
                         QueueMessage message = freshQueue.poll(waitTime, TimeUnit.MILLISECONDS);
                         if (Objects.nonNull(message)) {
-                            log.debug("[MessageDispatcher]get message with topic {} id {}",
+                            log.debug("[MessageDispatcher]get message with topic: {} and id: {}",
                                 message.getTopic(), message.getMsgId());
                             messageList.add(message);
                             waitTime = 100;
@@ -115,16 +115,18 @@ public class MessageDispatcher {
                 }
                 return;
             }
-            Subscription sub = topic.getNextSubscription();
-            if (sub == null) {
-                offlineMessageStore.addMessage(message.getTopic(), message.getMsgId());
-                return;
-            }
+
             // is a pubMessageRequest, we store it at first
             StoredMessage storedMessage = new StoredMessage(
                 message.getTopic(), message.getMsgId(), message.getType(),
                 message.getPayload());
             persistenceMessageStore.storeMessage(storedMessage);
+
+            Subscription sub = topic.getNextSubscription();
+            if (sub == null) {
+                offlineMessageStore.addMessage(message.getTopic(), message.getMsgId());
+                return;
+            }
             // return ack to user
             if (message.isNeedAck()) {
                 ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
@@ -149,6 +151,7 @@ public class MessageDispatcher {
             }
             Subscription sub = topic.getNextSubscription();
             if (sub == null) {
+                log.info("[MessageDispatcher]no subscription");
                 return;
             }
             // return ack to user
@@ -170,7 +173,7 @@ public class MessageDispatcher {
                         }
                     }
                 } catch (Exception e) {
-                    log.warn("Dispatcher message failure,cause={}", e.getCause().toString());
+                    log.error("Dispatcher message failure,cause={}", e.getCause().toString());
                 }
             }
         }

@@ -27,14 +27,6 @@ public class BrokerParallelServer {
         RDB db = new RDB(storeConfig);
         db.init();
 
-        initComponents(db);
-    }
-
-    public void initWithDB(RDB db) {
-        initComponents(db);
-    }
-
-    private void initComponents(RDB db) {
         OfflineMessageStore offlineMessageStore = new OfflineMessageStore(db);
         PersistenceMessageStore persistenceMessageStore = new PersistenceMessageStore(db);
         TopicStore topicStore = new TopicStore(db);
@@ -55,7 +47,6 @@ public class BrokerParallelServer {
                 messageDispatcher, ackManager);
         messageDispatcher.start();
     }
-
 
     public void start() {
         messageDispatcher.start();

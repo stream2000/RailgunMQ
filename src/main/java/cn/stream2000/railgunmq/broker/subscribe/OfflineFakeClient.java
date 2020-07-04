@@ -7,8 +7,10 @@ import cn.stream2000.railgunmq.core.QueueMessage;
 import cn.stream2000.railgunmq.core.StoredMessage;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,7 @@ public class OfflineFakeClient implements Runnable {
     @Override
     public void run() {
         // poll messages from offlineMessageStore, then send them to dispatcher
+        log.info("[OfflineFakeClient] start offline client of topic {} ", topic);
         byte[] startKey = new byte[0];
         long retryTime = 0;
         while (!stopped) {
@@ -71,14 +74,28 @@ public class OfflineFakeClient implements Runnable {
                 }
             }
 
-            startKey = pair.getRight();
+            log.debug("[OfflineFakeClient] fetched {} messages", pair.getLeft().size());
 
-            List<byte[]> values = pair.getLeft();
+            List<byte[]> ids = pair.getLeft();
 
-            for (int i = 0; i < values.size(); ) {
-                byte[] value = values.get(i);
-                StoredMessage msg = persistenceMessageStore.parseMessage(value);
+            for (int i = 0; i < ids.size(); ) {
+                String compound = new String(ids.get(i), StandardCharsets.UTF_8);
+                String[] kv = compound.split("-", 3);
+                if (kv.length != 3) {
+                    i++;
+                    continue;
+                }
+                String topic = kv[1];
+                String id = kv[2];
+
+                if (StringUtils.isEmpty(topic) || StringUtils.isEmpty(id)) {
+                    i++;
+                    continue;
+                }
+
+                StoredMessage msg = persistenceMessageStore.getMessage(topic, id);
                 if (msg == null) {
+                    i++;
                     continue;
                 }
 
@@ -94,6 +111,11 @@ public class OfflineFakeClient implements Runnable {
                     }
                 }
                 i++;
+            }
+
+            startKey = pair.getRight();
+            if (startKey.length == 0) {
+                stopped = true;
             }
         }
     }

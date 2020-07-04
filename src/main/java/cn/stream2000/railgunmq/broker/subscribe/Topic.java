@@ -8,9 +8,10 @@ public class Topic {
     // use array to organize subscriptions so that we can access them by index
     // we don't provide a fanout queue in this iteration.
     private final ArrayList<Subscription> subscriptions = new ArrayList<>();
-    private OfflineFakeClient offlineFakeClient;
     private final String topicName;
-    private int consumedIndex = 0;
+    private OfflineFakeClient offlineFakeClient;
+    private int consumedIndex = 1;
+
     public Topic(String topicName) {
         this.topicName = topicName;
     }
@@ -23,7 +24,8 @@ public class Topic {
         if (subscriptions.size() == 0) {
             return null;
         } else {
-            Subscription sub = subscriptions.get(subscriptions.size() % consumedIndex);
+            int nextIndex = consumedIndex % subscriptions.size();
+            Subscription sub = subscriptions.get(nextIndex);
             consumedIndex++;
             return sub;
         }
@@ -33,8 +35,8 @@ public class Topic {
         for (Subscription c : subscriptions) {
             if (c.getClientId().equals(clientId)) {
                 subscriptions.remove(c);
-                if(subscriptions.size() == 0){
-                    if(offlineFakeClient != null){
+                if (subscriptions.size() == 0) {
+                    if (offlineFakeClient != null) {
                         offlineFakeClient.stop();
                     }
                 }

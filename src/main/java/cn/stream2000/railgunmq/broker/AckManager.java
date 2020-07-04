@@ -47,11 +47,11 @@ public class AckManager {
     }
 
     public void ackMessage(String topic, String msgId) {
-        ackMap.compute(msgId, (key, oldValue) -> {
+        ackMap.compute(key(topic,msgId), (key, oldValue) -> {
             if (oldValue != null && oldValue) {
-                Pair<String, String> p = split(key);
                 // TODO use a thread pool to execute time-consuming task
-                offlineMessageStore.deleteMessage(p.getLeft(), p.getRight());
+                log.debug("[AckManager] delete offline message with topic {} id {}", topic, msgId);
+                offlineMessageStore.deleteMessage(topic,msgId);
             }
             return null;
         });
@@ -77,8 +77,10 @@ public class AckManager {
         }
 
         void OnTimerFired(Timeout timeout) {
+            log.debug("[Timer] timer event fired with topic: {} id: {}",topic,msgId);
             ackMap.compute(key(topic, msgId), (k, ov) -> {
                 if (ov == null || !ov) {
+                    log.info("[Timer] message with topic: {} id: {} is already acknowledged",topic,msgId);
                     return null;
                 } else {
                     // oldValue is true, so we haven't received the ack

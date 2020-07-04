@@ -2,11 +2,15 @@ package cn.stream2000.railgunmq.broker;
 
 
 import cn.stream2000.railgunmq.broker.server.BrokerParallelServer;
+import cn.stream2000.railgunmq.broker.subscribe.FakeSubscription;
+import cn.stream2000.railgunmq.broker.subscribe.OfflineFakeClientFactory;
+import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.StoreConfig;
 import cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest;
 import cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
+import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import cn.stream2000.railgunmq.store.TopicStore;
 import cn.stream2000.railgunmq.store.db.RDB;
 import com.google.protobuf.ByteString;
@@ -14,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -23,31 +27,47 @@ import org.slf4j.LoggerFactory;
 
 public class MessageDispatcherTest {
 
-    private BrokerParallelServer brokerParallelServer;
     private static Logger log = LoggerFactory.getLogger("test");
-
-    private RDB rdb;
+    private BrokerParallelServer brokerParallelServer;
+    private RDB db;
     private TopicStore topicStore;
     private OfflineMessageStore offlineMessageStore;
+    private PersistenceMessageStore persistenceMessageStore;
+    private MessageDispatcher messageDispatcher;
+    private AckManager ackManager;
 
     @BeforeEach
-    public void setUp() {
+    private void initComponents() {
         StoreConfig storeConfig = new StoreConfig();
-        rdb = new RDB(storeConfig);
-        rdb.init();
+        db = new RDB(storeConfig);
+        db.init();
 
-        topicStore = new TopicStore(rdb);
-        offlineMessageStore = new OfflineMessageStore(rdb);
+        offlineMessageStore = new OfflineMessageStore(db);
+        persistenceMessageStore = new PersistenceMessageStore(db);
+        TopicStore topicStore = new TopicStore(db);
+
         TopicManager.setup(topicStore);
-        brokerParallelServer = new BrokerParallelServer();
-        brokerParallelServer.initWithDB(rdb);
-//        brokerParallelServer.start();
+        int pollNum = Runtime.getRuntime().availableProcessors() * 2;
+
+        ackManager = new AckManager(offlineMessageStore, persistenceMessageStore);
+        messageDispatcher = new MessageDispatcher(pollNum, offlineMessageStore,
+            persistenceMessageStore, ackManager);
+        ackManager.setMessageDispatcher(messageDispatcher);
+        PubMessageTaskFactory.getInstance()
+            .SetUpPubMessageTaskFactory(offlineMessageStore, persistenceMessageStore,
+                messageDispatcher, ackManager);
+        OfflineFakeClientFactory
+            .SetupOfflineFakeClientFactory(persistenceMessageStore, offlineMessageStore,
+                messageDispatcher, ackManager);
+        messageDispatcher.start();
     }
 
+
     @Test
-    public void mock() {
+    public void onlineMock() {
+
         List<String> ids = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 3; i++) {
             PubMessageRequest req = PubMessageRequest.newBuilder()
                 .setChannelId("sdsdsdsdsd")
                 .setTopic("default")
@@ -60,8 +80,8 @@ public class MessageDispatcherTest {
             try {
                 String id = futureTask.get();
                 ids.add(id);
-            } catch (Exception ignore) {
-
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
         try {
@@ -70,10 +90,22 @@ public class MessageDispatcherTest {
             e.printStackTrace();
         }
         for (String id : ids) {
-            boolean ok = offlineMessageStore.checkMessage("default", id);
-            Assert.assertTrue(ok);
+            Assert.assertTrue(offlineMessageStore.checkMessage("default", id));
         }
-        offlineMessageStore.getMessages("default", "", 30);
+
+        Pair<List<byte[]>, byte[]> pair = offlineMessageStore.getMessages("default", "", 30);
+
+        FakeSubscription fakeSubscription = new FakeSubscription("111", null, "default",
+            ackManager);
+        Topic defaultTopic = TopicManager.getTopic("default");
+        defaultTopic.addSubscription(fakeSubscription);
+        try {
+            TimeUnit.MILLISECONDS.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
+
+
 }
