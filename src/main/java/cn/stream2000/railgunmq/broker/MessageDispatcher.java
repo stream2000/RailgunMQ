@@ -58,6 +58,8 @@ public class MessageDispatcher {
                     for (int i = 0; i < 32; i++) {
                         QueueMessage message = freshQueue.poll(waitTime, TimeUnit.MILLISECONDS);
                         if (Objects.nonNull(message)) {
+                            log.debug("[MessageDispatcher]get message with topic {} id {}",
+                                message.getTopic(), message.getMsgId());
                             messageList.add(message);
                             waitTime = 100;
                         } else {

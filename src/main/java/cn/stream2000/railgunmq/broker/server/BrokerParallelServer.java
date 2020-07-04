@@ -51,7 +51,9 @@ public class BrokerParallelServer {
                 messageDispatcher, ackManager);
         this.messageDispatcher = messageDispatcher;
         OfflineFakeClientFactory
-            .SetupOfflineFakeClientFactory(persistenceMessageStore, messageDispatcher, ackManager);
+            .SetupOfflineFakeClientFactory(persistenceMessageStore, offlineMessageStore,
+                messageDispatcher, ackManager);
+        messageDispatcher.start();
     }
 
 

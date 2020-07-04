@@ -5,6 +5,7 @@ import cn.stream2000.railgunmq.broker.MessageDispatcher;
 import cn.stream2000.railgunmq.common.config.LoggerName;
 import cn.stream2000.railgunmq.core.QueueMessage;
 import cn.stream2000.railgunmq.core.StoredMessage;
+import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +20,7 @@ public class OfflineFakeClient implements Runnable {
 
     private final String topic;
     private final PersistenceMessageStore persistenceMessageStore;
+    private final OfflineMessageStore offlineMessageStore;
     private final MessageDispatcher messageDispatcher;
     private final Logger log = LoggerFactory.getLogger(LoggerName.BROKER);
     private final AckManager ackManager;
@@ -26,9 +28,11 @@ public class OfflineFakeClient implements Runnable {
 
     public OfflineFakeClient(String topic,
         PersistenceMessageStore persistenceMessageStore,
+        OfflineMessageStore offlineMessageStore,
         MessageDispatcher messageDispatcher, AckManager ackManager) {
         this.topic = topic;
         this.persistenceMessageStore = persistenceMessageStore;
+        this.offlineMessageStore = offlineMessageStore;
         this.messageDispatcher = messageDispatcher;
         this.ackManager = ackManager;
     }
@@ -46,9 +50,9 @@ public class OfflineFakeClient implements Runnable {
 
             Pair<List<byte[]>, byte[]> pair;
             if (startKey.length == 0) {
-                pair = persistenceMessageStore.getMessages(topic, "", 30);
+                pair = offlineMessageStore.getMessages(topic, "", 30);
             } else {
-                pair = persistenceMessageStore.getMessages(startKey, 30);
+                pair = offlineMessageStore.getMessages(startKey, 30);
             }
 
             if (pair.getLeft().size() == 0) {

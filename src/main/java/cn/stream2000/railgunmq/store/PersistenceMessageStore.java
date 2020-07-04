@@ -80,11 +80,6 @@ public class PersistenceMessageStore {
         return msg;
     }
 
-    public Pair<List<byte[]>, byte[]> getMessages(String topic, String startId, int expect) {
-        byte[] startKey = key(topic, startId);
-        return rdb.getRange(columnFamilyHandle(), startKey, expect);
-    }
-
     public StoredMessage parseMessage(byte[] value) {
         if (value == null) {
             return null;
