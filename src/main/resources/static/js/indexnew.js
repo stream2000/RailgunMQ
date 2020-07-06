@@ -19,19 +19,16 @@
       var status_word = 'the status of ' + topicName + ' is ' + active;
       showBar(topicName,status_word);
     },
-    route: function (topic_id, route) {
-      var route_word = 'the route of ' + topic_id + ' is ' + route;
-      showBar(topic_id, route_word);
-    },
     consumer: function(topicName,nextSubscription) {
-      if(nextSubscription===null){
+      if(nextSubscription===null){       
         showBar(topicName,"null");
       }
       else {
-        var consumer_word = 'the consumer of ' + topicName + ' is ' + nextSubscription[0];
-        for (var i = 1; i < nextSubscription.length; i++) {
-          consumer_word = consumer_word + ', ' + nextSubscription[i];
+        var consumer_word = ' <table class="table table-bordered"><tbody><tr>'+nextSubscription[0]+'</tr> ' 
+        for (var i = 0; i < nextSubscription.length; i++) {
+          consumer_word = consumer_word + '<tr>' + nextSubscription[i]+"</tr>";
         }
+        consumer_word = consumer_word +'</tbody></table>'
         showBar(topicName, consumer_word);
       }
 
@@ -39,9 +36,6 @@
     topicButton: function (topic_id, topic) {
       var topic_word = 'the topic of ' + topic_id + ' is ' + topic;
       showBar(topic_id, topic_word);
-    },
-    send: function (topic_id) {
-      sendTopic(topic_id);
     },
     reset: function (topic_id) {
       resetTopic(topic_id);
@@ -120,12 +114,12 @@ function showBar(topic_id, word) {
   var id = '#topic' + topic_id + ' .newBar';
   console.log($(id).is(":visible"));
   console.log($(id).text());
-  if ($(id).is(":visible") && word == $(id).text()) {
+  if ($(id).is(":visible") && word == $(id).html()) {
     $(id).toggle(200);
     return;
   }
 
-  $(id).text(word);
+  $(id).html(word);
   if ($(id).is(":hidden")) {
     $(id).toggle(200);
   }

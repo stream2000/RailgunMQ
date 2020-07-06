@@ -1424,3 +1424,9 @@ input[type="radio"]:checked+.checkboxType {
 	display: none;
 	font-weight: bold;
 }
+
+#conn-table {
+	border:2px solid white;
+	border-radius:25px;
+	background-color: white;
+}
