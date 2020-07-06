@@ -46,12 +46,11 @@
         <div class="header-fixed header-three">
             <div class="container">
                 <nav class="navbar navbar-expand-lg navbar-light">
-                    <a class="navbar-brand" href="index.html">RailgunMQ
+                    <a class="navbar-brand" href="index.html">RailgunMQ <small>Client</small>
                     </a>
                     <div class="collapse navbar-collapse my-lg-0" id="navbarNav">
                         <ul class="navbar-nav">
-                            <li class="nav-item "><a class="nav-link hilight" href="index.html" id="Topic">Client</a>
-                            </li>
+                          
 
                         </ul>
 
@@ -77,39 +76,66 @@
 
                 </div>
             </div>
-
+   
             
-            <div class="col col-lg-2">
-                <button type="button" class="addButton btn btn-lg btn-secondary" v-on:click="addTopic">CONNECT</button>
-
+        </div>
+        <div class="row topicSection">
+            <div class="col col-lg-3" >
+                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connProducer">Connect as Producer</button>
+    
             </div>
-            <div class="col col-lg-1">
-                <button type="button" class="refreshButton btn btn-lg btn-secondary" v-on:click="refresh">REFRESH</button>
+            <div class="col col-lg-3">
+                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connConsumer">Connect as Consumer</button>
+    
+            </div>
+            <div class="col col-lg-3" style="display:none">
+                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="disconnect">Disconnect</button>
+    
+            </div>
+           
+        </div>
+        
 
+        <div class="row topicSection" id = "producer">
+            <div class="col col-lg-12">
+                <div class="row">
+                    <div class="col-lg-4 section-head">
+                        Push messages
+                    </div>
+                </div>
+                <div class="input-group input-group-lg">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-lg">The prefix of messages</span>
+                    </div>
+                    <input type="text" class="form-control" >
+                  </div>
+
+                  <div class="input-group input-group-lg">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-lg">The number of messages</span>
+                    </div>
+                    <input type="number" class="form-control" >
+                  </div>
+               
             </div>
         </div>
 
-        <div class="row topicSection">
+        <div class="row topicSection" id = "consumer">
             <div class="col col-lg-12">
+                <div class="row">
+                    <div class="col-lg-4 section-head">
+                        Receive messages
+                    </div>
+                </div>
                 <table class="topicTable table table-bordered table-hover">
                     <thead>
-                        <th>Topic</th>
-                        <th>Operation</th>
+                        <th>Message Id</th>
+                        <th>Message Content</th>
                     </thead>
                     <tbody>
-                        <tr v-for="topic in topics" :key='topic.topicName' class="" :id='idGen(topic.topicName)'>
-                            <td>{{topic.topicName}}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary"
-                                    v-on:click='status(topic.topicName,topic.active)'>STATUS</button>
-                                <button type="button" class="btn btn-primary"
-                                    v-on:click='consumer(topic.topicName,topic.nextSubscription)'>CONSUMER</button>
-                                <button type="button" class="btn btn-primary"
-                                    v-on:click='reset(topic.topic_id)'>RESET</button>
-                                <button type="button" class="btn btn-warning"
-                                    v-on:click='del(topic.topicName)'>DELETE</button>
-                                <div class="newBar"></div>
-                            </td>
+                        <tr v-for="message in messages"  class="" >
+                            <td>{{message.messageId}}</td>
+                            <td>{{message.messageContent}}</td>
                         </tr>
                     </tbody>
                 </table>

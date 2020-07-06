@@ -1,75 +1,28 @@
 ﻿var vue = new Vue({
   el: '#products',
   data: {
-    topics: [{
-      topicName: "",
-      active: false,
-      nextSubscription: null
-    }],
+    messages: [{
+      messageId: "001",
+      messageContent: "message-1"
+    },
+    {
+      messageId: "002",
+      messageContent: "message-2"
+    },
+    {
+      messageId: "003",
+      messageContent: "message-3"
+    },
+    ],
     mode: "normal",
     addStatus: true,
     url:"http://localhost:8080"
 
   },
   methods: {
-    idGen: function (topicName) {
-      return 'topic' + topicName;
-    },
-    status: function (topicName, active) {
-      var status_word = 'the status of ' + topicName + ' is ' + active;
-      showBar(topicName,status_word);
-    },
-    route: function (topic_id, route) {
-      var route_word = 'the route of ' + topic_id + ' is ' + route;
-      showBar(topic_id, route_word);
-    },
-    consumer: function(topicName,nextSubscription) {
-      if(nextSubscription===null){
-        showBar(topicName,"null");
-      }
-      else {
-        var consumer_word = 'the consumer of ' + topicName + ' is ' + nextSubscription[0];
-        for (var i = 1; i < nextSubscription.length; i++) {
-          consumer_word = consumer_word + ', ' + nextSubscription[i];
-        }
-        showBar(topicName, consumer_word);
-      }
-
-    },
-    topicButton: function (topic_id, topic) {
-      var topic_word = 'the topic of ' + topic_id + ' is ' + topic;
-      showBar(topic_id, topic_word);
-    },
-    send: function (topic_id) {
-      sendTopic(topic_id);
-    },
-    reset: function (topic_id) {
-      resetTopic(topic_id);
-    },
-    del: function (topicName) {
-      var id = '#topic' + topicName;
-      $.ajax({
-        url: this.url+'/deleteTopic?topic='+topicName,
-        method: 'DELETE',
-        success: function (data) {
-          console.log(data);
-          if(data===true){
-            $(id).remove();
-            alert('delete the topic' + topicName + ' success');
-          }
-          else{
-            alert('delete the topic '+ topicName+' fail');
-          }
-        },
-        error: function (error) {
-          console.log(error);
-        }
-      })
-
-    },
-    addTopic: function () {
+    connProducer: function () {
       console.log("add")
-      var topicName = prompt("Please input the topic name","topicName");
+      var topicName = prompt("Please input the topic name that you want to connect","");
       if (topicName != null) {
         $.ajax({
           url: this.url+'/addTopic?topic='+topicName,
@@ -92,14 +45,39 @@
       }
 
     },
-    refresh: function () {
-      location.reload();
+    connConsumer: function () {
+      console.log("add")
+      var topicName = prompt("Please input the topic name that you want to subscribe","");
+      if (topicName != null) {
+        $.ajax({
+          url: this.url+'/addTopic?topic='+topicName,
+          method: 'POST',
+          success: function (data) {
+            console.log(data);
+            if(data===true){
+              alert('add ' + topicName + ' success');
+              location.reload();
+            }
+            else{
+              alert('add the topic '+ topicName+' fail');
+            }
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        })
+      } else {
+      }
 
+    },
+    disconnect:function(){
+      
     }
+    
   },
   mounted: function () {
     var self = this;
-    $.ajax({
+    /*$.ajax({
       url: self.url+'/topics',
       method: 'GET',
       success: function (data) {
@@ -111,7 +89,7 @@
       error: function (error) {
         console.log(error);
       }
-    })
+    })*/
   }
 });
 

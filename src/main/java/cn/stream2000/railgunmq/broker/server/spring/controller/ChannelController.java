@@ -29,12 +29,12 @@ public class ChannelController {
     @ResponseBody
     public Channel getChannel(String key) {
         return  ChannelMap.getChannel(key);
-
     }
 
     @GetMapping("/channel/delete")
     @ResponseBody
     public void deleteChannel(String key) {
+        ChannelMap.getChannel(key).close();
         ChannelMap.deleteChannel(key);
 
     }

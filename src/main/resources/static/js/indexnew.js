@@ -49,7 +49,7 @@
     del: function (topicName) {
       var id = '#topic' + topicName;
       $.ajax({
-        url: this.url+'/deleteTopic?topic='+topicName,
+        url: /*this.url+*/'/deleteTopic?topic='+topicName,
         method: 'DELETE',
         success: function (data) {
           console.log(data);
@@ -72,7 +72,7 @@
       var topicName = prompt("Please input the topic name","topicName");
       if (topicName != null) {
         $.ajax({
-          url: this.url+'/addTopic?topic='+topicName,
+          url: /*this.url+*/'/addTopic?topic='+topicName,
           method: 'POST',
           success: function (data) {
             console.log(data);
@@ -100,7 +100,7 @@
   mounted: function () {
     var self = this;
     $.ajax({
-      url: self.url+'/topics',
+      url: /*self.url+*/'/topics',
       method: 'GET',
       success: function (data) {
         console.log(data);

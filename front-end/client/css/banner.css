@@ -151,7 +151,12 @@ padding-right: 5px;
 .navbar-brand {
 	color:white !important;
 	font-weight: bolder;
-	font-size: 30pt;;
+	font-size: 30pt;
+}
+.navbar-brand small{
+	color:white !important;
+	font-weight: bold;
+	font-size: 20pt;
 }
 #navbarNav ul{
 	float:right;
