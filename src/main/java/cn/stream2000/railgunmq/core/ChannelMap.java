@@ -8,6 +8,8 @@ public class ChannelMap {
 
   private static final Map<String, Channel> channels = new ConcurrentHashMap<>();
 
+  public static Map<String, Channel> getAllChannels() { return channels;}
+
   public static Channel getChannel(String key) {
     return channels.get(key);
   }
@@ -15,4 +17,6 @@ public class ChannelMap {
   public static void addChannel(String key, Channel channel) {
     channels.put(key, channel);
   }
+
+  public static void deleteChannel(String key){ channels.remove(key);}
 }

@@ -1,0 +1,9 @@
+#buy {
+    float:right;
+    margin-right:20%;
+    
+}
+#wrapper-bg {
+    background-color: #f5f7fa;
+    min-height: calc(100vh - 54px);
+};
