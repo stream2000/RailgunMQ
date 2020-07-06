@@ -71,9 +71,16 @@
 
         <div class="row topicSection">
             <div class="col col-lg-7 topicTitle">
-                <span>Channel Name:</span>
-                <div class="topicUnderline">
+                <span>Client Name:</span>
+                <div class="topicUnderline" id="clientName">
+                    {{clientName}}
+                </div>
+            </div>
 
+            <div class="col col-lg-4 topicTitle">
+                <span>Topic:</span>
+                <div class="topicUnderline" id="topic">
+                    {{topic}}
                 </div>
             </div>
    
@@ -96,7 +103,7 @@
         </div>
         
 
-        <div class="row topicSection" id = "producer">
+        <div class="row topicSection" id = "producer" style="display:none">
             <div class="col col-lg-12">
                 <div class="row">
                     <div class="col-lg-4 section-head">
@@ -105,22 +112,25 @@
                 </div>
                 <div class="input-group input-group-lg">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroup-sizing-lg">The prefix of messages</span>
+                      <span class="input-group-text" id="messagePrefix" >The prefix of messages</span>
                     </div>
-                    <input type="text" class="form-control" >
+                    <input type="text" class="form-control" v-model="messagePrefix">
                   </div>
 
                   <div class="input-group input-group-lg">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroup-sizing-lg">The number of messages</span>
+                      <span class="input-group-text" id="messageNumber" >The number of messages</span>
                     </div>
-                    <input type="number" class="form-control" >
+                    <input type="number" class="form-control" v-model="messageNumber">
                   </div>
-               
+
+                  <div>
+                    <button type="button" class="btn btn-lg btn-primary" @click="push">push</button>
+                  </div>
             </div>
         </div>
 
-        <div class="row topicSection" id = "consumer">
+        <div class="row topicSection" id = "consumer" style="display:none">
             <div class="col col-lg-12">
                 <div class="row">
                     <div class="col-lg-4 section-head">

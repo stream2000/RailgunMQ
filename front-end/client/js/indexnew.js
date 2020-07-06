@@ -16,6 +16,10 @@
     ],
     mode: "normal",
     addStatus: true,
+    clientName:"",
+    topic:"",
+    messagePrefix:"",
+    messageNumber:0,
     url:"http://localhost:8080"
 
   },
@@ -23,9 +27,12 @@
     connProducer: function () {
       console.log("add")
       var topicName = prompt("Please input the topic name that you want to connect","");
+      this.topic = topicName;
+      $("#consumer").hide();
+      $("#producer").show();
       if (topicName != null) {
         $.ajax({
-          url: this.url+'/addTopic?topic='+topicName,
+          url: this.url+'/addTopic?topic=',
           method: 'POST',
           success: function (data) {
             console.log(data);
@@ -48,9 +55,12 @@
     connConsumer: function () {
       console.log("add")
       var topicName = prompt("Please input the topic name that you want to subscribe","");
+      this.topic = topicName;
+      $("#consumer").show();
+      $("#producer").hide();
       if (topicName != null) {
         $.ajax({
-          url: this.url+'/addTopic?topic='+topicName,
+          url: this.url+'/addTopic?topic=',
           method: 'POST',
           success: function (data) {
             console.log(data);
@@ -72,6 +82,33 @@
     },
     disconnect:function(){
       
+    },
+    push:function(){
+      var messages = [];
+      var prefix = this.messagePrefix;
+      for(var i=0; i<this.messageNumber;i++)
+      {
+        var message = prefix + i;
+        messages.push(message);
+      }
+      console.log(messages);
+      $.ajax({
+        url: this.url+'/push?topic=',
+        method: 'POST',
+        success: function (data) {
+          console.log(data);
+          if(data===true){
+            alert('add ' + topicName + ' success');
+            location.reload();
+          }
+          else{
+            alert('add the topic '+ topicName+' fail');
+          }
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      })
     }
     
   },
