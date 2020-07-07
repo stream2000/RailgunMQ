@@ -29,9 +29,9 @@ public class Test {
 
         //取ack
         Thread.sleep(5000);//等待5秒
-        List<ProducerMessage.PubMessageAck> acks=railgunMQClient.getAcks();
+        List<ProducerMessage.PubMessageAck> acks=railgunMQClient.getAcks(2000);
 
-        List<ProducerMessage.PubMessageAck> acks1=MQ2.getAcks();
+        List<ProducerMessage.PubMessageAck> acks1=MQ2.getAcks(2000);
 
 
         //连接1取ack

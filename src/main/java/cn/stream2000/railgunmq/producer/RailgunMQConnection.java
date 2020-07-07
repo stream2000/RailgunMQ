@@ -94,10 +94,9 @@ public class RailgunMQConnection {
     }
 
     //在限定时间内取一些ACK
-    public List<ProducerMessage.PubMessageAck> getAcks()
+    public List<ProducerMessage.PubMessageAck> getAcks(long Maxtime)
     {
         List<ProducerMessage.PubMessageAck> acks=new ArrayList<ProducerMessage.PubMessageAck>();
-        long Maxtime= 2000;//最大时间为2秒
         long StartTime=System.currentTimeMillis();
 
         while (System.currentTimeMillis()-StartTime<=Maxtime)
