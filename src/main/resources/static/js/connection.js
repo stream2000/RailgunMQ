@@ -2,9 +2,10 @@ var vue = new Vue({
     el: '#products',
     data: {
       connects: [{
-          connectId:"111",
-        connectName: "123",
-        connectRole: "Producer",
+        channelId:"111",
+        ConnectionName: "123",
+        role: "Producer",
+        topic:"non"
       }],
       mode: "normal",
       addStatus: true,

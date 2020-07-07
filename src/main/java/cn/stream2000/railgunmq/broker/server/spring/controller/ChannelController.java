@@ -11,7 +11,9 @@ import java.util.List;
 @RestController
 public class ChannelController {
 
-  
+    @GetMapping("/channel/getAll")
+    @ResponseBody
+    public List<Connection> getAllChannel() {return ConnectionMap.getAll();}
 
     @GetMapping("/channel/get")
     @ResponseBody

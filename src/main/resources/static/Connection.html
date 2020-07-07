@@ -79,15 +79,17 @@
                     <thead>
                         <th>Connection name</th>
                         <th>Role</th>
+                        <th>Topic</th>
                         <th>Operation</th>
                     </thead>
                     <tbody>
-                        <tr v-for="connect in connects" :key='connect.connectId' class="" >
-                            <td>{{connect.connectId}}</td>
-                            <td>{{connect.connectRole}}</td>
+                        <tr v-for="connect in connects" :key='connect.channelId' class="" >
+                            <td>{{connect.ConnectionName}}</td>
+                            <td>{{connect.role}}</td>
+                            <td>{{connect.topic}}</td>
                             <td>
                                 <button type="button" class="btn btn-danger"
-                                    v-on:click='disconnect(connect.connectId)'>DISCONNECT</button>
+                                    v-on:click='disconnect(connect.channelId)'>DISCONNECT</button>
                                 <div class="newBar"></div>
                             </td>
                         </tr>

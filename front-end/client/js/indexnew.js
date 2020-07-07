@@ -37,16 +37,7 @@
 
         if (topicName != "" && topicName != null) {
 
-          /*var id = parseInt(sessionStorage.getItem('id'))  + 1;
-          var newConnection = {
-            "connectionId": id,
-            "connectionName": name,
-            "role": "producer",
-            "topic": topicName
-          }
-          var connections = JSON.parse(localStorage.getItem('connections'));
-          connections.push(newConnection);
-          localStorage.setItem('connections', JSON.stringify(connections));*/
+
 
           console.log("This!");
           $.ajax({
@@ -55,13 +46,12 @@
             success: function (data) {
               console.log(data);
               var id = data;
-              if(data != null)
-              {
+              if (data != null) {
                 $.ajax({
                   url: /*this.url +*/ '/spring/producer/setChannelName',
                   method: 'POST',
                   data: {
-                    "id":id,
+                    "id": id,
                     "name": name
                   },
                   success: function (data) {
@@ -83,7 +73,7 @@
                   }
                 })
               }
-             
+
             },
             error: function (error) {
               console.log(error);
@@ -108,57 +98,35 @@
 
         if (topicName != "" && topicName != null) {
 
-          /*var id = parseInt(sessionStorage.getItem('id'))  + 1;
-          var newConnection = {
-            "connectionId": id,
-            "connectionName": name,
-            "role": "consumer",
-            "topic": topicName,
-          }
-          console.log(newConnection)
-          var connections = JSON.parse(localStorage.getItem('connections'));
-          connections.push(newConnection);
-          localStorage.setItem('connections', JSON.stringify(connections));*/
 
+          this.clientName = name;
 
           $.ajax({
-            url: /*this.url +*/ '/spring/consumer/setChannelName',
+            url: /*this.url + */ '/spring2/consumer/connect',
             method: 'POST',
             data: {
+              "topic": topicName,
               "name": name
             },
             success: function (data) {
-
               console.log(data);
 
-              this.clientName = name;
-
-              $.ajax({
-                url: /*this.url + */'/spring/consumer/connect',
-                method: 'GET',
-                success: function (data) {
-                  console.log(data);
-
-                  var newConnection = {
-                    "connectionId": data.id,
-                    "connectionName": name,
-                    "connectionRole": "consumer",
-                    "topic": topicName
-                  }
-                  var connections = JSON.parse(localStorage.getItem('connections'));
-                  connections.push(newConnection);
-                  localStorage.setItem('connections', JSON.stringify(connections));
-                  window.location = "Consumer.html?id=" + data.id;
-                },
-                error: function (error) {
-                  console.log(error);
-                }
-              })
+              var newConnection = {
+                "connectionId": data.id,
+                "connectionName": name,
+                "connectionRole": "consumer",
+                "topic": topicName
+              }
+              var connections = JSON.parse(localStorage.getItem('connections'));
+              connections.push(newConnection);
+              localStorage.setItem('connections', JSON.stringify(connections));
+              window.location = "Consumer.html?id=" + data.id;
             },
             error: function (error) {
               console.log(error);
             }
           })
+
 
         }
       }
@@ -174,7 +142,6 @@
     } else {
       localStorage.setItem('connections', '[]');
     }
-    sessionStorage.setItem('id', 1);
     /*$.ajax({
       url: self.url+'/topics',
       method: 'GET',
