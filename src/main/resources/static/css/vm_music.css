@@ -1,0 +1,68 @@
+.like_alert{
+  position: absolute;
+  left:690px;
+  top:100px;
+  border: none;
+  font-size: 15px;
+  opacity: 0;
+}
+
+#text{
+  text-align: center;
+}
+
+#main_page{
+  margin-left: 800px;
+  }
+
+
+.modal-header h4 {
+    font-size: 2em;
+    color: #212121;
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-family: 'Catamaran', sans-serif;
+    padding-left: 0px;
+    font-weight: 800;
+	text-transform:uppercase;
+}
+.modal-header h4 span{
+    text-transform: capitalize;
+    font-weight: 300;
+    color: rgb(54, 157, 17);
+    letter-spacing: 1px;
+    font-size: .4em;
+}
+.modal-body {
+    margin-left: 0px;
+    font-size: .875em;
+    color: #999999;
+    line-height: 1.8em;
+}
+#report_area{
+  border:0;
+  border-radius:5px;
+  font-size: 12px;
+  background-color:rgba(241,241,241,.98);
+  width: 465px;
+  height: 150px;
+  padding: 10px;
+  resize: none;
+  color:black;
+}
+
+#report_button{
+  color:white;
+  background-color: rgb(11, 187, 19);
+  width: 80px;
+  height: 30px;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 190px;
+}
+
+#report_button:hover{
+  background-color: rgb(26, 74, 6);
+  cursor: pointer;
+}
