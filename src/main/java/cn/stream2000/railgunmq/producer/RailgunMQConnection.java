@@ -1,6 +1,7 @@
 package cn.stream2000.railgunmq.producer;
 
 import cn.stream2000.railgunmq.core.Connection;
+import cn.stream2000.railgunmq.core.Connection.ConnectionRole;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.core.SemaphoreCache;
 import cn.stream2000.railgunmq.netty.MessageStrategy;
@@ -22,7 +23,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class RailgunMQConnection {
     private final String host;
     private final int port;
-    private Connection connection;
+    Connection connection;
     public BlockingQueue<ProducerMessage.PubMessageAck> blockingQueue;
     public String channelId;
     //在初始化时指明IP和端口
@@ -36,9 +37,7 @@ public class RailgunMQConnection {
                         .handler(new ClientInitializer());
         Channel channel= bootstrap.connect(host,port).sync().channel();
         SemaphoreCache.acquire("client init");
-        connection=new Connection();
-        connection.setChannel(channel);
-        connection.setConnectionName(channel.id().asLongText());
+        connection=new Connection("balabala", channel, ConnectionRole.Consumer);
 
 
         blockingQueue=new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
@@ -52,9 +51,7 @@ public class RailgunMQConnection {
                         .handler(new ClientInitializer());
         Channel channel= bootstrap.connect(host,port).sync().channel();
         SemaphoreCache.acquire("client init");
-        connection=new Connection();
-        connection.setConnectionName(connectionName);
-        connection.setChannel(channel);
+        connection=new Connection(connectionName, channel, ConnectionRole.Consumer);
         blockingQueue=new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
         SetChannelName(connectionName);
     }
@@ -65,7 +62,6 @@ public class RailgunMQConnection {
         ProducerMessage.SetChannelName setChannelName=
                 ProducerMessage.SetChannelName.newBuilder().setChannelId(channelId)
                         .setNewname(ChannelName).setLetterId(uuid).build();
-        connection.setConnectionName(ChannelName);
         connection.getChannel().writeAndFlush(setChannelName);
     }
 
