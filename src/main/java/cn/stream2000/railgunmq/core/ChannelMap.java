@@ -53,5 +53,5 @@ public class ChannelMap {
     channelName.replace(id,NewName);
   }
 
-  public static void deleteChannel(String key){ channels.remove(key);}
+
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: RailgunMQ
@@ -54,10 +55,22 @@ public class ProducerController {
         ProducerService.publish(topic,content);
     }
 
-    @GetMapping("producer/disconnect")
+    @GetMapping("/producer/disconnect")
     @ResponseBody
     public void disconnect(){
         ProducerService.disconnect();
+
+    }
+
+    @GetMapping("/producer/acks")
+    @ResponseBody
+    public List<Map> getACK(){
+        try{
+            return ProducerService.getACK();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 }
