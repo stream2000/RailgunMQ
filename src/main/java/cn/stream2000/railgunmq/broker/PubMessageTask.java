@@ -25,7 +25,7 @@ public class PubMessageTask implements Callable<String> {
             .appendMessage(QueueMessage.buildFromPubMessageRequest(request, msgId, true))) {
             // the message queue is full
             ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck.newBuilder()
-                .setError(Message.ErrorType.FullMessageQuene)
+                .setError(Message.ErrorType.FullMessageQueue)
                 .setErrorMessage("the message is discarded")
                 .setLetterId(request.getLetterId())
                 .setChannelId(request.getChannelId()).build();
