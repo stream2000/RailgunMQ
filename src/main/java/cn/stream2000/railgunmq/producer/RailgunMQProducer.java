@@ -85,7 +85,7 @@ public class RailgunMQProducer {
         long StartTime = System.currentTimeMillis();
 
         while (System.currentTimeMillis() - StartTime <= Maxtime) {
-            ProducerMessage.PubMessageAck ack = blockingQueue.poll(100, TimeUnit.MILLISECONDS);
+            ProducerMessage.PubMessageAck ack = blockingQueue.poll();
             if (ack != null) {
                 acks.add(ack);
             }
