@@ -136,6 +136,8 @@ public class RailgunMQConsumer {
             ch.pipeline().addLast(new MessageStrategyProtobufDecoder(router));
             router.registerHandler(ConsumerMessage.SubMessageAck.getDefaultInstance(),
                 new SubMessageResponseStrategy());
+            router.registerHandler(SubMessage.getDefaultInstance(),
+                new SubMessageStrategy());
             ch.pipeline().addLast(handler);
         }
     }
