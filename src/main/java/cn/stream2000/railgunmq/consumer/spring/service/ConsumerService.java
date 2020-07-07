@@ -35,7 +35,7 @@ public class ConsumerService {
         RailgunMQConsumer rp = new RailgunMQConsumer(getInstance().Host, getInstance().Port, topic,
             name);
         getInstance().names.add(rp.channelId);
-        getInstance().conns.put(name, rp);
+        getInstance().conns.put(rp.channelId, rp);
         return rp.channelId;
 
     }
@@ -53,35 +53,55 @@ public class ConsumerService {
         }
     }
 
-    public static List<String> getMessages(String name, int maxTime) throws InterruptedException {
-        if (getInstance().names.contains(name)) {
-            List<String> sl = new ArrayList<>();
-            List<ConsumerMessage.SubMessage> list = getInstance().conns.get(name)
-                .getMessages(maxTime);
-            for (ConsumerMessage.SubMessage sm : list) {
-                sl.add(sm.toString());
-
-            }
-            return sl;
-        } else {
-            System.out.println("该id未连接。");
-            return null;
-        }
-
-    }
-
-    public static String getMessage(String name) throws InterruptedException {
-        if (getInstance().names.contains(name)) {
-            return getInstance().conns.get(name).getMessage().toString();
-        } else {
-            System.out.println("该id未连接。");
-            return null;
-        }
-    }
 
     private static class Singleton {
 
         private final static ConsumerService instance = new ConsumerService();
+    }
+
+    public static List<Map> getMessages(String name,int maxTime) throws InterruptedException {
+        if(getInstance().names.contains(name)){
+            List<Map> sl=new ArrayList<>();
+            List<ConsumerMessage.SubMessage> list=getInstance().conns.get(name).getMessages(maxTime);
+            for(ConsumerMessage.SubMessage sm:list){
+                Map<String,String> map=new HashMap<>();
+                map.put("id",sm.getId());
+                map.put("topic",sm.getTopic());
+                map.put("data",sm.getData().toStringUtf8());
+                sl.add(map);
+
+            }
+            return sl;
+        }else {
+            System.out.println("该id未连接。");
+            return null;
+        }
+
+    }
+    public static Map<String, String> getMessage(String name) throws InterruptedException {
+        if(getInstance().names.contains(name)){
+            ConsumerMessage.SubMessage sm=getInstance().conns.get(name).getMessage();
+            Map<String,String> map=new HashMap<>();
+            map.put("id",sm.getId());
+            map.put("topic",sm.getTopic());
+            map.put("data",sm.getData().toStringUtf8());
+            return map;
+        }else {
+            System.out.println("该id未连接。");
+            return null;
+        }
+    }
+
+    public static boolean sendSubAck(String name,String topic,String id,boolean isSuccess){
+        if(getInstance().names.contains(name)){
+            getInstance().conns.get(name).sendSubAck(topic,id,isSuccess);
+            return true;
+        }
+        else {
+            System.out.println("该id未连接。");
+            return false;
+        }
+
     }
 
 

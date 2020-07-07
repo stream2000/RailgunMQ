@@ -46,7 +46,7 @@ public class ConsumerController {
 
     @PostMapping("/consumer/getMessages")
     @ResponseBody
-    public List<String> getMessages(@RequestParam(value = "name") String name,
+    public List<Map> getMessages(@RequestParam(value = "name") String name,
         @RequestParam(value = "maxTime") int maxTime) {
         try {
             return ConsumerService.getMessages(name, maxTime);
@@ -58,13 +58,20 @@ public class ConsumerController {
 
     @PostMapping("/consumer/getMessage")
     @ResponseBody
-    public String getMessage(@RequestParam(value = "name") String name) {
+    public Map<String, String> getMessage(@RequestParam(value = "name") String name) {
         try {
             return ConsumerService.getMessage(name);
         } catch (InterruptedException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @PostMapping("/consumer/send")
+    @ResponseBody
+    public boolean send(@RequestParam(value = "name") String name,@RequestParam(value = "topic") String topic,
+                        @RequestParam(value = "id") String id,@RequestParam(value = "isSuccess") boolean isSuccess) {
+        return ConsumerService.sendSubAck(name,topic,id,isSuccess);
     }
 
 
