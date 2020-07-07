@@ -3,6 +3,7 @@ package cn.stream2000.railgunmq.consumer;
 import cn.stream2000.railgunmq.core.ConsumerMessage;
 import cn.stream2000.railgunmq.core.ConsumerMessage.SubMessage;
 import cn.stream2000.railgunmq.core.ProducerMessage;
+import cn.stream2000.railgunmq.core.SemaphoreCache;
 import cn.stream2000.railgunmq.netty.MessageStrategy;
 import cn.stream2000.railgunmq.netty.codec.MessageStrategyProtobufDecoder;
 import cn.stream2000.railgunmq.netty.codec.ProtoRouter;
@@ -39,7 +40,7 @@ public class RailgunMQConsumer {
                 .handler(new ConsumerInitializer());
         errorQueue = new LinkedBlockingDeque<>();
         channel = bootstrap.connect(host, port).sync().channel();
-        channelId = channel.id().asLongText();
+        SemaphoreCache.acquire("producer init");
         ConsumerMessage.SubMessageRequest request = ConsumerMessage.SubMessageRequest
             .newBuilder()
             .setTopic(topic)
@@ -67,6 +68,7 @@ public class RailgunMQConsumer {
         }
         return acks;
     }
+
     public ConsumerMessage.SubMessage getMessage() throws InterruptedException {
         return messageQueue.take();
     }
@@ -85,6 +87,7 @@ public class RailgunMQConsumer {
         }
         return messages;
     }
+
     public int getAckNum() {
         return this.errorQueue.size();
     }
@@ -124,6 +127,16 @@ public class RailgunMQConsumer {
         }
     }
 
+    public class ClientInitStrategy implements MessageStrategy {
+
+        @Override
+        public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
+            channelId = ((ProducerMessage.CreateChannelResponse) message).getChannelId();
+            System.out.println("Response返回的channelid为：" + channelId);
+            SemaphoreCache.release("producer init");
+        }
+    }
+
     public class ConsumerInitializer extends ChannelInitializer<SocketChannel> {
 
         ProtobufEncoder encoder = new ProtobufEncoder(RouterInitializer.initialize());
@@ -138,6 +151,8 @@ public class RailgunMQConsumer {
                 new SubMessageResponseStrategy());
             router.registerHandler(SubMessage.getDefaultInstance(),
                 new SubMessageStrategy());
+            router.registerHandler(ProducerMessage.CreateChannelResponse.getDefaultInstance(),
+                new ClientInitStrategy());
             ch.pipeline().addLast(handler);
         }
     }

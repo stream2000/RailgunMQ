@@ -9,7 +9,7 @@ public class ConsumerTest {
         RailgunMQConsumer consumer = new RailgunMQConsumer("localhost", 9999, "default", "newName");
         List<SubMessage> result = consumer.getMessages(1000);
         for (SubMessage subMessage : result) {
-            System.out.println(subMessage);
+            System.out.println(subMessage.getData().toStringUtf8());
         }
     }
 }

@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -44,7 +43,7 @@ public class RailgunMQProducer {
             new Bootstrap().group(group).channel(NioSocketChannel.class)
                 .handler(new ClientInitializer());
         channel = bootstrap.connect(host, port).sync().channel();
-        channelId = channel.id().asLongText();
+        SemaphoreCache.acquire("client init");
         blockingQueue = new LinkedBlockingDeque<>();
         atomicInteger = new AtomicInteger();
         SetChannelName(connectionName);
@@ -166,6 +165,16 @@ public class RailgunMQProducer {
         }
     }
 
+    public class ClientInitStrategy implements MessageStrategy {
+
+        @Override
+        public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
+            channelId = ((ProducerMessage.CreateChannelResponse) message).getChannelId();
+            System.out.println("Response返回的channelid为：" + channelId);
+            SemaphoreCache.release("client init");
+        }
+    }
+
     public class ClientInitializer extends ChannelInitializer<SocketChannel> {
 
         ProtobufEncoder encoder = new ProtobufEncoder(RouterInitializer.initialize());
@@ -178,6 +187,8 @@ public class RailgunMQProducer {
             ch.pipeline().addLast(new MessageStrategyProtobufDecoder(router));
             router.registerHandler(ProducerMessage.PubMessageAck.getDefaultInstance(),
                 new PubMessageResponseStrategy());
+            router.registerHandler(ProducerMessage.CreateChannelResponse.getDefaultInstance(),
+                new ClientInitStrategy());
             ch.pipeline().addLast(handler);
         }
     }
