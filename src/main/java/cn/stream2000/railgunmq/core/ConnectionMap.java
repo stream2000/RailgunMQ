@@ -19,10 +19,16 @@ public class ConnectionMap {
 
     public static void addConnection(String key, String name, Channel channel,
         ConnectionRole role) {
-        Connection connection = new Connection(name, channel, role);
+        Connection connection = new Connection(name, channel, key, role);
         connections.put(key, connection);//id-----connection对象
     }
 
+
+    public static List<Connection> getAll() {
+        List<Connection> conns = new ArrayList<>();
+        conns.addAll(connections.values());
+        return conns;
+    }
 
 
     //根据channel的id删除

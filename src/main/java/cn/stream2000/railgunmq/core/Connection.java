@@ -7,13 +7,15 @@ public class Connection {
 
     private final String ConnectionName;
     private final Channel channel;
+    private final String channelId;
     private final ConnectionRole role;
     private String topic;
 
     public Connection(String connectionName, Channel channel,
-        ConnectionRole role) {
+        String channelId, ConnectionRole role) {
         ConnectionName = connectionName;
         this.channel = channel;
+        this.channelId = channelId;
         this.role = role;
     }
 
