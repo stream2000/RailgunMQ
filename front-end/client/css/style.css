@@ -1818,7 +1818,10 @@ ul.about-listing {
 	opacity: 0.5;
 }
 .footer-bottom {
+
 	clear: both;
+	width:100%;
+	bottom:0;
 	padding: 20px 0;
 	background-color: #ffffff;
 	text-align: center;

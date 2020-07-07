@@ -1233,7 +1233,7 @@ ul.list-primary li {
 }
 
 #products {
-	height:700px;
+	height:800px;
 	margin-top: 100px;
 }
 
@@ -1281,7 +1281,7 @@ input[type="radio"]:checked+.checkboxType {
 	background-color: crimson;
 }
 
-.connButton {
+.connButton, .disconnButton{
 	display: flex;
 	align-items: center;
 	height: 40px;

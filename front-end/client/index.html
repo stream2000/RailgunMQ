@@ -87,6 +87,10 @@
             
         </div>
         <div class="row topicSection">
+            <div class="col col-lg-2" >
+                <button type="button" class="disconnButton btn btn-lg btn-warning" v-on:click="disconnect" style="display:none">Disconnect</button>
+    
+            </div>
             <div class="col col-lg-3" >
                 <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connProducer">Connect as Producer</button>
     
@@ -95,10 +99,7 @@
                 <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connConsumer">Connect as Consumer</button>
     
             </div>
-            <div class="col col-lg-3" style="display:none">
-                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="disconnect">Disconnect</button>
-    
-            </div>
+            
            
         </div>
         
@@ -136,6 +137,9 @@
                     <div class="col-lg-4 section-head">
                         Receive messages
                     </div>
+                    <div class="col-lg-2 offset-2">
+                        <button class="btn btn-secondary" @click="refresh">refresh</button>
+                    </div>
                 </div>
                 <table class="topicTable table table-bordered table-hover">
                     <thead>
@@ -161,7 +165,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="left-text">
-                        Copyright &copy; 2020.<a target="_blank" href="https://github.com/mst6750623/DB_Frontend">
+                        Copyright &copy; 2020.<a target="_blank" href="https://github.com/stream2000/RailgunMQ">
                             同济大学软件学院17级专业项目综合11组</a>
                     </div>
                 </div>

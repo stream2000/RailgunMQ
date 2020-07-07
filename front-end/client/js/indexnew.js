@@ -28,11 +28,13 @@
       console.log("add")
       var topicName = prompt("Please input the topic name that you want to connect","");
       this.topic = topicName;
-      $("#consumer").hide();
-      $("#producer").show();
-      if (topicName != null) {
+      if (topicName != "" && topicName != null) {
+        $(".connButton").hide();
+        $(".disconnButton").show();
+        $("#consumer").hide();
+        $("#producer").show();
         $.ajax({
-          url: this.url+'/addTopic?topic=',
+          url: this.url+'/producer?topic=',
           method: 'POST',
           success: function (data) {
             console.log(data);
@@ -56,11 +58,13 @@
       console.log("add")
       var topicName = prompt("Please input the topic name that you want to subscribe","");
       this.topic = topicName;
-      $("#consumer").show();
-      $("#producer").hide();
-      if (topicName != null) {
+      if (topicName != "" && topicName != null) {
+        $(".connButton").hide();
+        $(".disconnButton").show();
+        $("#consumer").show();
+        $("#producer").hide();
         $.ajax({
-          url: this.url+'/addTopic?topic=',
+          url: this.url+'/consumer?topic=',
           method: 'POST',
           success: function (data) {
             console.log(data);
@@ -81,7 +85,11 @@
 
     },
     disconnect:function(){
-      
+      $(".connButton").show();
+      $(".disconnButton").hide();
+      $("#consumer").hide();
+      $("#producer").hide();
+      this.topic="";
     },
     push:function(){
       var messages = [];
@@ -109,6 +117,9 @@
           console.log(error);
         }
       })
+    },
+    refresh:function(){
+      location.reload();
     }
     
   },
