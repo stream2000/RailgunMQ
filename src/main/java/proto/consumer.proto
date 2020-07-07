@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option java_package = "cn.stream2000.railgunmq.core"; // 指定包名
+option java_outer_classname = "ConsumerMessage"; // 指定类名
+import "message.proto";
+
+message CreateChannelRequest {
+  bool ack = 1;
+}
+
+message CreateChannelResponse {
+  string channel_id = 1;
+}
+
+message SubMessageRequest {
+  string channel_id = 1;
+  string topic = 2;
+  enum payload_type {
+    Text = 0;
+    Binary = 1;
+    Integer = 2;
+  }
+  payload_type type = 3;
+  bytes data = 4;
+}
+
+message SubMessageAck {
+  string channel_id = 1;
+  string topic = 2;
+  ErrorType error = 3;
+  string error_message = 4;
+}
+
+message SendMessageAck {
+  string channel_id = 1;
+  string topic = 2;
+  string msgId = 3;
+  bool isSuccess = 4;
+}
