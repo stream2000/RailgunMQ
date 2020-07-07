@@ -1,19 +1,6 @@
 ﻿var vue = new Vue({
   el: '#products',
   data: {
-    messages: [{
-        messageId: "001",
-        messageContent: "message-1"
-      },
-      {
-        messageId: "002",
-        messageContent: "message-2"
-      },
-      {
-        messageId: "003",
-        messageContent: "message-3"
-      },
-    ],
     connections: [],
     mode: "normal",
     addStatus: true,
@@ -61,40 +48,42 @@
           connections.push(newConnection);
           localStorage.setItem('connections', JSON.stringify(connections));*/
 
-
+          console.log("This!");
           $.ajax({
-            url: this.url + '/producer/setChannelName',
-            method: 'POST',
-            data: {
-              "name": name
-            },
+            url: /*this.url +*/ '/spring/producer/connect',
+            method: 'GET',
             success: function (data) {
-
               console.log(data);
-
-              this.clientName = name;
-
-              $.ajax({
-                url: this.url + '/producer/connect',
-                method: 'GET',
-                success: function (data) {
-                  console.log(data);
-
-                  var newConnection = {
-                    "connectionId": data.id,
-                    "connectionName": name,
-                    "role": "producer",
-                    "topic": topicName
+              var id = data;
+              if(data != null)
+              {
+                $.ajax({
+                  url: /*this.url +*/ '/spring/producer/setChannelName',
+                  method: 'POST',
+                  data: {
+                    "id":id,
+                    "name": name
+                  },
+                  success: function (data) {
+                    console.log(data);
+                    this.clientName = name;
+                    var newConnection = {
+                      "connectionId": id,
+                      "connectionName": name,
+                      "role": "producer",
+                      "topic": topicName
+                    }
+                    var connections = JSON.parse(localStorage.getItem('connections'));
+                    connections.push(newConnection);
+                    localStorage.setItem('connections', JSON.stringify(connections));
+                    window.location = "Producer.html?id=" + id;
+                  },
+                  error: function (error) {
+                    console.log(error);
                   }
-                  var connections = JSON.parse(localStorage.getItem('connections'));
-                  connections.push(newConnection);
-                  localStorage.setItem('connections', JSON.stringify(connections));
-                  window.location = "Producer.html?id=" + data.id;
-                },
-                error: function (error) {
-                  console.log(error);
-                }
-              })
+                })
+              }
+             
             },
             error: function (error) {
               console.log(error);
@@ -133,7 +122,7 @@
 
 
           $.ajax({
-            url: this.url + '/consumer/setChannelName',
+            url: /*this.url +*/ '/spring/consumer/setChannelName',
             method: 'POST',
             data: {
               "name": name
@@ -145,7 +134,7 @@
               this.clientName = name;
 
               $.ajax({
-                url: this.url + '/consumer/connect',
+                url: /*this.url + */'/spring/consumer/connect',
                 method: 'GET',
                 success: function (data) {
                   console.log(data);

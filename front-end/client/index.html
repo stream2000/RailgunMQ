@@ -50,7 +50,7 @@
                     </a>
                     <div class="collapse navbar-collapse my-lg-0" id="navbarNav">
                         <ul class="navbar-nav">
-                          
+
 
                         </ul>
 
@@ -67,23 +67,25 @@
 
 
     <div class="container t-100" id="products">
-          
-        
+
+
         <div class="row topicSection">
-            <div class="col col-lg-4 offset-2" >
-                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connProducer">New connect as Producer</button>
-    
+            <div class="col col-lg-4 offset-2">
+                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connProducer">New connect
+                    as Producer</button>
+
             </div>
             <div class="col col-lg-4">
-                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connConsumer">New connect as Consumer</button>
-    
-            </div>
-            
-           
-        </div>
-        
+                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connConsumer">New connect
+                    as Consumer</button>
 
-        <div class="row topicSection cardSection"  >
+            </div>
+
+
+        </div>
+
+
+        <div class="row topicSection cardSection">
             <div class="col col-lg-12">
                 <div class="row">
                     <div class="col-lg-4 section-head">
@@ -98,18 +100,20 @@
                         <th>Operation</th>
                     </thead>
                     <tbody>
-                        <tr v-for="connection in connections"  :key='connection.connectionId' class=""  > <!--:id='idGen(connection.connectionId)' >-->
+                        <tr v-for="connection in connections" :key='connection.connectionId' class="">
+                            <!--:id='idGen(connection.connectionId)' >-->
                             <td>{{connection.connectionName}}</td>
                             <td>{{connection.role}}</td>
                             <td>{{connection.topic}}</td>
-                            <td><button class="btn btn-primary" @click='jump(connection.role,connection.connectionId)'>connect</button></td>
+                            <td><button class="btn btn-primary"
+                                    @click='jump(connection.role,connection.connectionId)'>connect</button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        
+
     </div>
 
 

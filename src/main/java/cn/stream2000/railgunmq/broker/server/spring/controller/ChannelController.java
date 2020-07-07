@@ -33,7 +33,7 @@ public class ChannelController {
     @GetMapping("/channel/delete")
     @ResponseBody
     public void deleteChannel(String key) {
-        ConnectionMap.getConnection(key).getChannel().close();
+        ConnectionMap.getConnection(key).getChannel().disconnect();
         ConnectionMap.deleteConnection(key);
 
     }

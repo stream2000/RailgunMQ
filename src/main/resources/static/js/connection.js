@@ -8,25 +8,18 @@ var vue = new Vue({
       }],
       mode: "normal",
       addStatus: true,
-      url:"http://localhost:8080"
-  
     },
     methods: {
         disconnect:function(id){
             alert("disconnect!"+id);
             location.reload();
             $.ajax({
-              url: /*this.url+*/'/Channel/disconnect',
+              url: '/channel/delete',
+              data:{"id":id},
               method: 'get',
               success: function (data) {
                 console.log(data);
-                if(data===true){
-                  alert('add ' + topicName + ' success');
-                  location.reload();
-                }
-                else{
-                  alert('add the topic '+ topicName+' fail');
-                }
+               
               },
               error: function (error) {
                 console.log(error);
@@ -37,17 +30,15 @@ var vue = new Vue({
     mounted: function () {
       var self = this;
       $.ajax({
-        url: this.url+'/Channel/getAll',
+        url: '/channel/getAll',
         method: 'get',
         success: function (data) {
-          console.log(data);
-          if(data===true){
-            alert('add ' + topicName + ' success');
-            location.reload();
+          console.log("data",data);
+          for(var i=0;i<data.length;i++)
+          {
+            this.$set(this.connects,i,data[i]);
           }
-          else{
-            alert('add the topic '+ topicName+' fail');
-          }
+          
         },
         error: function (error) {
           console.log(error);
