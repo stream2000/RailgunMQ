@@ -1,10 +1,15 @@
 package cn.stream2000.railgunmq.consumer.spring.controller;
 
 import cn.stream2000.railgunmq.consumer.spring.service.ConsumerService;
-import cn.stream2000.railgunmq.core.ConsumerMessage;
-import org.springframework.web.bind.annotation.*;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @program: RailgunMQ
@@ -18,19 +23,22 @@ public class ConsumerController {
 
     @PostMapping("/consumer/connect")
     @ResponseBody
-    public void connect(@RequestParam(value = "topic")String topic,@RequestParam(value = "name") String name) {
-        try{
-             ConsumerService.connect(topic,name);
-
+    public Map<String, String> connect(@RequestParam(value = "topic") String topic,
+        @RequestParam(value = "name") String name) {
+        try {
+            String id = ConsumerService.connect(topic, name);
+            HashMap<String, String> result = new HashMap<>();
+            result.put("id", id);
+            return result;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        return new HashMap<>();
     }
 
     @GetMapping("/consumer/disconnect")
     @ResponseBody
-    public boolean disconnect(@RequestParam(value = "name")String name){
+    public boolean disconnect(@RequestParam(value = "name") String name) {
         return ConsumerService.disconnect(name);
 
     }
@@ -38,9 +46,10 @@ public class ConsumerController {
 
     @PostMapping("/consumer/getMessages")
     @ResponseBody
-    public List<String> getMessages(@RequestParam(value = "name")String name,@RequestParam(value ="maxTime")int maxTime){
-        try{
-            return ConsumerService.getMessages(name,maxTime);
+    public List<String> getMessages(@RequestParam(value = "name") String name,
+        @RequestParam(value = "maxTime") int maxTime) {
+        try {
+            return ConsumerService.getMessages(name, maxTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -49,8 +58,8 @@ public class ConsumerController {
 
     @PostMapping("/consumer/getMessage")
     @ResponseBody
-    public String getMessage(@RequestParam(value = "name")String name){
-        try{
+    public String getMessage(@RequestParam(value = "name") String name) {
+        try {
             return ConsumerService.getMessage(name);
         } catch (InterruptedException e) {
             e.printStackTrace();
