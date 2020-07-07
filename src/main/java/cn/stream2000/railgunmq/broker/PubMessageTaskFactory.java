@@ -1,6 +1,6 @@
 package cn.stream2000.railgunmq.broker;
 
-import cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest;
+import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 
@@ -12,7 +12,7 @@ public class PubMessageTaskFactory {
     private MessageDispatcher messageDispatcher;
     private AckManager ackManager;
 
-    public static PubMessageTask newPubMessageTask(PubMessageRequest request) {
+    public static PubMessageTask newPubMessageTask(ProducerMessage.PubMessageRequest request) {
         return new PubMessageTask(request, factory.messageDispatcher);
     }
 

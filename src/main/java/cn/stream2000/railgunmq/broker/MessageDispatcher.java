@@ -5,11 +5,7 @@ import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
 import cn.stream2000.railgunmq.common.helper.ThreadFactoryImpl;
-import cn.stream2000.railgunmq.core.Message;
-import cn.stream2000.railgunmq.core.ProducerAckQueue;
-import cn.stream2000.railgunmq.core.ProducerMessage;
-import cn.stream2000.railgunmq.core.QueueMessage;
-import cn.stream2000.railgunmq.core.StoredMessage;
+import cn.stream2000.railgunmq.core.*;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import java.util.ArrayList;
@@ -121,20 +117,32 @@ public class MessageDispatcher {
                 message.getTopic(), message.getMsgId(), message.getType(),
                 message.getPayload());
             persistenceMessageStore.storeMessage(storedMessage);
-
             Subscription sub = topic.getNextSubscription();
             if (sub == null) {
                 offlineMessageStore.addMessage(message.getTopic(), message.getMsgId());
+
+                if (message.isNeedAck()) {
+                    ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
+                            .newBuilder()
+                            .setError(Message.ErrorType.OK)
+                            .setErrorMessage("消息已被接收,但没有消费者")
+                            .setLetterId(message.getLetterId())
+                            .setChannelId(message.getChannelId())
+                            .build();
+                    ProducerAckQueue.pushAck(ack);
+                }
                 return;
             }
             // return ack to user
             if (message.isNeedAck()) {
-                System.out.println("Ack channelid 为："+message.getChannelId());
                 ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
                     .newBuilder()
+                        .setError(Message.ErrorType.OK)
+                        .setErrorMessage("消息已被接收")
                     .setLetterId(message.getLetterId())
                     .setChannelId(message.getChannelId())
                     .build();
+
                 ProducerAckQueue.pushAck(ack);
             }
             sub.dispatchMessage(message);

@@ -7,13 +7,11 @@ import cn.stream2000.railgunmq.broker.subscribe.OfflineFakeClientFactory;
 import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.StoreConfig;
-import cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest;
-import cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type;
+import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import cn.stream2000.railgunmq.store.TopicStore;
 import cn.stream2000.railgunmq.store.db.RDB;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.google.protobuf.ByteString;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,10 +65,10 @@ public class MessageDispatcherTest {
     private List<String> sendNMessage(int n) {
         List<String> ids = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            PubMessageRequest req = PubMessageRequest.newBuilder()
+            ProducerMessage.PubMessageRequest req = ProducerMessage.PubMessageRequest.newBuilder()
                 .setChannelId("sdsdsdsdsd")
                 .setTopic("default")
-                .setType(payload_type.Integer)
+                .setType(ProducerMessage.PubMessageRequest.payload_type.Integer)
                 .setData(ByteString.copyFromUtf8(Integer.toString(i))).build();
             FutureTask<String> futureTask = new FutureTask<>(
                 PubMessageTaskFactory.newPubMessageTask(req));

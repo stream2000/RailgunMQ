@@ -7,9 +7,6 @@ import cn.stream2000.railgunmq.netty.codec.MessageStrategyContext;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 
-
-import java.util.UUID;
-
 @ChannelHandler.Sharable
 public class BrokerMessageHandler extends MessageEventWrapper<Object> {
 
@@ -19,7 +16,7 @@ public class BrokerMessageHandler extends MessageEventWrapper<Object> {
 
   @Override
   public void channelActive(ChannelHandlerContext ctx) throws Exception {
-    ChannelMap.addChannel(ctx.channel().id().asLongText(),ctx.channel().hashCode(), ctx.channel());
+    ChannelMap.addChannel(ctx.channel().id().asLongText(), ctx.channel());
     ProducerMessage.CreateChannelResponse response =
         ProducerMessage.CreateChannelResponse.newBuilder().setChannelId(ctx.channel().id().asLongText()).build();
     ctx.writeAndFlush(response);

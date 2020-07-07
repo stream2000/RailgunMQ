@@ -2,6 +2,7 @@ package cn.stream2000.railgunmq.netty;
 
 import java.util.concurrent.ExecutorService;
 
+import cn.stream2000.railgunmq.core.ChannelMap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.springframework.aop.framework.ProxyFactory;
@@ -53,7 +54,11 @@ public class MessageEventWrapper<T> extends ChannelInboundHandlerAdapter
   @Override
   public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
     this.cause = cause;
-    cause.printStackTrace();
+    if(cause.getMessage().equals("Connection reset"))
+    {
+      //如果连接断开
+      ChannelMap.deleteChannel(ctx.channel().id().asLongText());
+    }
   }
 
   @Override
