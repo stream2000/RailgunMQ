@@ -3,6 +3,8 @@ package cn.stream2000.railgunmq.producer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Collections;
+
 /**
  * @program: RailgunMQ
  * @description: application for netty client
@@ -10,9 +12,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @create: 2020/07/07
  **/
 @SpringBootApplication
-public class RailgunMQApplication {
+public class ProducerApplication {
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(cn.stream2000.railgunmq.producer.RailgunMQApplication.class);
+        SpringApplication app = new SpringApplication(ProducerApplication.class);
+        app.setDefaultProperties(Collections
+                .singletonMap("server.port", "8086"));
         app.run(args);
     }
 

@@ -20,24 +20,24 @@ import java.util.Map;
 @RestController
 public class ProducerController {
 
-    @GetMapping("/producer/connect")
-    @ResponseBody
-    public String connect() {
-        try{
-            return ProducerService.connect();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
+//    @GetMapping("/producer/connect")
+//    @ResponseBody
+//    public String connect() {
+//        try{
+//            return ProducerService.connect();
+//
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//
+//    }
 
     @PostMapping("/producer/connect")
     @ResponseBody
-    public String connect(String id) {
+    public String connect(@RequestParam(value = "name") String name) {
         try{
-            return ProducerService.connect(id);
+            return ProducerService.connect(name);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -46,11 +46,11 @@ public class ProducerController {
 
     }
 
-    @PostMapping("/producer/setChannelName")
-    @ResponseBody
-    public boolean setChannelName(@RequestParam(value = "id")String id,@RequestParam(value = "name")String name){
-        return ProducerService.setChannelName(id,name);
-    }
+//    @PostMapping("/producer/setChannelName")
+//    @ResponseBody
+//    public boolean setChannelName(@RequestParam(value = "id")String id,@RequestParam(value = "name")String name){
+//        return ProducerService.setChannelName(id,name);
+//    }
 
     @PostMapping("/producer/publish/string")
     @ResponseBody

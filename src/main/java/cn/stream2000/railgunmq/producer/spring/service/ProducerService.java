@@ -21,7 +21,7 @@ public class ProducerService {
     private String channelName=null;
     private RailgunMQProducer conn=null;
     private List<String> ids=new ArrayList<String>();
-    private Map<String,RailgunMQProducer> conns=new HashMap<>();
+    private Map<String,RailgunMQProducer > conns=new HashMap<>();
 
     private ProducerService (){
 
@@ -40,42 +40,42 @@ public class ProducerService {
     public static void setPort(int port) {
         getInstance().Port = port;
     }
-    public static String connect() throws InterruptedException {
-        ProducerService ps=ProducerService.getInstance();
-        RailgunMQProducer rc;
-        rc=new RailgunMQProducer(getInstance().Host,getInstance().Port,"default");
-        String id=rc.getChannelId();
-        getInstance().ids.add(id);
-        getInstance().conns.put(id,rc);
-        ProducerMessage.PubMessageAck pubMessageAck= ProducerMessage.PubMessageAck.newBuilder().setErrorMessage("HELLO").build();
-        return id;
-    }
+//    public static String connect() throws InterruptedException {
+//        ProducerService ps=ProducerService.getInstance();
+//        RailgunMQProducer  rc;
+//        rc=new RailgunMQProducer (getInstance().Host,getInstance().Port);
+//        String id=rc.getChannelId();
+//        getInstance().ids.add(id);
+//        getInstance().conns.put(id,rc);
+//        ProducerMessage.PubMessageAck pubMessageAck= ProducerMessage.PubMessageAck.newBuilder().setErrorMessage("HELLO").build();
+//        return id;
+//    }
 
     public static String connect(String name) throws InterruptedException {
         ProducerService ps=ProducerService.getInstance();
-        RailgunMQProducer rc;
-        rc=new RailgunMQProducer(getInstance().Host,getInstance().Port,name);
+        RailgunMQProducer  rc;
+        rc=new RailgunMQProducer (getInstance().Host,getInstance().Port,name);
         String id=rc.getChannelId();
         getInstance().ids.add(id);
         getInstance().conns.put(id,rc);
         ProducerMessage.PubMessageAck pubMessageAck= ProducerMessage.PubMessageAck.newBuilder().setErrorMessage("HELLO").build();
         return id;
     }
-    public static boolean setChannelName(String id,String name){
-        ProducerService ps=ProducerService.getInstance();
-        if (ps.ids.contains(id)){
-            RailgunMQProducer rc=ps.conns.get(id);
-            rc.SetChannelName(name);
-            return true;
-        }else {
-            System.out.println("该id未连接。");
-            return false;
-        }
-
-    }
+    //    public static boolean setChannelName(String id,String name){
+//        ProducerService ps=ProducerService.getInstance();
+//        if (ps.ids.contains(id)){
+//            RailgunMQProducer  rc=ps.conns.get(id);
+//            rc.SetChannelName(name);
+//            return true;
+//        }else {
+//            System.out.println("该id未连接。");
+//            return false;
+//        }
+//
+//    }
     public static boolean publish(String id,String topic,String content){
         if (getInstance().ids.contains(id)){
-            RailgunMQProducer rc=getInstance().conns.get(id);
+            RailgunMQProducer  rc=getInstance().conns.get(id);
             rc.Publish(topic,content);
             return true;
         }else {
@@ -88,7 +88,7 @@ public class ProducerService {
 
     public static boolean publish(String id,String topic,int content){
         if (getInstance().ids.contains(id)){
-            RailgunMQProducer rc=getInstance().conns.get(id);
+            RailgunMQProducer  rc=getInstance().conns.get(id);
             rc.Publish(topic,content);
             return true;
         }else {
@@ -100,7 +100,7 @@ public class ProducerService {
 
     public static boolean publish(String id,String topic,byte[] content){
         if (getInstance().ids.contains(id)){
-            RailgunMQProducer rc=getInstance().conns.get(id);
+            RailgunMQProducer  rc=getInstance().conns.get(id);
             rc.Publish(topic,content);
             return true;
         }else {
@@ -112,7 +112,7 @@ public class ProducerService {
 
     public static List<Map> getACK(String id) throws InterruptedException {
         if(getInstance().ids.contains(id)){
-            RailgunMQProducer rc=getInstance().conns.get(id);
+            RailgunMQProducer  rc=getInstance().conns.get(id);
             List<ProducerMessage.PubMessageAck> acks=rc.getAcks(2000);
             List<Map> maps=new ArrayList<>();
             if(acks!=null){
@@ -138,7 +138,7 @@ public class ProducerService {
     }
     public static boolean disconnect(String id){
         if(getInstance().ids.contains(id)){
-            RailgunMQProducer rc= getInstance().conns.get(id);
+            RailgunMQProducer  rc= getInstance().conns.get(id);
             rc.Disconnect();
             getInstance().conns.remove(id);
             getInstance().ids.remove(id);
