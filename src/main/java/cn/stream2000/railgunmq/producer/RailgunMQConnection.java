@@ -1,5 +1,6 @@
 package cn.stream2000.railgunmq.producer;
 
+import cn.stream2000.railgunmq.core.Connection;
 import cn.stream2000.railgunmq.core.Message;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.core.SemaphoreCache;
@@ -10,104 +11,118 @@ import cn.stream2000.railgunmq.netty.codec.ProtobufEncoder;
 import cn.stream2000.railgunmq.netty.codec.RouterInitializer;
 import com.google.protobuf.ByteString;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-public class RailgunMQClient {
+import java.util.UUID;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+@ChannelHandler.Sharable
+public class RailgunMQConnection {
     private final String host;
     private final int port;
-    private static RailgunMQClient railgunMQClientInstance=new RailgunMQClient("127.0.0.1",9999);
-    String channelId = "";
-    public static RailgunMQClient getRailgunMQClientInstance()
-    {
-        return railgunMQClientInstance;
-    }
-
+    private Connection connection;
+    public BlockingQueue<ProducerMessage.PubMessageAck> blockingQueue;
+    public String channelId;
     //在初始化时指明IP和端口
-    private RailgunMQClient(String host, int port) {
+    public RailgunMQConnection(String host, int port) throws InterruptedException {
         this.host = host;
         this.port = port;
+        channelId="";
+        EventLoopGroup group = new NioEventLoopGroup(1);
+        Bootstrap bootstrap =
+                new Bootstrap().group(group).channel(NioSocketChannel.class)
+                        .handler(new ClientInitializer());
+        Channel channel= bootstrap.connect(host,port).sync().channel();
+        SemaphoreCache.acquire("client init");
+        connection=new Connection();
+        connection.setChannel(channel);
+        connection.setConnectionName(channel.id().asLongText());
+
+
+        blockingQueue=new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
+    }
+    public RailgunMQConnection(String host, int port, String connectionName) throws InterruptedException {
+        this.host = host;
+        this.port = port;
+        EventLoopGroup group = new NioEventLoopGroup(1);
+        Bootstrap bootstrap =
+                new Bootstrap().group(group).channel(NioSocketChannel.class)
+                        .handler(new ClientInitializer());
+        Channel channel= bootstrap.connect(host,port).sync().channel();
+        SemaphoreCache.acquire("client init");
+        connection=new Connection();
+        connection.setConnectionName(connectionName);
+        connection.setChannel(channel);
+        blockingQueue=new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
+        SetChannelName(connectionName);
     }
 
+    public void SetChannelName(String ChannelName)
+    {
+        connection.setConnectionName(ChannelName);
+        Publish("Rename",ChannelName);
+    }
     //这里的send不应该返回空值，先看吧
     //暂时不考虑消息发送策略
     public void Publish(String topic,String message)
     {
-        EventLoopGroup group = new NioEventLoopGroup(1);
         try {
-            Bootstrap bootstrap =
-                    new Bootstrap().group(group).channel(NioSocketChannel.class)
-                            .handler(new ClientInitializer());
-            Channel channel = bootstrap.connect(host, port).sync().channel();
-            SemaphoreCache.acquire("client init");
+            int uuid = UUID.randomUUID().hashCode();
             ProducerMessage.PubMessageRequest request =
                     ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
+                            .setLetterId(uuid)
                             .setType(ProducerMessage.PubMessageRequest.payload_type.Text)
                             .setData(ByteString.copyFromUtf8(message))
                             .setTopic(topic).build();
-            channel.writeAndFlush(request);
-            channel.closeFuture().sync();
+            connection.getChannel().writeAndFlush(request);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            group.shutdownGracefully();
         }
-
     }
 
+    public void Disconnect()
+    {
+        //发送关闭channel的消息
+        Publish("Disconnect","断开连接");
+        connection.getChannel().disconnect();
+    }
     public void Publish(String topic, byte[] bytes)
     {
-        EventLoopGroup group = new NioEventLoopGroup(1);
         try {
-            Bootstrap bootstrap =
-                    new Bootstrap().group(group).channel(NioSocketChannel.class)
-                            .handler(new ClientInitializer());
-            Channel channel = bootstrap.connect(host, port).sync().channel();
-            SemaphoreCache.acquire("client init");
+            int uuid = UUID.randomUUID().hashCode();
             ProducerMessage.PubMessageRequest request =
                     ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
+                            .setLetterId(uuid)
                             .setType(ProducerMessage.PubMessageRequest.payload_type.Binary)
                             .setData(ByteString.copyFrom(bytes))
                             .setTopic(topic).build();
-            channel.writeAndFlush(request);
-            channel.closeFuture().sync();
+            connection.getChannel().writeAndFlush(request);
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            group.shutdownGracefully();
         }
     }
 
     public void Publish(String topic, int value)
     {
-        EventLoopGroup group = new NioEventLoopGroup(1);
         try {
-            Bootstrap bootstrap =
-                    new Bootstrap().group(group).channel(NioSocketChannel.class)
-                            .handler(new ClientInitializer());
-            Channel channel = bootstrap.connect(host, port).sync().channel();
-            SemaphoreCache.acquire("client init");
+            int uuid = UUID.randomUUID().hashCode();
             ProducerMessage.PubMessageRequest request =
                     ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
+                            .setLetterId(uuid)
                             .setType(ProducerMessage.PubMessageRequest.payload_type.Integer)
                             .setData(ByteString.copyFromUtf8(Integer.toString(value)))
                             .setTopic(topic).build();
-            channel.writeAndFlush(request);
-            channel.closeFuture().sync();
+           connection.getChannel().writeAndFlush(request);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            group.shutdownGracefully();
         }
     }
     //处理返回的函数，在ClientInitializer中注册
-    public static class PubMessageResponseStrategy implements MessageStrategy {
+    public class PubMessageResponseStrategy implements MessageStrategy {
 
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
@@ -115,14 +130,7 @@ public class RailgunMQClient {
             System.out.println("返回码为：  "+ack.getError());
             System.out.println(ack.getErrorMessage());
             //如果成功收到ack就关闭连接
-            if(ack.getError()== Message.ErrorType.OK)
-            {
-                channelHandlerContext.close();
-            }
-            else
-            {
-
-            }
+            blockingQueue.add(ack);
         }
     }
 
@@ -131,6 +139,7 @@ public class RailgunMQClient {
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
             channelId = ((ProducerMessage.CreateChannelResponse) message).getChannelId();
+            System.out.println("Response返回的channelid为："+channelId);
             SemaphoreCache.release("client init");
         }
     }

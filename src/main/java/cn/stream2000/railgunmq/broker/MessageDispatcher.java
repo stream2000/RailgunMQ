@@ -129,6 +129,7 @@ public class MessageDispatcher {
             }
             // return ack to user
             if (message.isNeedAck()) {
+                System.out.println("Ack channelid 为："+message.getChannelId());
                 ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
                     .newBuilder()
                     .setLetterId(message.getLetterId())
