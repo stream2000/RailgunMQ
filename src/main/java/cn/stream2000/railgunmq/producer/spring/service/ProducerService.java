@@ -51,6 +51,16 @@ public class ProducerService {
         getInstance().conn.Publish(topic,content);
 
     }
+
+    public static void publish(String topic,int content){
+        getInstance().conn.Publish(topic,content);
+
+    }
+
+    public static void publish(String topic,byte[] content){
+        getInstance().conn.Publish(topic,content);
+
+    }
     public static void disconnect(){
         getInstance().conn.Disconnect();
     }

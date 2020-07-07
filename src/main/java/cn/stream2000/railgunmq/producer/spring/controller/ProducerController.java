@@ -36,9 +36,21 @@ public class ProducerController {
     public void setChannelName(@RequestParam(value = "name")String name){
         ProducerService.setChannelName(name);
     }
+
     @PostMapping("/producer/publish/string")
     @ResponseBody
     public void publish(@RequestParam(value = "topic")String topic,@RequestParam(value = "content")String content){
+        ProducerService.publish(topic,content);
+    }
+    @PostMapping("/producer/publish/int")
+    @ResponseBody
+    public void publish(@RequestParam(value = "topic")String topic,@RequestParam(value = "content")int content){
+        ProducerService.publish(topic,content);
+    }
+
+    @PostMapping("/producer/publish/bytes")
+    @ResponseBody
+    public void publish(@RequestParam(value = "topic")String topic,@RequestParam(value = "content")byte[] content){
         ProducerService.publish(topic,content);
     }
 
