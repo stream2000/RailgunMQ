@@ -282,6 +282,7 @@ public final class Store {
      * <code>string topic = 1;</code>
      * @return The topic.
      */
+    @Override
     public java.lang.String getTopic() {
       java.lang.Object ref = topic_;
       if (ref instanceof java.lang.String) {
@@ -298,6 +299,7 @@ public final class Store {
      * <code>string topic = 1;</code>
      * @return The bytes for topic.
      */
+    @Override
     public com.google.protobuf.ByteString
         getTopicBytes() {
       java.lang.Object ref = topic_;
@@ -318,6 +320,7 @@ public final class Store {
      * <code>string msg_id = 2;</code>
      * @return The msgId.
      */
+    @Override
     public java.lang.String getMsgId() {
       java.lang.Object ref = msgId_;
       if (ref instanceof java.lang.String) {
@@ -334,6 +337,7 @@ public final class Store {
      * <code>string msg_id = 2;</code>
      * @return The bytes for msgId.
      */
+    @Override
     public com.google.protobuf.ByteString
         getMsgIdBytes() {
       java.lang.Object ref = msgId_;
@@ -354,6 +358,7 @@ public final class Store {
      * <code>.RocksDBMessage.payload_type type = 3;</code>
      * @return The enum numeric value on the wire for type.
      */
+    @Override
     public int getTypeValue() {
       return type_;
     }
@@ -361,6 +366,7 @@ public final class Store {
      * <code>.RocksDBMessage.payload_type type = 3;</code>
      * @return The type.
      */
+    @Override
     public cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type getType() {
       @SuppressWarnings("deprecation")
       cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type result = cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type.valueOf(type_);
@@ -373,6 +379,7 @@ public final class Store {
      * <code>bytes data = 4;</code>
      * @return The data.
      */
+    @Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
@@ -734,6 +741,7 @@ public final class Store {
        * <code>string topic = 1;</code>
        * @return The topic.
        */
+      @Override
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
         if (!(ref instanceof java.lang.String)) {
@@ -750,6 +758,7 @@ public final class Store {
        * <code>string topic = 1;</code>
        * @return The bytes for topic.
        */
+      @Override
       public com.google.protobuf.ByteString
           getTopicBytes() {
         java.lang.Object ref = topic_;
@@ -810,6 +819,7 @@ public final class Store {
        * <code>string msg_id = 2;</code>
        * @return The msgId.
        */
+      @Override
       public java.lang.String getMsgId() {
         java.lang.Object ref = msgId_;
         if (!(ref instanceof java.lang.String)) {
@@ -826,6 +836,7 @@ public final class Store {
        * <code>string msg_id = 2;</code>
        * @return The bytes for msgId.
        */
+      @Override
       public com.google.protobuf.ByteString
           getMsgIdBytes() {
         java.lang.Object ref = msgId_;
@@ -886,6 +897,7 @@ public final class Store {
        * <code>.RocksDBMessage.payload_type type = 3;</code>
        * @return The enum numeric value on the wire for type.
        */
+      @Override
       public int getTypeValue() {
         return type_;
       }
@@ -903,6 +915,7 @@ public final class Store {
        * <code>.RocksDBMessage.payload_type type = 3;</code>
        * @return The type.
        */
+      @Override
       public cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type getType() {
         @SuppressWarnings("deprecation")
         cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type result = cn.stream2000.railgunmq.core.Store.RocksDBMessage.payload_type.valueOf(type_);
@@ -938,6 +951,7 @@ public final class Store {
        * <code>bytes data = 4;</code>
        * @return The data.
        */
+      @Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }

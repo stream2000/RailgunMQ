@@ -121,20 +121,34 @@ public class MessageDispatcher {
                 message.getTopic(), message.getMsgId(), message.getType(),
                 message.getPayload());
             persistenceMessageStore.storeMessage(storedMessage);
-
             Subscription sub = topic.getNextSubscription();
             if (sub == null) {
+                System.out.println("到这儿了");
                 offlineMessageStore.addMessage(message.getTopic(), message.getMsgId());
+
+                if (message.isNeedAck()) {
+                    ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
+                            .newBuilder()
+                            .setError(Message.ErrorType.OK)
+                            .setErrorMessage("消息已被接收,但没有消费者")
+                            .setLetterId(message.getLetterId())
+                            .setChannelId(message.getChannelId())
+                            .build();
+                    System.out.println("Topic正常，返回Ack：LetterId为"+ack.getLetterId()+"       Channel id 为"+ack.getChannelId()   );
+                    ProducerAckQueue.pushAck(ack);
+                }
                 return;
             }
             // return ack to user
             if (message.isNeedAck()) {
-                System.out.println("Ack channelid 为："+message.getChannelId());
                 ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
                     .newBuilder()
+                        .setError(Message.ErrorType.OK)
+                        .setErrorMessage("消息已被接收")
                     .setLetterId(message.getLetterId())
                     .setChannelId(message.getChannelId())
                     .build();
+
                 ProducerAckQueue.pushAck(ack);
             }
             sub.dispatchMessage(message);

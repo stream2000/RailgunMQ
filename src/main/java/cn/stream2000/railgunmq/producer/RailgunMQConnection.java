@@ -127,8 +127,6 @@ public class RailgunMQConnection {
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
             ProducerMessage.PubMessageAck ack= (ProducerMessage.PubMessageAck)message;
-            System.out.println("返回码为：  "+ack.getError());
-            System.out.println(ack.getErrorMessage());
             //如果成功收到ack就关闭连接
             blockingQueue.add(ack);
         }

@@ -20,8 +20,7 @@ public class ProducerStrategy {
                 {
 
                     case Text:
-                        System.out.println("本次消息的topic是： "+request.getTopic());
-                        Thread.sleep(3000);
+                        System.out.println("本次消息的topic是： "+request.getTopic()+"       消息的id为："+request.getLetterId()    );
                         System.out.println("本次消息的内容是:   "+request.getData().toStringUtf8());
 
                         //处理断开连接请求
@@ -48,11 +47,11 @@ public class ProducerStrategy {
                         }
                         break;
                     case Binary:
-                        System.out.println("本次消息的topic是： "+request.getTopic());
+                        System.out.println("本次消息的topic是： "+request.getTopic()+"       消息的id为："+request.getLetterId()    );
                         System.out.println("本次消息的内容是:   "+request.getData().toStringUtf8());
                         break;
                     case Integer:
-                        System.out.println("本次消息的topic是： "+request.getTopic());
+                        System.out.println("本次消息的topic是： "+request.getTopic()+"       消息的id为："+request.getLetterId()    );
                         System.out.println("本次消息的内容是:   "+request.getData().toStringUtf8());
                         break;
                     case UNRECOGNIZED:
