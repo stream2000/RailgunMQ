@@ -1,6 +1,7 @@
 package cn.stream2000.railgunmq.consumer;
 
 import cn.stream2000.railgunmq.core.ConsumerMessage;
+import cn.stream2000.railgunmq.core.ConsumerMessage.SubMessage;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.netty.MessageStrategy;
 import cn.stream2000.railgunmq.netty.codec.MessageStrategyProtobufDecoder;
@@ -19,12 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class RailgunMQConsumer {
 
     private final Channel channel;
-    public BlockingQueue<ConsumerMessage.SubMessageAck> blockingQueue;
     public String channelId;
+    private BlockingQueue<ConsumerMessage.SubMessageAck> errorQueue;
+    private BlockingQueue<SubMessage> messageQueue = new LinkedBlockingQueue<>();
 
 
     public RailgunMQConsumer(String host, int port, String topic, String connectionName)
@@ -33,7 +37,7 @@ public class RailgunMQConsumer {
         Bootstrap bootstrap =
             new Bootstrap().group(group).channel(NioSocketChannel.class)
                 .handler(new ConsumerInitializer());
-        blockingQueue = new LinkedBlockingDeque<>();
+        errorQueue = new LinkedBlockingDeque<>();
         channel = bootstrap.connect(host, port).sync().channel();
         channelId = channel.id().asLongText();
         ConsumerMessage.SubMessageRequest request = ConsumerMessage.SubMessageRequest
@@ -46,7 +50,7 @@ public class RailgunMQConsumer {
 
     //获取单个ACK
     public ConsumerMessage.SubMessageAck getAck() throws InterruptedException {
-        return this.blockingQueue.take();
+        return errorQueue.take();
     }
 
 
@@ -56,16 +60,33 @@ public class RailgunMQConsumer {
         long StartTime = System.currentTimeMillis();
 
         while (System.currentTimeMillis() - StartTime <= maxTime) {
-            ConsumerMessage.SubMessageAck ack = blockingQueue.poll();
+            ConsumerMessage.SubMessageAck ack = errorQueue.poll();
             if (ack != null) {
                 acks.add(ack);
             }
         }
         return acks;
     }
+    public ConsumerMessage.SubMessage getMessage() throws InterruptedException {
+        return messageQueue.take();
+    }
 
+
+    //在限定时间内取一些ACK
+    public List<SubMessage> getMessages(long maxTime) throws InterruptedException {
+        List<SubMessage> messages = new ArrayList<>();
+        long StartTime = System.currentTimeMillis();
+
+        while (System.currentTimeMillis() - StartTime <= maxTime) {
+            SubMessage message = messageQueue.poll(100, TimeUnit.MILLISECONDS);
+            if (message != null) {
+                messages.add(message);
+            }
+        }
+        return messages;
+    }
     public int getAckNum() {
-        return this.blockingQueue.size();
+        return this.errorQueue.size();
     }
 
     public void sendSubAck(String topic, String msgId, boolean isSuccess) {
@@ -90,7 +111,16 @@ public class RailgunMQConsumer {
             ConsumerMessage.SubMessageAck ack = (ConsumerMessage.SubMessageAck) message;
             System.out.println("订阅是否成功：  " + ack.getError());
             System.out.println(ack.getErrorMessage());
-            blockingQueue.add(ack);
+            errorQueue.add(ack);
+        }
+    }
+
+    public class SubMessageStrategy implements MessageStrategy {
+
+        @Override
+        public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
+            ConsumerMessage.SubMessage msg = (SubMessage) message;
+            messageQueue.add(msg);
         }
     }
 

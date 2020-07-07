@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -91,12 +92,12 @@ public class RailgunMQProducer {
     }
 
     //在限定时间内取一些ACK
-    public List<ProducerMessage.PubMessageAck> getAcks(long Maxtime) {
+    public List<ProducerMessage.PubMessageAck> getAcks(long Maxtime) throws InterruptedException {
         List<ProducerMessage.PubMessageAck> acks = new ArrayList<ProducerMessage.PubMessageAck>();
         long StartTime = System.currentTimeMillis();
 
         while (System.currentTimeMillis() - StartTime <= Maxtime) {
-            ProducerMessage.PubMessageAck ack = blockingQueue.poll();
+            ProducerMessage.PubMessageAck ack = blockingQueue.poll(100, TimeUnit.MILLISECONDS);
             if (ack != null) {
                 acks.add(ack);
             }
