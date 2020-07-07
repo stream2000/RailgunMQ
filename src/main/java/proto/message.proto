@@ -13,13 +13,16 @@ enum MessageType {
   CSHeartBeatType = 6;
   SetChannelNameType = 7;
   DisconnecType =8;
+  SubMessageRequestType = 9;
+  SubMessageResponseType = 10;
+  SendMessageResponseType = 11;
 }
 
 enum ErrorType {
   OK = 0;
   InternalServerError = 1;
   InvalidTopic = 2;
-  FullMessageQuene = 3;
+  FullMessageQueue = 3;
 }
 
 message HeatBeat {
