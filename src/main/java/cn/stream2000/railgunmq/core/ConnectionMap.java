@@ -2,6 +2,8 @@ package cn.stream2000.railgunmq.core;
 
 import cn.stream2000.railgunmq.core.Connection.ConnectionRole;
 import io.netty.channel.Channel;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,8 +18,14 @@ public class ConnectionMap {
 
     public static void addConnection(String key, String name, Channel channel,
         ConnectionRole role) {
-        Connection connection = new Connection(name, channel, role);
+        Connection connection = new Connection(name, channel, key, role);
         connections.put(key, connection);//id-----connection对象
+    }
+
+    public static List<Connection> getAll() {
+        List<Connection> conns = new ArrayList<>();
+        conns.addAll(connections.values());
+        return conns;
     }
 
     //根据channel的id删除

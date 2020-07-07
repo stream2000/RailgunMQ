@@ -154,7 +154,7 @@ public class RailgunMQProducer {
     }
 
     //处理返回的函数，在ClientInitializer中注册
-    public class PubMessageResponseStrategy implements MessageStrategy {
+    private class PubMessageResponseStrategy implements MessageStrategy {
 
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
@@ -165,7 +165,7 @@ public class RailgunMQProducer {
         }
     }
 
-    public class ClientInitStrategy implements MessageStrategy {
+    private class ClientInitStrategy implements MessageStrategy {
 
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
@@ -175,7 +175,7 @@ public class RailgunMQProducer {
         }
     }
 
-    public class ClientInitializer extends ChannelInitializer<SocketChannel> {
+    private class ClientInitializer extends ChannelInitializer<SocketChannel> {
 
         ProtobufEncoder encoder = new ProtobufEncoder(RouterInitializer.initialize());
         ProtoRouter router = RouterInitializer.initialize();
