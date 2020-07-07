@@ -1,11 +1,11 @@
 package cn.stream2000.railgunmq.broker.strategy;
 
-import cn.stream2000.railgunmq.broker.AckManager;
 import cn.stream2000.railgunmq.broker.subscribe.AckSubTaskFactory;
 import cn.stream2000.railgunmq.broker.subscribe.Subscription;
 import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
+import cn.stream2000.railgunmq.core.Connection;
 import cn.stream2000.railgunmq.core.Connection.ConnectionRole;
 import cn.stream2000.railgunmq.core.ConnectionMap;
 import cn.stream2000.railgunmq.core.ConsumerMessage;
@@ -30,10 +30,12 @@ public class ConsumerStrategy {
             if (topic != null) {
                 ack = ConsumerMessage.SubMessageAck.newBuilder().setError(Message.ErrorType.OK)
                     .setErrorMessage("topic订阅成功").build();
-                ConnectionMap
-                    .addConnection(channelHandlerContext.channel().id().asLongText(), "name",
-                        channelHandlerContext.channel(),
-                        ConnectionRole.Consumer);
+
+                Connection connection = new Connection(request.getName(),
+                    channelHandlerContext.channel(),
+                    channelHandlerContext.channel().id().asLongText(), ConnectionRole.Consumer);
+                connection.setTopic(topicName);
+                ConnectionMap.addConnection(connection);
                 log.info("id : {}", channelHandlerContext.channel().id().asLongText());
                 topic.addSubscription(
                     new Subscription(channelHandlerContext.channel().id().asLongText(),
@@ -51,6 +53,7 @@ public class ConsumerStrategy {
     }
 
     public static class AckMessageStrategy implements MessageStrategyWithBusinessPool {
+
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
             ConsumerMessage.SendMessageAck ack = (ConsumerMessage.SendMessageAck) message;
