@@ -27,17 +27,17 @@ public class Test {
 
         //取ack
         Thread.sleep(5000);//等待5秒
-        while (railgunMQClient.blockingQueue.size()!=0)
+        while (railgunMQClient.getAckNum()!=0)
         {
-            ProducerMessage.PubMessageAck ack= railgunMQClient.blockingQueue.take();
+            ProducerMessage.PubMessageAck ack= railgunMQClient.GetAck();
             System.out.println("返回类型为："+ack.getError());
             System.out.println("返回信息为："+ack.getErrorMessage());
             System.out.println("对应的消息id为"+ack.getLetterId());
         }
 
-        while (MQ2.blockingQueue.size()!=0)
+        while (MQ2.getAckNum()!=0)
         {
-            ProducerMessage.PubMessageAck ack= MQ2.blockingQueue.take();
+            ProducerMessage.PubMessageAck ack= MQ2.GetAck();
             System.out.println("返回类型为："+ack.getError());
             System.out.println("返回信息为："+ack.getErrorMessage());
             System.out.println("对应的消息id为"+ack.getLetterId());

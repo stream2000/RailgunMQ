@@ -23,8 +23,8 @@ public class RailgunMQConnection {
     private final String host;
     private final int port;
     private Connection connection;
-    public BlockingQueue<ProducerMessage.PubMessageAck> blockingQueue;
-    public String channelId;
+    private BlockingQueue<ProducerMessage.PubMessageAck> blockingQueue;
+    private String channelId;
     //在初始化时指明IP和端口
     public RailgunMQConnection(String host, int port) throws InterruptedException {
         this.host = host;
@@ -84,6 +84,17 @@ public class RailgunMQConnection {
             e.printStackTrace();
         }
     }
+
+    public ProducerMessage.PubMessageAck GetAck() throws InterruptedException {
+        return this.blockingQueue.take();
+    }
+
+    public int getAckNum()
+    {
+        return this.blockingQueue.size();
+    }
+
+
     //这里的send不应该返回空值，先看吧
     //暂时不考虑消息发送策略
     public void Publish(String topic,String message)
