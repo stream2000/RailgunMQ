@@ -2,6 +2,7 @@ package cn.stream2000.railgunmq.broker.strategy;
 
 import cn.stream2000.railgunmq.broker.PubMessageTaskFactory;
 import cn.stream2000.railgunmq.common.config.LoggerName;
+import cn.stream2000.railgunmq.core.Connection;
 import cn.stream2000.railgunmq.core.Connection.ConnectionRole;
 import cn.stream2000.railgunmq.core.ConnectionMap;
 import cn.stream2000.railgunmq.core.ProducerMessage;
@@ -33,8 +34,10 @@ public class ProducerStrategy {
             ProducerMessage.SetChannelName request = (ProducerMessage.SetChannelName) message;
             if (!StringUtils.isEmpty(request.getNewname()))//修改的Name不为空
             {
-                ConnectionMap.addConnection(ctx.channel().id().asLongText(),
-                    request.getNewname(), ctx.channel(), ConnectionRole.Producer);
+                Connection connection = new Connection(request.getNewname(),
+                    ctx.channel(),
+                    ctx.channel().id().asLongText(), ConnectionRole.Producer);
+                ConnectionMap.addConnection(connection);
             }
         }
     }

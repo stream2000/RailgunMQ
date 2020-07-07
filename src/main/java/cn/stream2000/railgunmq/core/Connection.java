@@ -7,6 +7,11 @@ public class Connection {
 
     private final String ConnectionName;
     private final Channel channel;
+
+    public String getChannelId() {
+        return channelId;
+    }
+
     private final String channelId;
     private final ConnectionRole role;
     private String topic;
