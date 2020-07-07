@@ -1,7 +1,6 @@
 package cn.stream2000.railgunmq.producer;
 
 import cn.stream2000.railgunmq.core.Connection;
-import cn.stream2000.railgunmq.core.Message;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.core.SemaphoreCache;
 import cn.stream2000.railgunmq.netty.MessageStrategy;
@@ -62,8 +61,28 @@ public class RailgunMQConnection {
 
     public void SetChannelName(String ChannelName)
     {
+        int uuid =UUID.randomUUID().hashCode();
+        ProducerMessage.SetChannelName setChannelName=
+                ProducerMessage.SetChannelName.newBuilder().setChannelId(channelId)
+                        .setNewname(ChannelName).setLetterId(uuid).build();
         connection.setConnectionName(ChannelName);
-        Publish("Rename",ChannelName);
+        connection.getChannel().writeAndFlush(setChannelName);
+    }
+
+
+    public void Disconnect()
+    {
+        //发送关闭channel的消息
+        try {
+            int uuid =UUID.randomUUID().hashCode();
+            ProducerMessage.Disconnect disconnect=ProducerMessage.Disconnect
+                    .newBuilder().setChannelId(channelId)
+                    .setLetterId(uuid).build();
+            connection.getChannel().writeAndFlush(disconnect);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     //这里的send不应该返回空值，先看吧
     //暂时不考虑消息发送策略
@@ -83,12 +102,7 @@ public class RailgunMQConnection {
         }
     }
 
-    public void Disconnect()
-    {
-        //发送关闭channel的消息
-        Publish("Disconnect","断开连接");
-        connection.getChannel().disconnect();
-    }
+
     public void Publish(String topic, byte[] bytes)
     {
         try {
@@ -127,8 +141,6 @@ public class RailgunMQConnection {
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
             ProducerMessage.PubMessageAck ack= (ProducerMessage.PubMessageAck)message;
-            System.out.println("返回码为：  "+ack.getError());
-            System.out.println(ack.getErrorMessage());
             //如果成功收到ack就关闭连接
             blockingQueue.add(ack);
         }

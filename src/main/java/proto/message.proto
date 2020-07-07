@@ -11,6 +11,8 @@ enum MessageType {
   CreateChannelResponseType = 4;
   NodeHeartBeatType = 5;
   CSHeartBeatType = 6;
+  SetChannelNameType = 7;
+  DisconnecType =8;
 }
 
 enum ErrorType {

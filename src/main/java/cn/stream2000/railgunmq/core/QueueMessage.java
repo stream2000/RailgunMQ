@@ -1,7 +1,5 @@
 package cn.stream2000.railgunmq.core;
 
-import cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest;
-
 public class QueueMessage {
 
     private final boolean isClientRequest;
@@ -28,8 +26,8 @@ public class QueueMessage {
         this.payload = payload;
     }
 
-    public static QueueMessage buildFromPubMessageRequest(PubMessageRequest request, String msgId,
-        boolean needAck) {
+    public static QueueMessage buildFromPubMessageRequest(ProducerMessage.PubMessageRequest request, String msgId,
+                                                          boolean needAck) {
         return new QueueMessage(true, needAck, request.getTopic(), msgId,
             request.getChannelId(), request.getLetterId(), request.getType().getNumber(), request.getData().toByteArray());
     }

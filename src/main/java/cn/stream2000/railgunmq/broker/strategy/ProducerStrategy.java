@@ -20,39 +20,15 @@ public class ProducerStrategy {
                 {
 
                     case Text:
-                        System.out.println("本次消息的topic是： "+request.getTopic());
-                        Thread.sleep(3000);
+                        System.out.println("本次消息的topic是： "+request.getTopic()+"       消息的id为："+request.getLetterId()    );
                         System.out.println("本次消息的内容是:   "+request.getData().toStringUtf8());
-
-                        //处理断开连接请求
-                        if(request.getTopic().equals("Disconnect"))
-                        {
-                            ctx.channel().disconnect();
-                            System.out.println("剩余连接数："+ChannelMap.getNum());
-                            if(ChannelMap.getChannel(ctx.channel().id().asLongText())!=null)
-                            {
-                                System.out.println("删除的连接名为："+ChannelMap.getName(ctx.channel().id().asLongText()));
-                                ChannelMap.deleteChannel(ctx.channel().id().asLongText(),ctx.channel().hashCode());
-
-                                System.out.println("剩余连接数："+ChannelMap.getNum());
-                            }
-                        }
-
-                        //处理重命名channel请求
-                        if(request.getTopic().equals("Rename"))
-                        {
-                            if(request.getData()!=null&&request.getData().toStringUtf8()!="")//修改的Name不为空
-                            {
-                                ChannelMap.SetName(ctx.channel().id().asLongText(),request.getData().toStringUtf8());
-                            }
-                        }
                         break;
                     case Binary:
-                        System.out.println("本次消息的topic是： "+request.getTopic());
+                        System.out.println("本次消息的topic是： "+request.getTopic()+"       消息的id为："+request.getLetterId()    );
                         System.out.println("本次消息的内容是:   "+request.getData().toStringUtf8());
                         break;
                     case Integer:
-                        System.out.println("本次消息的topic是： "+request.getTopic());
+                        System.out.println("本次消息的topic是： "+request.getTopic()+"       消息的id为："+request.getLetterId()    );
                         System.out.println("本次消息的内容是:   "+request.getData().toStringUtf8());
                         break;
                     case UNRECOGNIZED:
@@ -73,5 +49,53 @@ public class ProducerStrategy {
 
         }
 
+    }
+
+    public static class SetNameStrategy implements MessageStrategyWithBusinessPool{
+
+        @Override
+        public void handleMessage(ChannelHandlerContext ctx, Object message) {
+
+            try {
+                ProducerMessage.SetChannelName request=(ProducerMessage.SetChannelName)message;
+                if(request.getNewname()!=null&&request.getNewname()!="")//修改的Name不为空
+                {
+                    ChannelMap.SetName(request.getChannelId(),request.getNewname());
+                }
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public static  class DisconnectStrategy implements MessageStrategyWithBusinessPool{
+
+        @Override
+        public void handleMessage(ChannelHandlerContext ctx, Object message) {
+
+
+            ctx.channel().disconnect();
+            System.out.println("剩余连接数："+ChannelMap.getNum());
+            if(ChannelMap.getChannel(ctx.channel().id().asLongText())!=null)
+            {
+                System.out.println("删除的连接名为："+ChannelMap.getName(ctx.channel().id().asLongText()));
+                ChannelMap.deleteChannel(ctx.channel().id().asLongText());
+
+                System.out.println("剩余连接数："+ChannelMap.getNum());
+            }
+
+
+
+            try {
+                ProducerMessage.Disconnect request=(ProducerMessage.Disconnect)message;
+                ChannelMap.deleteChannel(request.getChannelId());
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

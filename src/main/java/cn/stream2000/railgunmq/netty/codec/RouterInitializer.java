@@ -15,6 +15,10 @@ public class RouterInitializer {
         ProducerMessage.CreateChannelRequest.getDefaultInstance());
     router.register((byte) Message.MessageType.CreateChannelResponseType.getNumber(),
         ProducerMessage.CreateChannelResponse.getDefaultInstance());
+    router.register((byte) Message.MessageType.SetChannelNameType.getNumber(),
+            ProducerMessage.SetChannelName.getDefaultInstance());
+    router.register((byte) Message.MessageType.DisconnecType.getNumber(),
+            ProducerMessage.Disconnect.getDefaultInstance());
     return router;
   }
 

@@ -100,6 +100,10 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
             ch.pipeline().addLast(new MessageStrategyProtobufDecoder(router));
             router.registerHandler(ProducerMessage.PubMessageRequest.getDefaultInstance(),
                 new ProducerStrategy.PublishMessageStrategy());
+            router.registerHandler(ProducerMessage.SetChannelName.getDefaultInstance(),
+                    new ProducerStrategy.SetNameStrategy());
+            router.registerHandler(ProducerMessage.Disconnect.getDefaultInstance(),
+                    new ProducerStrategy.DisconnectStrategy());
             ch.pipeline().addLast(handler);
         }
     }

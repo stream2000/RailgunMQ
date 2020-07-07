@@ -47,6 +47,14 @@ public final class Message {
      * <code>CSHeartBeatType = 6;</code>
      */
     CSHeartBeatType(6),
+    /**
+     * <code>SetChannelNameType = 7;</code>
+     */
+    SetChannelNameType(7),
+    /**
+     * <code>DisconnecType = 8;</code>
+     */
+    DisconnecType(8),
     UNRECOGNIZED(-1),
     ;
 
@@ -78,6 +86,14 @@ public final class Message {
      * <code>CSHeartBeatType = 6;</code>
      */
     public static final int CSHeartBeatType_VALUE = 6;
+    /**
+     * <code>SetChannelNameType = 7;</code>
+     */
+    public static final int SetChannelNameType_VALUE = 7;
+    /**
+     * <code>DisconnecType = 8;</code>
+     */
+    public static final int DisconnecType_VALUE = 8;
 
 
     public final int getNumber() {
@@ -111,6 +127,8 @@ public final class Message {
         case 4: return CreateChannelResponseType;
         case 5: return NodeHeartBeatType;
         case 6: return CSHeartBeatType;
+        case 7: return SetChannelNameType;
+        case 8: return DisconnecType;
         default: return null;
       }
     }
@@ -725,15 +743,16 @@ public final class Message {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\"\n\n\010HeatBeat*\270\001\n\013MessageT" +
+      "\n\rmessage.proto\"\n\n\010HeatBeat*\343\001\n\013MessageT" +
       "ype\022\t\n\005Empty\020\000\022\031\n\025PubMessageRequestType\020" +
       "\001\022\032\n\026PubMessageResponseType\020\002\022\034\n\030CreateC" +
       "hannelRequestType\020\003\022\035\n\031CreateChannelResp" +
       "onseType\020\004\022\025\n\021NodeHeartBeatType\020\005\022\023\n\017CSH" +
-      "eartBeatType\020\006*T\n\tErrorType\022\006\n\002OK\020\000\022\027\n\023I" +
-      "nternalServerError\020\001\022\020\n\014InvalidTopic\020\002\022\024" +
-      "\n\020FullMessageQuene\020\003B\'\n\034cn.stream2000.ra" +
-      "ilgunmq.coreB\007Messageb\006proto3"
+      "eartBeatType\020\006\022\026\n\022SetChannelNameType\020\007\022\021" +
+      "\n\rDisconnecType\020\010*T\n\tErrorType\022\006\n\002OK\020\000\022\027" +
+      "\n\023InternalServerError\020\001\022\020\n\014InvalidTopic\020" +
+      "\002\022\024\n\020FullMessageQuene\020\003B\'\n\034cn.stream2000" +
+      ".railgunmq.coreB\007Messageb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
