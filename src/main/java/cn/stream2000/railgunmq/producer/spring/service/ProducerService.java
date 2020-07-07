@@ -1,7 +1,7 @@
 package cn.stream2000.railgunmq.producer.spring.service;
 
 import cn.stream2000.railgunmq.core.ProducerMessage;
-import cn.stream2000.railgunmq.producer.RailgunMQConnection;
+import cn.stream2000.railgunmq.producer.RailgunMQProducer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +19,9 @@ public class ProducerService {
     private String Host="localhost";
     private int Port=9999;
     private String channelName=null;
-    private RailgunMQConnection conn=null;
+    private RailgunMQProducer conn=null;
     private List<String> ids=new ArrayList<String>();
-    private Map<String,RailgunMQConnection> conns=new HashMap<>();
+    private Map<String,RailgunMQProducer> conns=new HashMap<>();
 
     private ProducerService (){
 
@@ -42,8 +42,8 @@ public class ProducerService {
     }
     public static String connect() throws InterruptedException {
         ProducerService ps=ProducerService.getInstance();
-        RailgunMQConnection rc;
-        rc=new RailgunMQConnection(getInstance().Host,getInstance().Port);
+        RailgunMQProducer rc;
+        rc=new RailgunMQProducer(getInstance().Host,getInstance().Port,"default");
         String id=rc.getChannelId();
         getInstance().ids.add(id);
         getInstance().conns.put(id,rc);
@@ -53,8 +53,8 @@ public class ProducerService {
 
     public static String connect(String name) throws InterruptedException {
         ProducerService ps=ProducerService.getInstance();
-        RailgunMQConnection rc;
-        rc=new RailgunMQConnection(getInstance().Host,getInstance().Port,name);
+        RailgunMQProducer rc;
+        rc=new RailgunMQProducer(getInstance().Host,getInstance().Port,name);
         String id=rc.getChannelId();
         getInstance().ids.add(id);
         getInstance().conns.put(id,rc);
@@ -64,7 +64,7 @@ public class ProducerService {
     public static boolean setChannelName(String id,String name){
         ProducerService ps=ProducerService.getInstance();
         if (ps.ids.contains(id)){
-            RailgunMQConnection rc=ps.conns.get(id);
+            RailgunMQProducer rc=ps.conns.get(id);
             rc.SetChannelName(name);
             return true;
         }else {
@@ -75,7 +75,7 @@ public class ProducerService {
     }
     public static boolean publish(String id,String topic,String content){
         if (getInstance().ids.contains(id)){
-            RailgunMQConnection rc=getInstance().conns.get(id);
+            RailgunMQProducer rc=getInstance().conns.get(id);
             rc.Publish(topic,content);
             return true;
         }else {
@@ -88,7 +88,7 @@ public class ProducerService {
 
     public static boolean publish(String id,String topic,int content){
         if (getInstance().ids.contains(id)){
-            RailgunMQConnection rc=getInstance().conns.get(id);
+            RailgunMQProducer rc=getInstance().conns.get(id);
             rc.Publish(topic,content);
             return true;
         }else {
@@ -100,7 +100,7 @@ public class ProducerService {
 
     public static boolean publish(String id,String topic,byte[] content){
         if (getInstance().ids.contains(id)){
-            RailgunMQConnection rc=getInstance().conns.get(id);
+            RailgunMQProducer rc=getInstance().conns.get(id);
             rc.Publish(topic,content);
             return true;
         }else {
@@ -112,7 +112,7 @@ public class ProducerService {
 
     public static List<Map> getACK(String id) throws InterruptedException {
         if(getInstance().ids.contains(id)){
-            RailgunMQConnection rc=getInstance().conns.get(id);
+            RailgunMQProducer rc=getInstance().conns.get(id);
             List<ProducerMessage.PubMessageAck> acks=rc.getAcks(2000);
             List<Map> maps=new ArrayList<>();
             if(acks!=null){
@@ -138,7 +138,7 @@ public class ProducerService {
     }
     public static boolean disconnect(String id){
         if(getInstance().ids.contains(id)){
-            RailgunMQConnection rc= getInstance().conns.get(id);
+            RailgunMQProducer rc= getInstance().conns.get(id);
             rc.Disconnect();
             getInstance().conns.remove(id);
             getInstance().ids.remove(id);

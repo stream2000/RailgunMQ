@@ -2,6 +2,9 @@ package cn.stream2000.railgunmq.core;
 
 import cn.stream2000.railgunmq.core.Connection.ConnectionRole;
 import io.netty.channel.Channel;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,6 +22,8 @@ public class ConnectionMap {
         Connection connection = new Connection(name, channel, role);
         connections.put(key, connection);//id-----connection对象
     }
+
+
 
     //根据channel的id删除
     public static void deleteConnection(String channelId) {

@@ -36,7 +36,7 @@ var vue = new Vue({
           console.log("data",data);
           for(var i=0;i<data.length;i++)
           {
-            this.$set(this.connects,i,data[i]);
+            vue.$set(vue.connects,i,data[i]);
           }
           
         },
