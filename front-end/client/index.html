@@ -67,36 +67,15 @@
 
 
     <div class="container t-100" id="products">
-
-
+          
+        
         <div class="row topicSection">
-            <div class="col col-lg-7 topicTitle">
-                <span>Client Name:</span>
-                <div class="topicUnderline" id="clientName">
-                    {{clientName}}
-                </div>
-            </div>
-
-            <div class="col col-lg-4 topicTitle">
-                <span>Topic:</span>
-                <div class="topicUnderline" id="topic">
-                    {{topic}}
-                </div>
-            </div>
-   
-            
-        </div>
-        <div class="row topicSection">
-            <div class="col col-lg-2" >
-                <button type="button" class="disconnButton btn btn-lg btn-warning" v-on:click="disconnect" style="display:none">Disconnect</button>
+            <div class="col col-lg-4 offset-2" >
+                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connProducer">New connect as Producer</button>
     
             </div>
-            <div class="col col-lg-3" >
-                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connProducer">Connect as Producer</button>
-    
-            </div>
-            <div class="col col-lg-3">
-                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connConsumer">Connect as Consumer</button>
+            <div class="col col-lg-4">
+                <button type="button" class="connButton btn btn-lg btn-secondary" v-on:click="connConsumer">New connect as Consumer</button>
     
             </div>
             
@@ -104,57 +83,33 @@
         </div>
         
 
-        <div class="row topicSection" id = "producer" style="display:none">
+        <div class="row topicSection cardSection"  >
             <div class="col col-lg-12">
                 <div class="row">
                     <div class="col-lg-4 section-head">
-                        Push messages
-                    </div>
-                </div>
-                <div class="input-group input-group-lg">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="messagePrefix" >The prefix of messages</span>
-                    </div>
-                    <input type="text" class="form-control" v-model="messagePrefix">
-                  </div>
-
-                  <div class="input-group input-group-lg">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="messageNumber" >The number of messages</span>
-                    </div>
-                    <input type="number" class="form-control" v-model="messageNumber">
-                  </div>
-
-                  <div>
-                    <button type="button" class="btn btn-lg btn-primary" @click="push">push</button>
-                  </div>
-            </div>
-        </div>
-
-        <div class="row topicSection" id = "consumer" style="display:none">
-            <div class="col col-lg-12">
-                <div class="row">
-                    <div class="col-lg-4 section-head">
-                        Receive messages
-                    </div>
-                    <div class="col-lg-2 offset-2">
-                        <button class="btn btn-secondary" @click="refresh">refresh</button>
+                        Connections
                     </div>
                 </div>
                 <table class="topicTable table table-bordered table-hover">
                     <thead>
-                        <th>Message Id</th>
-                        <th>Message Content</th>
+                        <th>Connection name</th>
+                        <th>Connection role</th>
+                        <th>Topic</th>
+                        <th>Operation</th>
                     </thead>
                     <tbody>
-                        <tr v-for="message in messages"  class="" >
-                            <td>{{message.messageId}}</td>
-                            <td>{{message.messageContent}}</td>
+                        <tr v-for="connection in connections"  :key='connection.connectionId' class=""  > <!--:id='idGen(connection.connectionId)' >-->
+                            <td>{{connection.connectionName}}</td>
+                            <td>{{connection.role}}</td>
+                            <td>{{connection.topic}}</td>
+                            <td><button class="btn btn-primary" @click='jump(connection.role,connection.connectionId)'>connect</button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        
     </div>
 
 
@@ -166,7 +121,7 @@
                 <div class="col-lg-12">
                     <div class="left-text">
                         Copyright &copy; 2020.<a target="_blank" href="https://github.com/stream2000/RailgunMQ">
-                            同济大学软件学院17级专业项目综合11组</a>
+                            同济大学软件学院17级专业方向综合项目11组</a>
                     </div>
                 </div>
             </div>

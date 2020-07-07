@@ -19,31 +19,37 @@ var vue = new Vue({
       addStatus: true,
       clientName:"",
       topic:"",
-      messagePrefix:"",
-      messageNumber:0,
+      connectionPos:0,
       url:"http://localhost:8080"
   
     },
     methods: {
-      idGen: function (connectonId) {
-        return 'connection' + connectonId;
+      ack:function(id,event){
+          
+        $.ajax({
+            url: this.url+'/producer/ack',
+            data:{"id":id},
+            method: 'get',
+            success: function (data) {
+              console.log(data);
+              console.log(event.currentTarget);
+              event.currentTarget.disabled=true;
+              
+            },
+            error: function (error) {
+              console.log(error);
+            }
+          })
       },
       rename:function(){
         var newName = prompt("Please input the new name","");
         this.clientName = newName;
         if (newName != "" && newName != null) {
           $.ajax({
-            url: this.url+'/producer?topic=',
+            url: this.url+'/consumer?topic=',
             method: 'POST',
             success: function (data) {
               console.log(data);
-              if(data===true){
-                alert('add ' + topicName + ' success');
-                location.reload();
-              }
-              else{
-                alert('add the topic '+ topicName+' fail');
-              }
             },
             error: function (error) {
               console.log(error);
@@ -54,10 +60,6 @@ var vue = new Vue({
         }
       },
       disconnect:function(){
-        $(".connButton").show();
-        $(".disconnButton").hide();
-        $("#consumer").hide();
-        $("#producer").hide();
         this.topic="";
         this.clientName=""
         $.ajax({
@@ -65,6 +67,10 @@ var vue = new Vue({
           method: 'GET',
           success: function (data) {
             console.log(data);
+            var connections = JSON.stringify(localStorage.getItem('connections'));
+            connections.splice(this.connectionPos,1);
+            localStorage.setItem('connections',JSON.stringify(connections));
+            window.location = "index.html"
           },
           error: function (error) {
             console.log(error);
@@ -78,35 +84,44 @@ var vue = new Vue({
     },
     mounted: function () {
       var self = this;
-      localStorage.getItem('connections');
-      /*$.ajax({
-        url: self.url+'/topics',
-        method: 'GET',
-        success: function (data) {
-          console.log(data);
-          for (var i = 0; i < data.length; i++) {
-            vue.$set(vue.topics, i, data[i]);
-          }
-        },
-        error: function (error) {
-          console.log(error);
+      var id = GetQueryString("id");
+      console.log("id: ",id);
+      var connections = JSON.stringify(localStorage.getItem('connections'));
+      
+      for(var i=0;i<connections.length;i++)
+      {
+        if(connections[i].connectonId == id)
+        {
+          this.clientName = connections[i].connectionName;
+          this.topic = connections[i].topic;
+          this.connectionPos = i;
         }
-      })*/
+      }
+
+      /*setInterval(function(){
+        $.ajax({
+            url: this.url+'/producer/disconnect',
+            method: 'GET',
+            success: function (data) {
+              console.log(data);
+              var connections = JSON.stringify(localStorage.getItem('connections'));
+              connections.splice(this.connectionPos,1);
+              localStorage.setItem('connections',JSON.stringify(connections));
+              window.location = "index.html"
+            },
+            error: function (error) {
+              console.log(error);
+            }
+          })
+      },500)*/
+      
     }
   });
   
-  
-  function showBar(topic_id, word) {
-    var id = '#topic' + topic_id + ' .newBar';
-    console.log($(id).is(":visible"));
-    console.log($(id).text());
-    if ($(id).is(":visible") && word == $(id).text()) {
-      $(id).toggle(200);
-      return;
-    }
-  
-    $(id).text(word);
-    if ($(id).is(":hidden")) {
-      $(id).toggle(200);
-    }
+function GetQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg); //search,查询？后面的参数，并匹配正则
+    if (r != null)
+      return unescape(r[2]);
+    return null;
   }
