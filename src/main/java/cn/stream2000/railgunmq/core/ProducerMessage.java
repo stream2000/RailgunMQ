@@ -27,7 +27,7 @@ public final class ProducerMessage {
   /**
    * Protobuf type {@code CreateChannelRequest}
    */
-  public static final class CreateChannelRequest extends
+  public  static final class CreateChannelRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:CreateChannelRequest)
       CreateChannelRequestOrBuilder {
@@ -112,7 +112,6 @@ public final class ProducerMessage {
      * <code>bool ack = 1;</code>
      * @return The ack.
      */
-    @java.lang.Override
     public boolean getAck() {
       return ack_;
     }
@@ -425,7 +424,6 @@ public final class ProducerMessage {
        * <code>bool ack = 1;</code>
        * @return The ack.
        */
-      @java.lang.Override
       public boolean getAck() {
         return ack_;
       }
@@ -522,7 +520,7 @@ public final class ProducerMessage {
   /**
    * Protobuf type {@code CreateChannelResponse}
    */
-  public static final class CreateChannelResponse extends
+  public  static final class CreateChannelResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:CreateChannelResponse)
       CreateChannelResponseOrBuilder {
@@ -609,7 +607,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    @java.lang.Override
     public java.lang.String getChannelId() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
@@ -626,7 +623,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The bytes for channelId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getChannelIdBytes() {
       java.lang.Object ref = channelId_;
@@ -1125,7 +1121,7 @@ public final class ProducerMessage {
   /**
    * Protobuf type {@code PubMessageRequest}
    */
-  public static final class PubMessageRequest extends
+  public  static final class PubMessageRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:PubMessageRequest)
       PubMessageRequestOrBuilder {
@@ -1310,10 +1306,6 @@ public final class ProducerMessage {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -1354,7 +1346,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    @java.lang.Override
     public java.lang.String getChannelId() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
@@ -1371,7 +1362,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The bytes for channelId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getChannelIdBytes() {
       java.lang.Object ref = channelId_;
@@ -1392,7 +1382,6 @@ public final class ProducerMessage {
      * <code>int32 letter_id = 2;</code>
      * @return The letterId.
      */
-    @java.lang.Override
     public int getLetterId() {
       return letterId_;
     }
@@ -1403,7 +1392,6 @@ public final class ProducerMessage {
      * <code>string topic = 3;</code>
      * @return The topic.
      */
-    @java.lang.Override
     public java.lang.String getTopic() {
       java.lang.Object ref = topic_;
       if (ref instanceof java.lang.String) {
@@ -1420,7 +1408,6 @@ public final class ProducerMessage {
      * <code>string topic = 3;</code>
      * @return The bytes for topic.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getTopicBytes() {
       java.lang.Object ref = topic_;
@@ -1441,14 +1428,14 @@ public final class ProducerMessage {
      * <code>.PubMessageRequest.payload_type type = 4;</code>
      * @return The enum numeric value on the wire for type.
      */
-    @java.lang.Override public int getTypeValue() {
+    public int getTypeValue() {
       return type_;
     }
     /**
      * <code>.PubMessageRequest.payload_type type = 4;</code>
      * @return The type.
      */
-    @java.lang.Override public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType() {
+    public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType() {
       @SuppressWarnings("deprecation")
       cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type result = cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.valueOf(type_);
       return result == null ? cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.UNRECOGNIZED : result;
@@ -1460,7 +1447,6 @@ public final class ProducerMessage {
      * <code>bytes data = 5;</code>
      * @return The data.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
@@ -1915,7 +1901,6 @@ public final class ProducerMessage {
        * <code>int32 letter_id = 2;</code>
        * @return The letterId.
        */
-      @java.lang.Override
       public int getLetterId() {
         return letterId_;
       }
@@ -2022,7 +2007,7 @@ public final class ProducerMessage {
        * <code>.PubMessageRequest.payload_type type = 4;</code>
        * @return The enum numeric value on the wire for type.
        */
-      @java.lang.Override public int getTypeValue() {
+      public int getTypeValue() {
         return type_;
       }
       /**
@@ -2031,7 +2016,6 @@ public final class ProducerMessage {
        * @return This builder for chaining.
        */
       public Builder setTypeValue(int value) {
-        
         type_ = value;
         onChanged();
         return this;
@@ -2040,7 +2024,6 @@ public final class ProducerMessage {
        * <code>.PubMessageRequest.payload_type type = 4;</code>
        * @return The type.
        */
-      @java.lang.Override
       public cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type getType() {
         @SuppressWarnings("deprecation")
         cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type result = cn.stream2000.railgunmq.core.ProducerMessage.PubMessageRequest.payload_type.valueOf(type_);
@@ -2076,7 +2059,6 @@ public final class ProducerMessage {
        * <code>bytes data = 5;</code>
        * @return The data.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
@@ -2205,7 +2187,7 @@ public final class ProducerMessage {
   /**
    * Protobuf type {@code PubMessageAck}
    */
-  public static final class PubMessageAck extends
+  public  static final class PubMessageAck extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:PubMessageAck)
       PubMessageAckOrBuilder {
@@ -2311,7 +2293,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    @java.lang.Override
     public java.lang.String getChannelId() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
@@ -2328,7 +2309,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The bytes for channelId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getChannelIdBytes() {
       java.lang.Object ref = channelId_;
@@ -2349,7 +2329,6 @@ public final class ProducerMessage {
      * <code>int32 letter_id = 2;</code>
      * @return The letterId.
      */
-    @java.lang.Override
     public int getLetterId() {
       return letterId_;
     }
@@ -2360,14 +2339,14 @@ public final class ProducerMessage {
      * <code>.ErrorType error = 3;</code>
      * @return The enum numeric value on the wire for error.
      */
-    @java.lang.Override public int getErrorValue() {
+    public int getErrorValue() {
       return error_;
     }
     /**
      * <code>.ErrorType error = 3;</code>
      * @return The error.
      */
-    @java.lang.Override public cn.stream2000.railgunmq.core.Message.ErrorType getError() {
+    public cn.stream2000.railgunmq.core.Message.ErrorType getError() {
       @SuppressWarnings("deprecation")
       cn.stream2000.railgunmq.core.Message.ErrorType result = cn.stream2000.railgunmq.core.Message.ErrorType.valueOf(error_);
       return result == null ? cn.stream2000.railgunmq.core.Message.ErrorType.UNRECOGNIZED : result;
@@ -2379,7 +2358,6 @@ public final class ProducerMessage {
      * <code>string error_message = 4;</code>
      * @return The errorMessage.
      */
-    @java.lang.Override
     public java.lang.String getErrorMessage() {
       java.lang.Object ref = errorMessage_;
       if (ref instanceof java.lang.String) {
@@ -2396,7 +2374,6 @@ public final class ProducerMessage {
      * <code>string error_message = 4;</code>
      * @return The bytes for errorMessage.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getErrorMessageBytes() {
       java.lang.Object ref = errorMessage_;
@@ -2844,7 +2821,6 @@ public final class ProducerMessage {
        * <code>int32 letter_id = 2;</code>
        * @return The letterId.
        */
-      @java.lang.Override
       public int getLetterId() {
         return letterId_;
       }
@@ -2875,7 +2851,7 @@ public final class ProducerMessage {
        * <code>.ErrorType error = 3;</code>
        * @return The enum numeric value on the wire for error.
        */
-      @java.lang.Override public int getErrorValue() {
+      public int getErrorValue() {
         return error_;
       }
       /**
@@ -2884,7 +2860,6 @@ public final class ProducerMessage {
        * @return This builder for chaining.
        */
       public Builder setErrorValue(int value) {
-        
         error_ = value;
         onChanged();
         return this;
@@ -2893,7 +2868,6 @@ public final class ProducerMessage {
        * <code>.ErrorType error = 3;</code>
        * @return The error.
        */
-      @java.lang.Override
       public cn.stream2000.railgunmq.core.Message.ErrorType getError() {
         @SuppressWarnings("deprecation")
         cn.stream2000.railgunmq.core.Message.ErrorType result = cn.stream2000.railgunmq.core.Message.ErrorType.valueOf(error_);
@@ -3089,7 +3063,7 @@ public final class ProducerMessage {
   /**
    * Protobuf type {@code SetChannelName}
    */
-  public static final class SetChannelName extends
+  public  static final class SetChannelName extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:SetChannelName)
       SetChannelNameOrBuilder {
@@ -3188,7 +3162,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    @java.lang.Override
     public java.lang.String getChannelId() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
@@ -3205,7 +3178,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The bytes for channelId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getChannelIdBytes() {
       java.lang.Object ref = channelId_;
@@ -3226,7 +3198,6 @@ public final class ProducerMessage {
      * <code>int32 letter_id = 2;</code>
      * @return The letterId.
      */
-    @java.lang.Override
     public int getLetterId() {
       return letterId_;
     }
@@ -3237,7 +3208,6 @@ public final class ProducerMessage {
      * <code>string newname = 3;</code>
      * @return The newname.
      */
-    @java.lang.Override
     public java.lang.String getNewname() {
       java.lang.Object ref = newname_;
       if (ref instanceof java.lang.String) {
@@ -3254,7 +3224,6 @@ public final class ProducerMessage {
      * <code>string newname = 3;</code>
      * @return The bytes for newname.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getNewnameBytes() {
       java.lang.Object ref = newname_;
@@ -3686,7 +3655,6 @@ public final class ProducerMessage {
        * <code>int32 letter_id = 2;</code>
        * @return The letterId.
        */
-      @java.lang.Override
       public int getLetterId() {
         return letterId_;
       }
@@ -3865,7 +3833,7 @@ public final class ProducerMessage {
   /**
    * Protobuf type {@code Disconnect}
    */
-  public static final class Disconnect extends
+  public  static final class Disconnect extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Disconnect)
       DisconnectOrBuilder {
@@ -3957,7 +3925,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The channelId.
      */
-    @java.lang.Override
     public java.lang.String getChannelId() {
       java.lang.Object ref = channelId_;
       if (ref instanceof java.lang.String) {
@@ -3974,7 +3941,6 @@ public final class ProducerMessage {
      * <code>string channel_id = 1;</code>
      * @return The bytes for channelId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getChannelIdBytes() {
       java.lang.Object ref = channelId_;
@@ -3995,7 +3961,6 @@ public final class ProducerMessage {
      * <code>int32 letter_id = 2;</code>
      * @return The letterId.
      */
-    @java.lang.Override
     public int getLetterId() {
       return letterId_;
     }
@@ -4400,7 +4365,6 @@ public final class ProducerMessage {
        * <code>int32 letter_id = 2;</code>
        * @return The letterId.
        */
-      @java.lang.Override
       public int getLetterId() {
         return letterId_;
       }

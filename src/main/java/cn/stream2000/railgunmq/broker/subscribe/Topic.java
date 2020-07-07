@@ -1,7 +1,7 @@
 package cn.stream2000.railgunmq.broker.subscribe;
 
-import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Topic {
 
@@ -29,6 +29,10 @@ public class Topic {
             consumedIndex++;
             return sub;
         }
+    }
+
+    synchronized public List<Subscription> getAllSubscription() {
+        return subscriptions;
     }
 
     synchronized public boolean removeSubscription(String clientId) {
@@ -63,15 +67,5 @@ public class Topic {
 
     synchronized public boolean isActive() {
         return !subscriptions.isEmpty();
-    }
-
-    synchronized public boolean checkAndStore(OfflineMessageStore offlineMessageStore,
-        String msgId) {
-        if (isActive()) {
-            return false;
-        } else {
-            offlineMessageStore.addMessage(topicName, msgId);
-            return true;
-        }
     }
 }

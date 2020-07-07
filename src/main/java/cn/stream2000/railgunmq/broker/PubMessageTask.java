@@ -19,7 +19,6 @@ public class PubMessageTask implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-
         String msgId = UUID.randomUUID().toString();
         if (!messageDispatcher
             .appendMessage(QueueMessage.buildFromPubMessageRequest(request, msgId, true))) {

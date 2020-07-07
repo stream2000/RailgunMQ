@@ -1,8 +1,12 @@
 package cn.stream2000.railgunmq.broker.strategy;
 
 import cn.stream2000.railgunmq.broker.subscribe.AckSubTaskFactory;
+import cn.stream2000.railgunmq.broker.subscribe.Subscription;
+import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
+import cn.stream2000.railgunmq.core.Connection.ConnectionRole;
+import cn.stream2000.railgunmq.core.ConnectionMap;
 import cn.stream2000.railgunmq.core.ConsumerMessage;
 import cn.stream2000.railgunmq.core.Message;
 import io.netty.channel.ChannelHandlerContext;
@@ -19,12 +23,24 @@ public class ConsumerStrategy {
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
 
             ConsumerMessage.SubMessageRequest request = (ConsumerMessage.SubMessageRequest) message;
-            String topic = request.getTopic();
+            String topicName = request.getTopic();
             ConsumerMessage.SubMessageAck ack;
-            if (TopicManager.getAll().contains(topic)) {
-                ack = ConsumerMessage.SubMessageAck.newBuilder().setError(Message.ErrorType.OK).setErrorMessage("topic订阅成功").build();
+            Topic topic = TopicManager.getTopic(topicName);
+            if (topic != null) {
+                ack = ConsumerMessage.SubMessageAck.newBuilder().setError(Message.ErrorType.OK)
+                    .setErrorMessage("topic订阅成功").build();
+                ConnectionMap
+                    .addConnection(channelHandlerContext.channel().id().asLongText(), "name",
+                        channelHandlerContext.channel(),
+                        ConnectionRole.Consumer);
+                log.info("id : {}", channelHandlerContext.channel().id().asLongText());
+                topic.addSubscription(
+                    new Subscription(channelHandlerContext.channel().id().asLongText(),
+                        channelHandlerContext.channel(), topicName));
+
             } else {
-                ack = ConsumerMessage.SubMessageAck.newBuilder().setError(Message.ErrorType.InvalidTopic).setErrorMessage("topic订阅失败").build();
+                ack = ConsumerMessage.SubMessageAck.newBuilder()
+                    .setError(Message.ErrorType.InvalidTopic).setErrorMessage("topic订阅失败").build();
             }
             System.out.println("返回码为：  " + ack.getError());
             System.out.println(ack.getErrorMessage());

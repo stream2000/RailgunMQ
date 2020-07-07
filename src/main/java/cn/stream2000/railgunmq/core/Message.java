@@ -52,9 +52,9 @@ public final class Message {
      */
     SetChannelNameType(7),
     /**
-     * <code>DisconnecType = 8;</code>
+     * <code>DisconnectType = 8;</code>
      */
-    DisconnecType(8),
+    DisconnectType(8),
     /**
      * <code>SubMessageRequestType = 9;</code>
      */
@@ -64,9 +64,9 @@ public final class Message {
      */
     SubMessageResponseType(10),
     /**
-     * <code>SendMessageResponseType = 11;</code>
+     * <code>SubMessageType = 12;</code>
      */
-    SendMessageResponseType(11),
+    SubMessageType(12),
     UNRECOGNIZED(-1),
     ;
 
@@ -103,9 +103,9 @@ public final class Message {
      */
     public static final int SetChannelNameType_VALUE = 7;
     /**
-     * <code>DisconnecType = 8;</code>
+     * <code>DisconnectType = 8;</code>
      */
-    public static final int DisconnecType_VALUE = 8;
+    public static final int DisconnectType_VALUE = 8;
     /**
      * <code>SubMessageRequestType = 9;</code>
      */
@@ -115,9 +115,9 @@ public final class Message {
      */
     public static final int SubMessageResponseType_VALUE = 10;
     /**
-     * <code>SendMessageResponseType = 11;</code>
+     * <code>SubMessageType = 12;</code>
      */
-    public static final int SendMessageResponseType_VALUE = 11;
+    public static final int SubMessageType_VALUE = 12;
 
 
     public final int getNumber() {
@@ -129,6 +129,8 @@ public final class Message {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -136,6 +138,10 @@ public final class Message {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static MessageType forNumber(int value) {
       switch (value) {
         case 0: return Empty;
@@ -146,10 +152,10 @@ public final class Message {
         case 5: return NodeHeartBeatType;
         case 6: return CSHeartBeatType;
         case 7: return SetChannelNameType;
-        case 8: return DisconnecType;
+        case 8: return DisconnectType;
         case 9: return SubMessageRequestType;
         case 10: return SubMessageResponseType;
-        case 11: return SendMessageResponseType;
+        case 12: return SubMessageType;
         default: return null;
       }
     }
@@ -253,6 +259,8 @@ public final class Message {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -260,6 +268,10 @@ public final class Message {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static ErrorType forNumber(int value) {
       switch (value) {
         case 0: return OK;
@@ -338,6 +350,13 @@ public final class Message {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new HeatBeat();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -361,7 +380,7 @@ public final class Message {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -430,9 +449,8 @@ public final class Message {
       }
       cn.stream2000.railgunmq.core.Message.HeatBeat other = (cn.stream2000.railgunmq.core.Message.HeatBeat) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -607,35 +625,35 @@ public final class Message {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -680,7 +698,7 @@ public final class Message {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -744,31 +762,23 @@ public final class Message {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\"\n\n\010HeatBeat*\267\002\n\013MessageT" +
+      "\n\rmessage.proto\"\n\n\010HeatBeat*\257\002\n\013MessageT" +
       "ype\022\t\n\005Empty\020\000\022\031\n\025PubMessageRequestType\020" +
       "\001\022\032\n\026PubMessageResponseType\020\002\022\034\n\030CreateC" +
       "hannelRequestType\020\003\022\035\n\031CreateChannelResp" +
       "onseType\020\004\022\025\n\021NodeHeartBeatType\020\005\022\023\n\017CSH" +
-      "eartBeatType\020\006\022\026\n\022SetChannelNameType\020\007\022\021" +
-      "\n\rDisconnecType\020\010\022\031\n\025SubMessageRequestTy" +
-      "pe\020\t\022\032\n\026SubMessageResponseType\020\n\022\033\n\027Send" +
-      "MessageResponseType\020\013*T\n\tErrorType\022\006\n\002OK" +
-      "\020\000\022\027\n\023InternalServerError\020\001\022\020\n\014InvalidTo" +
-      "pic\020\002\022\024\n\020FullMessageQueue\020\003B\'\n\034cn.stream" +
-      "2000.railgunmq.coreB\007Messageb\006proto3"
+      "eartBeatType\020\006\022\026\n\022SetChannelNameType\020\007\022\022" +
+      "\n\016DisconnectType\020\010\022\031\n\025SubMessageRequestT" +
+      "ype\020\t\022\032\n\026SubMessageResponseType\020\n\022\022\n\016Sub" +
+      "MessageType\020\014*T\n\tErrorType\022\006\n\002OK\020\000\022\027\n\023In" +
+      "ternalServerError\020\001\022\020\n\014InvalidTopic\020\002\022\024\n" +
+      "\020FullMessageQueue\020\003B\'\n\034cn.stream2000.rai" +
+      "lgunmq.coreB\007Messageb\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_HeatBeat_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_HeatBeat_fieldAccessorTable = new

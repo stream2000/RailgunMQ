@@ -12,10 +12,10 @@ enum MessageType {
   NodeHeartBeatType = 5;
   CSHeartBeatType = 6;
   SetChannelNameType = 7;
-  DisconnecType =8;
+  DisconnectType =8;
   SubMessageRequestType = 9;
   SubMessageResponseType = 10;
-  SendMessageResponseType = 11;
+  SubMessageType = 12;
 }
 
 enum ErrorType {

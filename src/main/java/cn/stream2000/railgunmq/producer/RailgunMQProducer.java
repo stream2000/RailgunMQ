@@ -21,10 +21,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class RailgunMQConnection {
+public class RailgunMQProducer {
 
     private final String host;
     private final int port;
@@ -33,22 +34,8 @@ public class RailgunMQConnection {
     private String channelId;
     private AtomicInteger atomicInteger;//自增id生成器
 
-    //在初始化时指明IP和端口
-    public RailgunMQConnection(String host, int port) throws InterruptedException {
-        this.host = host;
-        this.port = port;
-        channelId = "";
-        EventLoopGroup group = new NioEventLoopGroup(1);
-        Bootstrap bootstrap =
-            new Bootstrap().group(group).channel(NioSocketChannel.class)
-                .handler(new ClientInitializer());
-        channel = bootstrap.connect(host, port).sync().channel();
-        SemaphoreCache.acquire("client init");
-        blockingQueue = new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
-        atomicInteger = new AtomicInteger();
-    }
 
-    public RailgunMQConnection(String host, int port, String connectionName)
+    public RailgunMQProducer(String host, int port, String connectionName)
         throws InterruptedException {
         this.host = host;
         this.port = port;
@@ -57,17 +44,16 @@ public class RailgunMQConnection {
             new Bootstrap().group(group).channel(NioSocketChannel.class)
                 .handler(new ClientInitializer());
         channel = bootstrap.connect(host, port).sync().channel();
-        SemaphoreCache.acquire("client init");
-        blockingQueue = new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
+        channelId = channel.id().asLongText();
+        blockingQueue = new LinkedBlockingDeque<>();
         atomicInteger = new AtomicInteger();
         SetChannelName(connectionName);
     }
 
-    public void SetChannelName(String ChannelName) {
-        int uuid = UUID.randomUUID().hashCode();
+    private void SetChannelName(String ChannelName) {
         ProducerMessage.SetChannelName setChannelName =
             ProducerMessage.SetChannelName.newBuilder().setChannelId(channelId)
-                .setNewname(ChannelName).setLetterId(uuid).build();
+                .setNewname(ChannelName).build();
         channel.writeAndFlush(setChannelName);
     }
 
@@ -94,7 +80,7 @@ public class RailgunMQConnection {
     }
 
     //在限定时间内取一些ACK
-    public List<ProducerMessage.PubMessageAck> getAcks(long Maxtime) {
+    public List<ProducerMessage.PubMessageAck> getAcks(long Maxtime) throws InterruptedException {
         List<ProducerMessage.PubMessageAck> acks = new ArrayList<ProducerMessage.PubMessageAck>();
         long StartTime = System.currentTimeMillis();
 
@@ -175,17 +161,8 @@ public class RailgunMQConnection {
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
             ProducerMessage.PubMessageAck ack = (ProducerMessage.PubMessageAck) message;
             //如果成功收到ack就关闭连接
+            System.out.println(ack);
             blockingQueue.add(ack);
-        }
-    }
-
-    public class ClientInitStrategy implements MessageStrategy {
-
-        @Override
-        public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
-            channelId = ((ProducerMessage.CreateChannelResponse) message).getChannelId();
-            System.out.println("Response返回的channelid为：" + channelId);
-            SemaphoreCache.release("client init");
         }
     }
 
@@ -201,8 +178,6 @@ public class RailgunMQConnection {
             ch.pipeline().addLast(new MessageStrategyProtobufDecoder(router));
             router.registerHandler(ProducerMessage.PubMessageAck.getDefaultInstance(),
                 new PubMessageResponseStrategy());
-            router.registerHandler(ProducerMessage.CreateChannelResponse.getDefaultInstance(),
-                new ClientInitStrategy());
             ch.pipeline().addLast(handler);
         }
     }
