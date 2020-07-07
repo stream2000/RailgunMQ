@@ -1,0 +1,593 @@
+/*
+Version 2.0
+[Table of contents]
+-------------------------------------------------------------------------
+. General
+-------------------------------------------------------------------------*/
+@import url(variables.less);
+@blackest: #1b1b1b;
+@black: #292929;
+@light_black: #484848;
+@bg: #333333;
+@silver: #C5C5C5;
+@white_light: #cccccc;
+@crimson: #E0162E;
+@dark_crimson: #AD001C;
+
+
+
+/*-----------------------------------------------------------------------
+. General
+*/
+body,html{
+	color: @white_light;
+}
+#wrapper,body,html{
+	background-color: @bg;
+}
+a{
+	color: @crimson;
+	&:hover,&:active,&:focus{
+		color: @dark_crimson;
+	}
+}
+select,input{
+	color: @blackest;
+}
+/*---------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------------------
+. Fixed Navbar
+*/
+.fixed-navbar{
+	background-color: @blackest;
+	.ico-item{
+		color: @white;
+	}
+}
+.menu-mobile-button{
+	background-color: @light_black;
+	color: @white;
+}
+.page-title{
+	color: @white;
+}
+/*---------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------------------
+. Header
+*/
+.header{
+	.logo{
+		background-color: @blackest;
+		color: @white;
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------------------
+. Box Content
+*/
+.box-content{
+	background-color: @black;
+	.dropdown{
+		&.js__drop_down{
+			.dropdown-icon{
+				color: @silver;
+				&:hover{
+					color: @white;
+				}
+			}
+			.sub-menu{
+				background: @light_black;
+				-webkit-box-shadow: 0 0 8px 0 rgba(255,255,255,0.06),0 1px 0 0 rgba(255,255,255,0.02);
+				-moz-box-shadow: 0 0 8px 0 rgba(255,255,255,0.06),0 1px 0 0 rgba(255,255,255,0.02);
+				box-shadow: 0 0 8px 0 rgba(255,255,255,0.06),0 1px 0 0 rgba(255,255,255,0.02);
+				a{
+					color: @white_light;
+					&:hover{
+						color: @crimson;
+					}
+				}
+				.split{
+					background: @silver;
+				}
+			}
+			&.active{
+				.dropdown-icon{
+					color: @white;
+				}
+			}
+		}
+	}
+	&.card{
+		.box-title{
+			background: @light_black;
+		}
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------------------
+. Main Menu
+*/
+.main-menu{
+	background: @black;
+}
+.user{
+	.name{
+		a{
+			color: @white_light;
+			&:hover{
+				color: @crimson;
+			}
+		}
+	}
+	.control-list{
+		background: @light_black;
+		-webkit-box-shadow: 0 0 8px 0 rgba(255,255,255,0.06),0 1px 0 0 rgba(255,255,255,0.02);
+		-moz-box-shadow: 0 0 8px 0 rgba(255,255,255,0.06),0 1px 0 0 rgba(255,255,255,0.02);
+		box-shadow: 0 0 8px 0 rgba(255,255,255,0.06),0 1px 0 0 rgba(255,255,255,0.02);
+		a{
+			color: @white;
+			&:hover{
+				color: @crimson;
+			}
+		}
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Navigation
+*/
+.navigation{
+	.title{
+		background: @light_black;
+		color: @white_light;
+	}
+	.menu{
+		>li{
+			&.active{
+				> a{
+					background: @blackest;
+					color: @white;
+					i,.menu-arrow{
+						color: @white;
+					}
+				}
+			}
+			&.current{
+				> a{
+					background: @blackest;
+					color: @white;
+					i,.menu-arrow{
+						color: @white;
+					}
+				}
+				.current{
+					> a{
+						color: @white
+					}
+				}
+			}
+		}
+		a{
+			color: @silver;
+			i{
+				color: @silver;
+			}
+			&:hover{
+				color: @white;
+				.menu-arrow,i{
+					color: @white;
+				}
+			}
+			.waves-ripple{
+				background: -webkit-radial-gradient(rgba(255,255,255, 0.2) 0, rgba(255,255,255, 0.3) 40%, rgba(255,255,255, 0.4) 50%, rgba(255,255,255, 0.5) 60%, rgba(255,255,255, 0) 70%);
+				background: -o-radial-gradient(rgba(255,255,255, 0.2) 0, rgba(255,255,255, 0.3) 40%, rgba(255,255,255, 0.4) 50%, rgba(255,255,255, 0.5) 60%, rgba(255,255,255, 0) 70%);
+				background: -moz-radial-gradient(rgba(255,255,255, 0.2) 0, rgba(255,255,255, 0.3) 40%, rgba(255,255,255, 0.4) 50%, rgba(255,255,255, 0.5) 60%, rgba(255,255,255, 0) 70%);
+				background: radial-gradient(rgba(255,255,255, 0.2) 0, rgba(255,255,255, 0.3) 40%, rgba(255,255,255, 0.4) 50%, rgba(255,255,255, 0.5) 60%, rgba(255,255,255, 0) 70%);
+			}
+		}
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Menu Active
+*/
+@media(min-width: 800px){
+	.menu-active{
+		.header{
+			.logo{
+				color: @blackest;
+				&:before{
+					background: @blackest;
+				}
+				&:after{
+					background: @white;
+				}
+			}
+		}
+		.navigation{
+			.menu{
+				>li{
+					&:hover{
+						> a{
+							background: @blackest;
+						}
+					}
+				}
+				.sub-menu{
+					a{
+						background: @light_black;
+					}
+				}
+			}
+		}
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Footer
+*/
+.footer{
+	color: @white_light;
+	a{
+		color: @white_light;
+		&:hover{
+			color:@crimson;
+		}
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Boostrap
+*/
+.btn{
+	color: @blackest;
+	&.btn-bordered{
+		background-color: transparent;
+		color: @white;
+		&:hover,&:active,&:focus{
+			color: @blackest;
+		}
+		&.btn-primary,&.btn-success,&.btn-info,&.btn-warning,&.btn-danger,&.btn-violet,&.btn-orange{
+			&:hover,&:active,&:focus{
+				color: @white;
+			}
+		}
+	}
+}
+.btn-primary,.btn-success,.btn-info,.btn-warning,.btn-danger,.btn-violet,.btn-orange{
+	color: @white;
+}
+.list-group{
+	color: @blackest;
+}
+.modal-dialog{
+	color: @blackest;
+}
+.table-striped>tbody>tr:nth-of-type(odd){
+	background-color: @light_black;
+}
+.table-hover>tbody>tr:hover{
+	background-color:  @light_black;
+}
+.table>thead>tr>th{
+	border-bottom-color: @silver;
+}
+/*---------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------------------
+. Calendar
+*/
+.fc-unthemed .fc-content,
+.fc-unthemed .fc-divider, 
+.fc-unthemed .fc-list-heading td, 
+.fc-unthemed .fc-list-view, 
+.fc-unthemed .fc-popover, 
+.fc-unthemed .fc-row, 
+.fc-unthemed tbody, 
+.fc-unthemed td, 
+.fc-unthemed th, 
+.fc-unthemed thead{
+	border-color: @bg;
+}
+.fc{
+	th.fc-widget-header{
+		background: @bg;
+	}
+	.fc-basic-view .fc-day-top .fc-day-number{
+		color: @silver;
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Chart
+*/
+.ct-grids{
+	.ct-grid{
+		stroke: rgba(255,255,255,0.5);
+	}
+}
+.ct-label{
+	fill: rgba(255,255,255,0.4);
+	color: rgba(255,255,255,0.4);
+}
+.highcharts-title tspan{
+	fill: @white;
+	color: @white;
+}
+.highcharts-legend-item text{
+	fill: @white!important;
+	color: @white!important;
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Contact List
+*/
+.box-contact{
+	background: @black;
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Mail
+*/
+.box{
+	color: @blackest;
+}
+.mailbox-messages{
+	.table{
+		>tbody{
+			>tr:hover{
+				color:@white;
+				background: @light_black!important;
+				>td,a,.mailbox-subject-title{
+					color: @white;
+				}
+			}
+		}
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Notice Popup
+*/
+.notice-popup{
+	background-color: @light_black;
+	.popup-title{
+		color: @white;
+		border-bottom-color: @bg;
+	}
+	.notice-read-more{
+		color: @white;
+		&:hover{
+			color:@crimson;
+		}
+	}
+}
+.notice-list{
+	li{
+		border-bottom-color: @bg;
+	}
+	.name{
+		color: @white;
+		&:hover{
+			color: @crimson;
+		}
+	}
+	.desc{
+		color: @silver;
+	}
+	.time{
+		color: @silver;
+	}
+	a{
+		&:hover{
+			background: @blackest;
+		}
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------------------
+. Ranger Slider
+*/
+.noui-connect{
+	.connect{
+		background-color: @crimson;
+	}
+}
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover{
+	border-color: @dark_crimson;
+	background-color: @crimson;
+	outline: none;
+}
+/*---------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------------------
+. Percent Circle
+*/
+.c100{
+	&.blue{
+		background-color: rgba(255,255,255,0.4);
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Table
+*/
+.dataTables_wrapper{
+ 	.dataTable{ 
+		tbody{
+			color: @blackest;
+		}
+		.group{
+			background: @crimson!important;
+		}
+	}
+	.dataTables_info,.dataTables_length,.dataTables_filter{
+		color: @white;
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Timeline
+*/
+.cd-timeline-content{
+	&:before{
+		border-left-color:@black;
+	}
+	background: @black;
+	box-shadow: 0 3px 0 @light_black;
+	h2{
+		color: @white;
+	}
+	.cd-read-more{
+		background: @crimson;
+	}
+}
+.cd-timeline-block:nth-child(even) .cd-timeline-content::before{
+	border-right-color:@black;
+}
+/*---------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------------------
+. User Info
+*/
+.user-info{
+	a{
+		color: @crimson;
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------------------
+. Widget
+*/
+.activity-link{
+	color: @white;
+	&:hover{
+		color: @crimson;
+	}
+}
+.activity-list{
+	color: @silver;
+}
+
+.review-item{
+	.top{
+		.name{
+			color: @white;
+		}
+	}
+}
+
+.widget-stat{
+	.counter{
+		color: @silver;
+	}
+}
+/*---------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------
+. Other
+*/
+.fa-hover{ 
+	.ico,.fa{
+		color: @white;
+	}
+	&:hover{
+		background-color: @crimson;
+	}
+}
+.select2-container{
+	color: @blackest;
+}
+.isotope-filter .filter-controls a{
+	color: @silver;
+	&:hover,&.js__active{
+		color: @white_light;
+	}
+}
+.popover-content{
+	color: @blackest;
+}
+.task-item{
+	.title{
+		color: @white_light;
+		&:hover{
+			color:@crimson;
+		}
+	}
+}
+.treeview .list-group-item:hover{
+	color: @white;
+}
+/*---------------------------------------------------------------------*/

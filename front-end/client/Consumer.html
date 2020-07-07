@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RailgunMQ</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600" />
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--bootstrap.min.css-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--animate.css-->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!--fontawesome 5-->
+    <link rel="stylesheet" href="css/all.min.css">
+    <!--slicknav.css-->
+    <link rel="stylesheet" href="css/slicknav.min.css">
+    <!--slickslider.css-->
+    <link rel="stylesheet" href="css/slick-theme.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <!-- lity.css -->
+    <link rel="stylesheet" href="css/lity.min.css">
+    <!-- Custom.css -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/dropdown.css">
+    <link rel="stylesheet" href="css/banner.css">
+    <link rel="stylesheet" href="css/style1.css" />
+    <link rel="stylesheet" href="css/responsive1.css" />
+    <link rel="stylesheet" href="css/ic-helpers.min.css" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="http://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="http://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body id="container">
+    <!-- Preloader -->
+
+    <!-- Start-Header-Section -->
+    <header class="header-type-three">
+        <!-- Menu-start-area -->
+        <div class="header-fixed header-three">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="index.html">RailgunMQ <small>Client</small>
+                    </a>
+                    <div class="collapse navbar-collapse my-lg-0" id="navbarNav">
+                        <ul class="navbar-nav">
+                          
+
+                        </ul>
+
+                    </div>
+                </nav>
+
+            </div>
+        </div>
+        <!-- End-Menu-area-->
+    </header>
+    <!-- Start-Main-Section -->
+
+
+
+
+    <div class="container t-100" id="products">
+
+
+        <div class="row topicSection">
+            <div class="col col-lg-6 topicTitle">
+                <span>Client Name:</span>
+                <div class="topicUnderline" id="clientName">
+                    {{clientName}}
+                </div>
+            </div>
+            <div class="col col-lg-2 topicButton">
+               <button class="btn btn-secondary" v-on:click = "rename"> rename</button>
+            </div>
+            <div class="col col-lg-4 topicTitle">
+                <span>Topic:</span>
+                <div class="topicUnderline" id="topic">
+                    {{topic}}
+                </div>
+            </div>
+   
+            
+        </div>
+        <div class="row topicSection">
+            <div class="col col-lg-2" >
+                <button type="button" class="disconnButton btn btn-lg btn-warning" v-on:click="disconnect" >Disconnect</button>
+    
+            </div>     
+        </div>
+        
+        <div class="row topicSection cardSection"  >
+            <div class="col col-lg-12">
+                <div class="row">
+                    <div class="col-lg-4 section-head">
+                        Receive messages
+                    </div>
+                    <div class="col-lg-2 offset-2">
+                        <button class="btn btn-secondary" @click="refresh">refresh</button>
+                    </div>
+                    <div class="col-lg-4 ">
+                        <button class="btn btn-secondary" @click="clear">clear Acked message</button>
+                    </div>
+                </div>
+                <table class="topicTable table table-bordered table-hover">
+                    <thead>
+                        <th>Message Id</th>
+                        <th>Message Content</th>
+                        <th>Operation</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="message in messages"  class="" :key='message.messageId' :id='message.messageId'>
+                            <td>{{message.messageId}}</td>
+                            <td>{{message.messageContent}}</td>
+                            <td><button class="btn btn-success" @click="ack(message.messageId,$event)">ACK</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- copyright-area -->
+    <div class="footer-bottom text-black">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="left-text">
+                        Copyright &copy; 2020.<a target="_blank" href="https://github.com/stream2000/RailgunMQ">
+                            同济大学软件学院17级专业方向综合项目11组</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End-footer-section -->
+    <!-- Back to top button -->
+    <a id="btn-to-top" class="show"></a>
+    <!-- Jquery.min.js-->
+    <script src="js/jquery.1.12.4.js"></script>
+    <!--bootstrap.min.js-->
+    <script src="js/bootstrap(1).min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <!--slicknav.min.js-->
+    <script src="js/jquery.slicknav.min.js"></script>
+    <!--slickslider.min.js-->
+    <script src="js/slick.min.js"></script>
+    <!-- counterup.min.js -->
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/jquery.counterup.min.js"></script>
+    <!-- magnific-popup.js -->
+    <script src="js/lity.min.js"></script>
+    <!-- isotope.pkgd.min.js -->
+    <script src="js/isotope.pkgd.min.js"></script>
+    <script src="js/imagesloaded.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script src="js/vue.js"></script>
+    <!-- main.js -->
+    <script src="js/main.js"></script>
+    <script src="js/banner.js"></script>
+    <script src="js/consumer.js"></script>
+</body>
+
+</html>

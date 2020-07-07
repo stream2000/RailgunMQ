@@ -7,7 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class TopicManager {
 
-    private static final TopicManager topicManager = new TopicManager();
+    private static final
+    TopicManager topicManager = new TopicManager();
     private final Map<String, Topic> topicMap = new ConcurrentHashMap<>();
     private TopicStore store;
 

@@ -49,7 +49,7 @@ public class RailgunMQProducer {
         SetChannelName(connectionName);
     }
 
-    private void SetChannelName(String ChannelName) {
+    public void SetChannelName(String ChannelName) {
         ProducerMessage.SetChannelName setChannelName =
             ProducerMessage.SetChannelName.newBuilder().setChannelId(channelId)
                 .setNewname(ChannelName).build();
