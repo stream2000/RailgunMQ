@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 @ChannelHandler.Sharable
 public class RailgunMQConnection {
@@ -31,7 +33,7 @@ public class RailgunMQConnection {
     private Channel channel;
     private BlockingQueue<ProducerMessage.PubMessageAck> blockingQueue;
     private String channelId;
-
+    private AtomicInteger atomicInteger;//自增id生成器
     //在初始化时指明IP和端口
     public RailgunMQConnection(String host, int port) throws InterruptedException {
         this.host = host;
@@ -43,7 +45,11 @@ public class RailgunMQConnection {
                 .handler(new ClientInitializer());
         channel = bootstrap.connect(host, port).sync().channel();
         SemaphoreCache.acquire("client init");
-        blockingQueue = new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
+        connection=new Connection();
+        connection.setChannel(channel);
+        connection.setConnectionName(channel.id().asLongText());
+        blockingQueue=new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
+        atomicInteger=new AtomicInteger();
     }
 
     public RailgunMQConnection(String host, int port, String connectionName)
@@ -56,7 +62,11 @@ public class RailgunMQConnection {
                 .handler(new ClientInitializer());
         channel = bootstrap.connect(host, port).sync().channel();
         SemaphoreCache.acquire("client init");
-        blockingQueue = new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
+        connection=new Connection();
+        connection.setConnectionName(connectionName);
+        connection.setChannel(channel);
+        blockingQueue=new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
+        atomicInteger=new AtomicInteger();
         SetChannelName(connectionName);
     }
 
@@ -68,6 +78,10 @@ public class RailgunMQConnection {
         channel.writeAndFlush(setChannelName);
     }
 
+    public String  getChannelId()
+    {
+        return this.channelId;
+    }
 
     public void Disconnect() {
         //发送关闭channel的消息
@@ -110,50 +124,58 @@ public class RailgunMQConnection {
 
     //这里的send不应该返回空值，先看吧
     //暂时不考虑消息发送策略
-    public void Publish(String topic, String message) {
+    public int Publish(String topic,String message)
+    {
         try {
-            int uuid = UUID.randomUUID().hashCode();
+            int id= atomicInteger.getAndIncrement();
             ProducerMessage.PubMessageRequest request =
-                ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
-                    .setLetterId(uuid)
-                    .setType(ProducerMessage.PubMessageRequest.payload_type.Text)
-                    .setData(ByteString.copyFromUtf8(message))
-                    .setTopic(topic).build();
-            channel.writeAndFlush(request);
+                    ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
+                            .setLetterId(id)
+                            .setType(ProducerMessage.PubMessageRequest.payload_type.Text)
+                            .setData(ByteString.copyFromUtf8(message))
+                            .setTopic(topic).build();
+            connection.getChannel().writeAndFlush(request);
+            return id;
         } catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }
     }
 
 
-    public void Publish(String topic, byte[] bytes) {
+    public int Publish(String topic, byte[] bytes)
+    {
         try {
-            int uuid = UUID.randomUUID().hashCode();
+            int id= atomicInteger.getAndIncrement();
             ProducerMessage.PubMessageRequest request =
-                ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
-                    .setLetterId(uuid)
-                    .setType(ProducerMessage.PubMessageRequest.payload_type.Binary)
-                    .setData(ByteString.copyFrom(bytes))
-                    .setTopic(topic).build();
-            channel.writeAndFlush(request);
-
+                    ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
+                            .setLetterId(id)
+                            .setType(ProducerMessage.PubMessageRequest.payload_type.Binary)
+                            .setData(ByteString.copyFrom(bytes))
+                            .setTopic(topic).build();
+            connection.getChannel().writeAndFlush(request);
+            return id;
         } catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }
     }
 
-    public void Publish(String topic, int value) {
+    public int Publish(String topic, int value)
+    {
         try {
-            int uuid = UUID.randomUUID().hashCode();
+            int id= atomicInteger.getAndIncrement();
             ProducerMessage.PubMessageRequest request =
-                ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
-                    .setLetterId(uuid)
-                    .setType(ProducerMessage.PubMessageRequest.payload_type.Integer)
-                    .setData(ByteString.copyFromUtf8(Integer.toString(value)))
-                    .setTopic(topic).build();
-            channel.writeAndFlush(request);
+                    ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
+                            .setLetterId(id)
+                            .setType(ProducerMessage.PubMessageRequest.payload_type.Integer)
+                            .setData(ByteString.copyFromUtf8(Integer.toString(value)))
+                            .setTopic(topic).build();
+           connection.getChannel().writeAndFlush(request);
+           return id;
         } catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }
     }
 
