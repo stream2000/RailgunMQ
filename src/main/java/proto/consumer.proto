@@ -13,15 +13,8 @@ message CreateChannelResponse {
 }
 
 message SubMessageRequest {
-  string channel_id = 1;
-  string topic = 2;
-  enum payload_type {
-    Text = 0;
-    Binary = 1;
-    Integer = 2;
-  }
-  payload_type type = 3;
-  bytes data = 4;
+  string topic = 1;
+  string name = 2;
 }
 
 message SubMessageAck {

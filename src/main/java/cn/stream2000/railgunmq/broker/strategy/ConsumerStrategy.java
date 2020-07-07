@@ -3,6 +3,8 @@ package cn.stream2000.railgunmq.broker.strategy;
 import cn.stream2000.railgunmq.broker.subscribe.AckSubTaskFactory;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
+import cn.stream2000.railgunmq.core.Connection.ConnectionRole;
+import cn.stream2000.railgunmq.core.ConnectionMap;
 import cn.stream2000.railgunmq.core.ConsumerMessage;
 import cn.stream2000.railgunmq.core.Message;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,10 +23,16 @@ public class ConsumerStrategy {
             ConsumerMessage.SubMessageRequest request = (ConsumerMessage.SubMessageRequest) message;
             String topic = request.getTopic();
             ConsumerMessage.SubMessageAck ack;
-            if (TopicManager.getAll().contains(topic)) {
-                ack = ConsumerMessage.SubMessageAck.newBuilder().setError(Message.ErrorType.OK).setErrorMessage("topic订阅成功").build();
+            if (TopicManager.getTopic(topic) != null) {
+                ack = ConsumerMessage.SubMessageAck.newBuilder().setError(Message.ErrorType.OK)
+                    .setErrorMessage("topic订阅成功").build();
+                ConnectionMap
+                    .addConnection(channelHandlerContext.channel().id().asLongText(), "name",
+                        channelHandlerContext.channel(),
+                        ConnectionRole.Consumer);
             } else {
-                ack = ConsumerMessage.SubMessageAck.newBuilder().setError(Message.ErrorType.InvalidTopic).setErrorMessage("topic订阅失败").build();
+                ack = ConsumerMessage.SubMessageAck.newBuilder()
+                    .setError(Message.ErrorType.InvalidTopic).setErrorMessage("topic订阅失败").build();
             }
             System.out.println("返回码为：  " + ack.getError());
             System.out.println(ack.getErrorMessage());

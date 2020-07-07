@@ -32,19 +32,5 @@ public class ProducerStrategy {
         }
     }
 
-    public static class DisconnectStrategy implements MessageStrategyWithBusinessPool {
 
-        @Override
-        public void handleMessage(ChannelHandlerContext ctx, Object message) {
-
-            ctx.channel().disconnect();
-            if (ConnectionMap.getConnection(ctx.channel().id().asLongText()) != null) {
-                ConnectionMap.deleteConnection(ctx.channel().id().asLongText());
-                System.out.println("剩余连接数：" + ConnectionMap.getNum());
-            }
-
-            ProducerMessage.Disconnect request = (ProducerMessage.Disconnect) message;
-            ConnectionMap.deleteConnection(request.getChannelId());
-        }
-    }
 }

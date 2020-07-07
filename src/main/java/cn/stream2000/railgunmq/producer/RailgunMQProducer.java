@@ -24,7 +24,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class RailgunMQConnection {
+public class RailgunMQProducer {
 
     private final String host;
     private final int port;
@@ -34,10 +34,9 @@ public class RailgunMQConnection {
     private AtomicInteger atomicInteger;//自增id生成器
 
     //在初始化时指明IP和端口
-    public RailgunMQConnection(String host, int port) throws InterruptedException {
+    public RailgunMQProducer(String host, int port) throws InterruptedException {
         this.host = host;
         this.port = port;
-        channelId = "";
         EventLoopGroup group = new NioEventLoopGroup(1);
         Bootstrap bootstrap =
             new Bootstrap().group(group).channel(NioSocketChannel.class)
@@ -48,7 +47,7 @@ public class RailgunMQConnection {
         atomicInteger = new AtomicInteger();
     }
 
-    public RailgunMQConnection(String host, int port, String connectionName)
+    public RailgunMQProducer(String host, int port, String connectionName)
         throws InterruptedException {
         this.host = host;
         this.port = port;
@@ -57,17 +56,15 @@ public class RailgunMQConnection {
             new Bootstrap().group(group).channel(NioSocketChannel.class)
                 .handler(new ClientInitializer());
         channel = bootstrap.connect(host, port).sync().channel();
-        SemaphoreCache.acquire("client init");
         blockingQueue = new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
         atomicInteger = new AtomicInteger();
         SetChannelName(connectionName);
     }
 
     public void SetChannelName(String ChannelName) {
-        int uuid = UUID.randomUUID().hashCode();
         ProducerMessage.SetChannelName setChannelName =
             ProducerMessage.SetChannelName.newBuilder().setChannelId(channelId)
-                .setNewname(ChannelName).setLetterId(uuid).build();
+                .setNewname(ChannelName).build();
         channel.writeAndFlush(setChannelName);
     }
 
@@ -179,16 +176,6 @@ public class RailgunMQConnection {
         }
     }
 
-    public class ClientInitStrategy implements MessageStrategy {
-
-        @Override
-        public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
-            channelId = ((ProducerMessage.CreateChannelResponse) message).getChannelId();
-            System.out.println("Response返回的channelid为：" + channelId);
-            SemaphoreCache.release("client init");
-        }
-    }
-
     public class ClientInitializer extends ChannelInitializer<SocketChannel> {
 
         ProtobufEncoder encoder = new ProtobufEncoder(RouterInitializer.initialize());
@@ -201,8 +188,6 @@ public class RailgunMQConnection {
             ch.pipeline().addLast(new MessageStrategyProtobufDecoder(router));
             router.registerHandler(ProducerMessage.PubMessageAck.getDefaultInstance(),
                 new PubMessageResponseStrategy());
-            router.registerHandler(ProducerMessage.CreateChannelResponse.getDefaultInstance(),
-                new ClientInitStrategy());
             ch.pipeline().addLast(handler);
         }
     }

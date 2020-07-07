@@ -8,8 +8,8 @@ public class Test {
     public static void main(String[] args) throws Exception{
 
         //新建两个连接
-        RailgunMQConnection railgunMQClient=new RailgunMQConnection("127.0.0.1",9999);
-        RailgunMQConnection MQ2=new RailgunMQConnection("127.0.0.1",9999,"我就是连接2");
+        RailgunMQProducer railgunMQClient=new RailgunMQProducer("127.0.0.1",9999);
+        RailgunMQProducer MQ2=new RailgunMQProducer("127.0.0.1",9999,"我就是连接2");
         //测试一开始就提供Connection名字
 
 
