@@ -19,10 +19,9 @@ public class BrokerMessageHandler extends MessageEventWrapper<Object> {
 
   @Override
   public void channelActive(ChannelHandlerContext ctx) throws Exception {
-    String uuid = UUID.randomUUID().toString();
-    ChannelMap.addChannel(uuid, ctx.channel());
+    ChannelMap.addChannel(ctx.channel().id().asLongText(),ctx.channel().hashCode(), ctx.channel());
     ProducerMessage.CreateChannelResponse response =
-        ProducerMessage.CreateChannelResponse.newBuilder().setChannelId(uuid).build();
+        ProducerMessage.CreateChannelResponse.newBuilder().setChannelId(ctx.channel().id().asLongText()).build();
     ctx.writeAndFlush(response);
   }
 

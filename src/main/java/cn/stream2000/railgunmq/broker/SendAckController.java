@@ -1,6 +1,7 @@
 package cn.stream2000.railgunmq.broker;
 
 import cn.stream2000.railgunmq.core.ChannelMap;
+import cn.stream2000.railgunmq.core.Connection;
 import cn.stream2000.railgunmq.core.ProducerAckQueue;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import io.netty.channel.Channel;
@@ -22,11 +23,11 @@ public class SendAckController implements Callable<Void> {
   public Void call() throws Exception {
     while (!stopped) {
       ProducerMessage.PubMessageAck ack = ProducerAckQueue.getAck();
-      Channel chan = ChannelMap.getChannel(ack.getChannelId());
+      Connection chan = ChannelMap.getChannel(ack.getChannelId());
       if (chan == null) {
         throw new ChannelNotExistsException();
       }
-      chan.writeAndFlush(ack);
+      chan.getChannel().writeAndFlush(ack);
     }
     return null;
   }
