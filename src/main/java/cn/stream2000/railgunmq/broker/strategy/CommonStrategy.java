@@ -17,7 +17,6 @@ public class CommonStrategy {
             ctx.channel().disconnect();
             if (ConnectionMap.getConnection(ctx.channel().id().asLongText()) != null) {
                 ConnectionMap.deleteConnection(ctx.channel().id().asLongText());
-                System.out.println("剩余连接数：" + ConnectionMap.getNum());
             }
             deleteSubscription(ctx);
 

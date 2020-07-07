@@ -33,6 +33,7 @@ public class ConsumerStrategy {
                     .addConnection(channelHandlerContext.channel().id().asLongText(), "name",
                         channelHandlerContext.channel(),
                         ConnectionRole.Consumer);
+                log.info("id : {}", channelHandlerContext.channel().id().asLongText());
                 topic.addSubscription(
                     new Subscription(channelHandlerContext.channel().id().asLongText(),
                         channelHandlerContext.channel(), topicName));

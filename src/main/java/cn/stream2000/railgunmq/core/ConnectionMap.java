@@ -25,8 +25,4 @@ public class ConnectionMap {
         connections.remove(channelId);
     }
 
-    public static int getNum() {
-        return connections.size();
-    }
-
 }

@@ -34,7 +34,7 @@ public class ProducerStrategy {
             if (!StringUtils.isEmpty(request.getNewname()))//修改的Name不为空
             {
                 ConnectionMap.addConnection(ctx.channel().id().asLongText(),
-                    request.getNewname(), ctx.channel(), ConnectionRole.Consumer);
+                    request.getNewname(), ctx.channel(), ConnectionRole.Producer);
             }
         }
     }
