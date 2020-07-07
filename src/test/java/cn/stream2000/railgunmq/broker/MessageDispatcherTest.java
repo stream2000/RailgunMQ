@@ -134,7 +134,7 @@ public class MessageDispatcherTest {
         long maxWaitTime = 20000;
         Date date = new Date();
         long start = date.getTime();
-        for (int i = 0; i < ids.size();) {
+        for (int i = 0; i < ids.size(); ) {
             String id = ids.get(i);
             if (offlineMessageStore.checkMessage("default", id)
                 || persistenceMessageStore.getMessage("default", id) != null) {
@@ -147,7 +147,7 @@ public class MessageDispatcherTest {
                         e.printStackTrace();
                         Assert.fail();
                     }
-                }else {
+                } else {
                     Assert.fail();
                 }
             }
