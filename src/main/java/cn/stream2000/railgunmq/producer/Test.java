@@ -2,6 +2,8 @@ package cn.stream2000.railgunmq.producer;
 
 import cn.stream2000.railgunmq.core.ProducerMessage;
 
+import java.util.List;
+
 public class Test {
     public static void main(String[] args) throws Exception{
 
@@ -27,20 +29,30 @@ public class Test {
 
         //取ack
         Thread.sleep(5000);//等待5秒
-        while (railgunMQClient.blockingQueue.size()!=0)
-        {
-            ProducerMessage.PubMessageAck ack= railgunMQClient.blockingQueue.take();
-            System.out.println("返回类型为："+ack.getError());
-            System.out.println("返回信息为："+ack.getErrorMessage());
-            System.out.println("对应的消息id为"+ack.getLetterId());
+        List<ProducerMessage.PubMessageAck> acks=railgunMQClient.getAcks(2000);
+
+        List<ProducerMessage.PubMessageAck> acks1=MQ2.getAcks(2000);
+
+
+        //连接1取ack
+        System.out.println("连接1的ack如下：");
+        if(acks!=null){
+            for (ProducerMessage.PubMessageAck ack : acks) {
+                System.out.println("返回类型为："+ack.getError());
+                System.out.println("返回信息为："+ack.getErrorMessage());
+                System.out.println("对应的消息id为"+ack.getLetterId());
+            }
         }
 
-        while (MQ2.blockingQueue.size()!=0)
+        //连接2取ack
+        System.out.println("连接2的ack如下：");
+        if(acks1!=null)
         {
-            ProducerMessage.PubMessageAck ack= MQ2.blockingQueue.take();
-            System.out.println("返回类型为："+ack.getError());
-            System.out.println("返回信息为："+ack.getErrorMessage());
-            System.out.println("对应的消息id为"+ack.getLetterId());
+            for (ProducerMessage.PubMessageAck ack:acks1) {
+                System.out.println("返回类型为："+ack.getError());
+                System.out.println("返回信息为："+ack.getErrorMessage());
+                System.out.println("对应的消息id为"+ack.getLetterId());
+            }
         }
 
         railgunMQClient.Disconnect();

@@ -15,6 +15,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -23,8 +26,8 @@ public class RailgunMQConnection {
     private final String host;
     private final int port;
     private Connection connection;
-    public BlockingQueue<ProducerMessage.PubMessageAck> blockingQueue;
-    public String channelId;
+    private BlockingQueue<ProducerMessage.PubMessageAck> blockingQueue;
+    private String channelId;
     //在初始化时指明IP和端口
     public RailgunMQConnection(String host, int port) throws InterruptedException {
         this.host = host;
@@ -84,6 +87,37 @@ public class RailgunMQConnection {
             e.printStackTrace();
         }
     }
+
+    //获取单个ACK
+    public ProducerMessage.PubMessageAck getAck() throws InterruptedException {
+        return this.blockingQueue.poll();
+    }
+
+    //在限定时间内取一些ACK
+    public List<ProducerMessage.PubMessageAck> getAcks(long Maxtime)
+    {
+        List<ProducerMessage.PubMessageAck> acks=new ArrayList<ProducerMessage.PubMessageAck>();
+        long StartTime=System.currentTimeMillis();
+
+        while (System.currentTimeMillis()-StartTime<=Maxtime)
+        {
+            ProducerMessage.PubMessageAck ack= blockingQueue.poll();
+            if(ack!=null)
+            {
+                acks.add(ack);
+            }
+
+        }
+        return acks;
+    }
+
+
+    public int getAckNum()
+    {
+        return this.blockingQueue.size();
+    }
+
+
     //这里的send不应该返回空值，先看吧
     //暂时不考虑消息发送策略
     public void Publish(String topic,String message)
