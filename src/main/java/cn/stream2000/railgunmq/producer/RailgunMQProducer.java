@@ -34,19 +34,6 @@ public class RailgunMQProducer {
     private String channelId;
     private AtomicInteger atomicInteger;//自增id生成器
 
-    //在初始化时指明IP和端口
-    public RailgunMQProducer(String host, int port) throws InterruptedException {
-        this.host = host;
-        this.port = port;
-        EventLoopGroup group = new NioEventLoopGroup(1);
-        Bootstrap bootstrap =
-            new Bootstrap().group(group).channel(NioSocketChannel.class)
-                .handler(new ClientInitializer());
-        channel = bootstrap.connect(host, port).sync().channel();
-        SemaphoreCache.acquire("client init");
-        blockingQueue = new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
-        atomicInteger = new AtomicInteger();
-    }
 
     public RailgunMQProducer(String host, int port, String connectionName)
         throws InterruptedException {
@@ -57,12 +44,13 @@ public class RailgunMQProducer {
             new Bootstrap().group(group).channel(NioSocketChannel.class)
                 .handler(new ClientInitializer());
         channel = bootstrap.connect(host, port).sync().channel();
-        blockingQueue = new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
+        channelId = channel.id().asLongText();
+        blockingQueue = new LinkedBlockingDeque<>();
         atomicInteger = new AtomicInteger();
         SetChannelName(connectionName);
     }
 
-    public void SetChannelName(String ChannelName) {
+    private void SetChannelName(String ChannelName) {
         ProducerMessage.SetChannelName setChannelName =
             ProducerMessage.SetChannelName.newBuilder().setChannelId(channelId)
                 .setNewname(ChannelName).build();
@@ -173,6 +161,7 @@ public class RailgunMQProducer {
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
             ProducerMessage.PubMessageAck ack = (ProducerMessage.PubMessageAck) message;
             //如果成功收到ack就关闭连接
+            System.out.println(ack);
             blockingQueue.add(ack);
         }
     }

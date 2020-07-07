@@ -1,6 +1,8 @@
 package cn.stream2000.railgunmq.broker.strategy;
 
 import cn.stream2000.railgunmq.broker.subscribe.AckSubTaskFactory;
+import cn.stream2000.railgunmq.broker.subscribe.Subscription;
+import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
 import cn.stream2000.railgunmq.core.Connection.ConnectionRole;
@@ -21,15 +23,20 @@ public class ConsumerStrategy {
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
 
             ConsumerMessage.SubMessageRequest request = (ConsumerMessage.SubMessageRequest) message;
-            String topic = request.getTopic();
+            String topicName = request.getTopic();
             ConsumerMessage.SubMessageAck ack;
-            if (TopicManager.getTopic(topic) != null) {
+            Topic topic = TopicManager.getTopic(topicName);
+            if (topic != null) {
                 ack = ConsumerMessage.SubMessageAck.newBuilder().setError(Message.ErrorType.OK)
                     .setErrorMessage("topic订阅成功").build();
                 ConnectionMap
                     .addConnection(channelHandlerContext.channel().id().asLongText(), "name",
                         channelHandlerContext.channel(),
                         ConnectionRole.Consumer);
+                topic.addSubscription(
+                    new Subscription(channelHandlerContext.channel().id().asLongText(),
+                        channelHandlerContext.channel(), topicName));
+
             } else {
                 ack = ConsumerMessage.SubMessageAck.newBuilder()
                     .setError(Message.ErrorType.InvalidTopic).setErrorMessage("topic订阅失败").build();
