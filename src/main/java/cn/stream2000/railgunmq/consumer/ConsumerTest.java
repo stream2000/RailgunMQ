@@ -18,9 +18,11 @@ public class ConsumerTest {
             System.out.println(subMessage.getData().toStringUtf8());
         }
         System.out.println("here  !!!!!!!");
+        TimeUnit.MILLISECONDS.sleep(6000);
         result = consumer.getMessages(1000);
         for (SubMessage subMessage : result) {
             System.out.println(subMessage.getData().toStringUtf8());
         }
+
     }
 }

@@ -38,20 +38,18 @@ public class AckManager {
 
     public void monitorMessageAck(String topic, String msgId) {
         ackMap.compute(key(topic, msgId), (key, oldValue) -> {
-            if (oldValue == null || !oldValue) {
-                hashedWheelTimer.newTimeout(this.new TimerFiredEvent(topic, msgId)::OnTimerFired, 5,
-                    TimeUnit.SECONDS);
-            }
+            hashedWheelTimer.newTimeout(this.new TimerFiredEvent(topic, msgId)::OnTimerFired, 5,
+                TimeUnit.SECONDS);
             return true;
         });
     }
 
     public void ackMessage(String topic, String msgId) {
-        ackMap.compute(key(topic,msgId), (key, oldValue) -> {
+        ackMap.compute(key(topic, msgId), (key, oldValue) -> {
             if (oldValue != null && oldValue) {
                 // TODO use a thread pool to execute time-consuming task
                 log.debug("[AckManager] delete offline message with topic {} id {}", topic, msgId);
-                offlineMessageStore.deleteMessage(topic,msgId);
+                offlineMessageStore.deleteMessage(topic, msgId);
             }
             return null;
         });
@@ -77,10 +75,11 @@ public class AckManager {
         }
 
         void OnTimerFired(Timeout timeout) {
-            log.debug("[Timer] timer event fired with topic: {} id: {}",topic,msgId);
+            log.info("[Timer] timer event fired with topic: {} id: {}", topic, msgId);
             ackMap.compute(key(topic, msgId), (k, ov) -> {
                 if (ov == null || !ov) {
-                    log.info("[Timer] message with topic: {} id: {} is already acknowledged",topic,msgId);
+                    log.info("[Timer] message with topic: {} id: {} is already acknowledged", topic,
+                        msgId);
                     return null;
                 } else {
                     // oldValue is true, so we haven't received the ack
