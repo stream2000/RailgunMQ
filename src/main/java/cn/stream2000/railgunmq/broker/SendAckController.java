@@ -4,7 +4,7 @@ import cn.stream2000.railgunmq.core.ChannelMap;
 import cn.stream2000.railgunmq.core.Connection;
 import cn.stream2000.railgunmq.core.ProducerAckQueue;
 import cn.stream2000.railgunmq.core.ProducerMessage;
-import io.netty.channel.Channel;
+
 import java.util.concurrent.Callable;
 
 public class SendAckController implements Callable<Void> {

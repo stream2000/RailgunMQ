@@ -5,11 +5,7 @@ import cn.stream2000.railgunmq.broker.subscribe.Topic;
 import cn.stream2000.railgunmq.broker.subscribe.TopicManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
 import cn.stream2000.railgunmq.common.helper.ThreadFactoryImpl;
-import cn.stream2000.railgunmq.core.Message;
-import cn.stream2000.railgunmq.core.ProducerAckQueue;
-import cn.stream2000.railgunmq.core.ProducerMessage;
-import cn.stream2000.railgunmq.core.QueueMessage;
-import cn.stream2000.railgunmq.core.StoredMessage;
+import cn.stream2000.railgunmq.core.*;
 import cn.stream2000.railgunmq.store.OfflineMessageStore;
 import cn.stream2000.railgunmq.store.PersistenceMessageStore;
 import java.util.ArrayList;
@@ -123,7 +119,6 @@ public class MessageDispatcher {
             persistenceMessageStore.storeMessage(storedMessage);
             Subscription sub = topic.getNextSubscription();
             if (sub == null) {
-                System.out.println("到这儿了");
                 offlineMessageStore.addMessage(message.getTopic(), message.getMsgId());
 
                 if (message.isNeedAck()) {
@@ -134,7 +129,6 @@ public class MessageDispatcher {
                             .setLetterId(message.getLetterId())
                             .setChannelId(message.getChannelId())
                             .build();
-                    System.out.println("Topic正常，返回Ack：LetterId为"+ack.getLetterId()+"       Channel id 为"+ack.getChannelId()   );
                     ProducerAckQueue.pushAck(ack);
                 }
                 return;
