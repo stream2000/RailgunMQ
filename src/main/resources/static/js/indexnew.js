@@ -1,11 +1,7 @@
 ﻿var vue = new Vue({
   el: '#products',
   data: {
-    topics: [{
-      topicName: "",
-      active: false,
-      nextSubscription: null
-    }],
+    topics: [],
     mode: "normal",
     addStatus: true,
     url:"http://localhost:8080"
@@ -19,26 +15,36 @@
       var status_word = 'the status of ' + topicName + ' is ' + active;
       showBar(topicName,status_word);
     },
-    consumer: function(topicName,nextSubscription) {
-      if(nextSubscription===null){       
-        showBar(topicName,"null");
-      }
-      else {
-        var consumer_word = ' <table class="table table-bordered"><tbody><tr>'+nextSubscription[0]+'</tr> ' 
-        for (var i = 0; i < nextSubscription.length; i++) {
-          consumer_word = consumer_word + '<tr>' + nextSubscription[i]+"</tr>";
+    connection: function(topicName,nextSubscription) {
+      $.ajax({
+        url: /*this.url+*/'/topic/all',
+        method: 'GET',
+        data:{"topic":topicName},
+        success: function (data) {
+          console.log(data);
+          if(data.length>0)
+          {
+            var consumer_word = ' <table class="table table-bordered"><tbody><thead><th>connnection name</th><th>role</th></thead><tbody>'
+            for(var i =0;i<data.length;i++)
+            {
+              consumer_word = consumer_word + '<tr><td>'+data[i].connectionName+'</td> <td>' + data[i].role+"</td></tr>";
+            }
+            consumer_word = consumer_word +'</tbody></table>';
+            showBar(topicName, consumer_word);
+          }
+          else {
+            showBar(topicName, null);
+          }
+        },
+        error: function (error) {
+          console.log(error);
         }
-        consumer_word = consumer_word +'</tbody></table>'
-        showBar(topicName, consumer_word);
-      }
+      })
 
     },
     topicButton: function (topic_id, topic) {
       var topic_word = 'the topic of ' + topic_id + ' is ' + topic;
       showBar(topic_id, topic_word);
-    },
-    reset: function (topic_id) {
-      resetTopic(topic_id);
     },
     del: function (topicName) {
       var id = '#topic' + topicName;

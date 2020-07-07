@@ -1818,7 +1818,7 @@ ul.about-listing {
 	opacity: 0.5;
 }
 .footer-bottom {
-
+	position: absolute;
 	clear: both;
 	width:100%;
 	bottom:0;

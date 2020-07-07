@@ -1233,7 +1233,7 @@ ul.list-primary li {
 }
 
 #products {
-	height:864px;
+	height:860px;
 	margin-top: 100px;
 }
 
@@ -1429,4 +1429,11 @@ input[type="radio"]:checked+.checkboxType {
 	border:2px solid white;
 	border-radius:25px;
 	background-color: white;
+}
+.cardSection {
+	border:3px solid white;
+	border-radius: 15px;
+	background-color: white;
+	padding:15px;
+	margin-bottom:50px;
 }
