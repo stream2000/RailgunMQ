@@ -1,0 +1,118 @@
+.container {}
+
+#wrapper {
+    padding-top: 110px;
+}
+
+#whole_page {
+    background-color: white;
+    padding-top: 110px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#names {
+    margin-top: 20px;
+}
+
+#detail {
+    height: 100px;
+    overflow: hidden;
+}
+#price {
+    width:100px;
+}
+#price_box {
+    font-size: 15pt;
+    font-weight: bold;
+}
+.input_pre_word {
+    margin-top: 20px;
+}
+
+#catagory li {
+    font-size: 15pt;
+    float: left;
+    width: 20%;
+    margin-top: 10px;
+}
+
+#catagory ul input {
+    float: left;
+    cursor: pointer;
+}
+
+#catagory ul div {
+    float: left;
+    height: 20px;
+    width: 20px;
+}
+
+.catagory {
+    margin-top: 20px;
+}
+
+.radio input[type="radio"] {
+    position: absolute;
+
+}
+
+input[type="radio"]:after {
+    content: '';
+    background-image: url(../images/check.png);
+    background-size: 20px 20px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    z-index: 100;
+    margin-top: 1px;
+    margin-left: -4px;
+
+}
+
+input[type="radio"]:checked:after {
+    content: '';
+    background-image: url(../images/checked.png);
+    background-size: 20px 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.submit {
+    text-align: center;
+}
+
+#submit {
+
+    margin-top: 50px;
+    margin-left: 60px;
+}
+
+/*.radio {
+	display: none;
+}
+.radio[type=radio]+span {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: url(../images/check.png) no-repeat;
+}
+
+.radio[type=radio]:checked+span {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: url(../images/checked.png) no-repeat;
+}
+*/
+#whole {
+    width:100%;
+    height: 50px;
+}
+.notion {
+    position: absolute;
+    color:red;
+   left:0px;
+   width:450px;
+   text-align:center;
+}

@@ -1,0 +1,220 @@
+#whole {
+    padding-top:120px;
+}
+
+#bg_pic{
+    position:absolute;
+    z-index:0;
+    width:100%;
+    height:500px;
+    overflow:hidden;
+}
+#bg_pic img{
+    height:100%;
+    width:100%;
+}
+
+#icon {
+    width: 120px;
+    height:120px;
+    border-radius:120px;
+
+    overflow: hidden;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#user_infom {
+    width:40%;
+    margin-left:auto;
+    margin-right:auto;
+    height:100px;
+    text-align:center;
+}
+
+#user_name {
+    font-size:30pt;
+    color:white;
+}
+
+#follow {
+    margin-left:auto;
+    margin-right:auto;
+    width:40%;
+    color:white;
+    font-size:15pt;
+
+}
+#follow li {
+    width:50%;
+    float:left;
+    cursor: pointer;
+}
+#follow h4 {
+    color:white;
+}
+
+#banner {
+    margin-top:60px;
+    font-size: 20px;
+}
+.breadcrumb-item{
+cursor: pointer;
+font-weight: bolder;
+}
+#report {
+    margin-left:500px;
+    padding-left:10px;   
+    padding-right:10px;
+    font-size:17pt;
+    font-weight: bold;
+    color:white;
+    cursor: pointer;
+    border:1px solid white;
+    border-radius:10px;
+}
+#report:hover {
+    color:#4FC3A1;
+}
+#is_follow {
+    font-size:12pt;
+    width:90px;
+    margin-left:40px;
+    border:1px solid rgba(255, 255, 255, 0.562);
+    border-radius:2px;
+    text-align:center;
+    cursor: pointer;
+}
+#is_follow:hover{
+    border:1px solid white;
+}
+#presentation {
+    width:70%;
+    margin-top:-22px;
+    margin-left:auto;
+    margin-right:auto;
+    padding-top:50px;
+}
+#presentation i{
+    cursor:pointer;
+}
+#presentation i:hover{
+    color:#4FC3A1;
+}
+.pre {
+    display:none;
+}
+#my_uploader{
+    display:flex;
+}
+
+.table-wrapper{
+    margin: 10px 70px 70px;
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
+
+.fl-table {
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.fl-table td, .fl-table th {
+    text-align: left;
+    padding: 15px;
+    max-width: 20%;
+}
+
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 15px;
+}
+
+.fl-table thead th {
+    color: #4FC3A1;
+    background:#F8F8F8;
+}
+
+
+.fl-table thead th:nth-child(odd) {
+    color: #4FC3A1;
+
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+.fl-table img {
+    width:50px;
+    height:50px;
+    border-radius:5px;
+}
+.fl-table a:hover {
+    color: #4FC3A1;
+}
+.other_icon {
+    width:205px;
+    height:205px;
+    float:left;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+.other_icon img {
+    width:70%;
+    height:70%;
+    border-radius:100%;
+}
+.other_icon p {
+    margin-top:5px;
+}
+.pre a:hover {
+    color: #4FC3A1;
+    text-decoration: underline;
+}
+
+#bottom_blank{
+    height:100px;
+    width:100%;
+}
+.del_button{
+  transition: 1s;
+}
+.del_button:hover{
+ transform: rotate(720deg);
+}
+.trans_button{
+    transition:1s;
+}
+.trans_button:hover{
+    transform: translateX(-5px);
+}
+
+.edit {
+    position: absolute;
+    margin-left:30px;
+    margin-top:30px;
+    color:white;
+    cursor: pointer;
+}
+.edit:hover {
+    color:#4FC3A1
+}
+#money {
+    color:white;
+    width:40%;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+}
+#money span{
+    font-weight: bold;
+    font-size: 25pt;
+    color:rgb(236, 98, 132);
+}
