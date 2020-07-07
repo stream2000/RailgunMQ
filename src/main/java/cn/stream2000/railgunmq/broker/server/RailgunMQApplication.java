@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RailgunMQApplication {
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(RailgunMQApplication.class);
+        SpringApplication app = new SpringApplication(cn.stream2000.railgunmq.broker.server.RailgunMQApplication.class);
         app.run(args);
     }
 

@@ -22,51 +22,65 @@ public class ProducerController {
 
     @GetMapping("/producer/connect")
     @ResponseBody
-    public boolean connect() {
+    public String connect() {
         try{
-            ProducerService.connect();
-            return true;
+            return ProducerService.connect();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
 
     }
+
+    @PostMapping("/producer/connect")
+    @ResponseBody
+    public String connect(String id) {
+        try{
+            return ProducerService.connect(id);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     @PostMapping("/producer/setChannelName")
     @ResponseBody
-    public void setChannelName(@RequestParam(value = "name")String name){
-        ProducerService.setChannelName(name);
+    public boolean setChannelName(@RequestParam(value = "id")String id,@RequestParam(value = "name")String name){
+        return ProducerService.setChannelName(id,name);
     }
 
     @PostMapping("/producer/publish/string")
     @ResponseBody
-    public void publish(@RequestParam(value = "topic")String topic,@RequestParam(value = "content")String content){
-        ProducerService.publish(topic,content);
+    public boolean publish(@RequestParam(value = "id")String id,@RequestParam(value = "topic")String topic,@RequestParam(value = "content")String content){
+        return ProducerService.publish(id,topic,content);
     }
     @PostMapping("/producer/publish/int")
     @ResponseBody
-    public void publish(@RequestParam(value = "topic")String topic,@RequestParam(value = "content")int content){
-        ProducerService.publish(topic,content);
+    public boolean publish(@RequestParam(value = "id")String id,@RequestParam(value = "topic")String topic,@RequestParam(value = "content")int content){
+        return ProducerService.publish(id,topic,content);
     }
 
     @PostMapping("/producer/publish/bytes")
     @ResponseBody
-    public void publish(@RequestParam(value = "topic")String topic,@RequestParam(value = "content")byte[] content){
-        ProducerService.publish(topic,content);
+    public boolean publish(@RequestParam(value = "id")String id,@RequestParam(value = "topic")String topic,@RequestParam(value = "content")byte[] content){
+        return ProducerService.publish(id,topic,content);
     }
 
     @GetMapping("/producer/disconnect")
     @ResponseBody
-    public void disconnect(){
-        ProducerService.disconnect();
+    public boolean disconnect(@RequestParam(value = "id")String id){
+        return ProducerService.disconnect(id);
 
     }
 
     @GetMapping("/producer/acks")
     @ResponseBody
-    public List<Map> getACK(){
+    public List<Map> getACK(@RequestParam(value = "id")String id){
         try{
-            return ProducerService.getACK();
+            return ProducerService.getACK(id);
         } catch (InterruptedException e) {
             e.printStackTrace();
             return null;

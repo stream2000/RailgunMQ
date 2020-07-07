@@ -29,4 +29,6 @@ public class ConnectionMap {
         return connections.size();
     }
 
+    public static Map<String, Connection> getAllChannels() { return connections;}
+
 }
