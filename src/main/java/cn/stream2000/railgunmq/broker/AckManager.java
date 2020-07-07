@@ -37,7 +37,7 @@ public class AckManager {
     }
 
     public void monitorMessageAck(String topic, String msgId) {
-        ackMap.compute(key(topic, msgId), (key, oldValue) -> {
+        ackMap.compute(key(topic, msgId), (String key, Boolean oldValue) -> {
             if (oldValue == null || !oldValue) {
                 hashedWheelTimer.newTimeout(this.new TimerFiredEvent(topic, msgId)::OnTimerFired, 5,
                     TimeUnit.SECONDS);

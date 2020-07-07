@@ -33,12 +33,12 @@ message PubMessageAck {
 }
 
 message SetChannelName {
-    string channel_id = 1;
-    int32 letter_id = 2;
-    string newname = 3;
+  string channel_id = 1;
+  int32 letter_id = 2;
+  string newname = 3;
 }
 
 message Disconnect {
-    string channel_id =1;
-    int32 letter_id =2;
+  string channel_id = 1;
+  int32 letter_id = 2;
 }

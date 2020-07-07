@@ -7,20 +7,20 @@ import java.util.concurrent.TimeUnit;
 
 public class BusinessTaskExecutor {
 
-  protected static final ExecutorService businessPool = newBlockingExecutorsUseCallerRun(16);
+    protected static final ExecutorService businessPool = newBlockingExecutorsUseCallerRun(16);
 
-  public static ExecutorService getBusinessPool() {
-    return businessPool;
-  }
+    public static ExecutorService getBusinessPool() {
+        return businessPool;
+    }
 
-  public static ExecutorService newBlockingExecutorsUseCallerRun(int size) {
-    return new ThreadPoolExecutor(size, size, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>(),
-        (r, executor) -> {
-          try {
-            executor.getQueue().put(r);
-          } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-          }
-        });
-  }
+    public static ExecutorService newBlockingExecutorsUseCallerRun(int size) {
+        return new ThreadPoolExecutor(size, size, 0L, TimeUnit.MILLISECONDS, new SynchronousQueue<>(),
+                (r, executor) -> {
+                    try {
+                        executor.getQueue().put(r);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+    }
 }

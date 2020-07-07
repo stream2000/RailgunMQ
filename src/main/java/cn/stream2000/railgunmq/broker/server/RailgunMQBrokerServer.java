@@ -1,7 +1,9 @@
 package cn.stream2000.railgunmq.broker.server;
 
 import cn.stream2000.railgunmq.broker.BrokerMessageHandler;
+import cn.stream2000.railgunmq.broker.strategy.ConsumerStrategy;
 import cn.stream2000.railgunmq.broker.strategy.ProducerStrategy;
+import cn.stream2000.railgunmq.core.ConsumerMessage;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.netty.codec.MessageStrategyProtobufDecoder;
 import cn.stream2000.railgunmq.netty.codec.ProtoRouter;
@@ -104,6 +106,10 @@ public class RailgunMQBrokerServer extends BrokerParallelServer {
                     new ProducerStrategy.SetNameStrategy());
             router.registerHandler(ProducerMessage.Disconnect.getDefaultInstance(),
                     new ProducerStrategy.DisconnectStrategy());
+            router.registerHandler(ConsumerMessage.SubMessageRequest.getDefaultInstance(),
+                    new ConsumerStrategy.SubscribeMessageStrategy());
+            router.registerHandler(ConsumerMessage.SendMessageAck.getDefaultInstance(),
+                    new ConsumerStrategy.AckMessageStrategy());
             ch.pipeline().addLast(handler);
         }
     }

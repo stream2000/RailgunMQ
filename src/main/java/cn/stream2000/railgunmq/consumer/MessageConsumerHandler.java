@@ -1,12 +1,12 @@
-package cn.stream2000.railgunmq.producer;
+package cn.stream2000.railgunmq.consumer;
 
 import cn.stream2000.railgunmq.netty.MessageEventWrapper;
 import cn.stream2000.railgunmq.netty.codec.MessageStrategyContext;
 import io.netty.channel.ChannelHandlerContext;
 
-public class ClientHandler extends MessageEventWrapper<Object> {
+public class MessageConsumerHandler extends MessageEventWrapper<Object> {
 
-    public ClientHandler() {
+    public MessageConsumerHandler() {
         super.setWrapper(this);
     }
 

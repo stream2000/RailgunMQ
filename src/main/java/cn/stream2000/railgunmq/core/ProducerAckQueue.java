@@ -6,26 +6,26 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ProducerAckQueue {
 
-  public static final BlockingQueue<ProducerMessage.PubMessageAck> ackQueue = new LinkedBlockingQueue<>();
+    public static final BlockingQueue<ProducerMessage.PubMessageAck> ackQueue = new LinkedBlockingQueue<>();
 
-  public static void pushAck(ProducerMessage.PubMessageAck ack) throws InterruptedException {
-    if (ack == null) {
-      return;
+    public static void pushAck(ProducerMessage.PubMessageAck ack) throws InterruptedException {
+        if (ack == null) {
+            return;
+        }
+        ackQueue.put(ack);
     }
-    ackQueue.put(ack);
-  }
 
-  public static void pushAcks(List<ProducerMessage.PubMessageAck> acks)
-      throws InterruptedException {
-    if (acks == null) {
-      return;
+    public static void pushAcks(List<ProducerMessage.PubMessageAck> acks)
+            throws InterruptedException {
+        if (acks == null) {
+            return;
+        }
+        for (ProducerMessage.PubMessageAck ack : acks) {
+            ackQueue.put(ack);
+        }
     }
-    for (ProducerMessage.PubMessageAck ack : acks) {
-      ackQueue.put(ack);
-    }
-  }
 
-  public static ProducerMessage.PubMessageAck getAck() throws InterruptedException {
-    return ackQueue.take();
-  }
+    public static ProducerMessage.PubMessageAck getAck() throws InterruptedException {
+        return ackQueue.take();
+    }
 }

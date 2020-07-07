@@ -5,5 +5,5 @@ import io.netty.channel.ChannelHandlerContext;
 // may have some field to set.
 public interface MessageEventHandler {
 
-  void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) throws Exception;
+    void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) throws Exception;
 }

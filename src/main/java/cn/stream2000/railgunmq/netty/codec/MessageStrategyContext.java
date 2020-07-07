@@ -5,26 +5,26 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class MessageStrategyContext {
 
-  private final Object msg;
-  private final MessageStrategy strategy;
-  private final ChannelHandlerContext context;
+    private final Object msg;
+    private final MessageStrategy strategy;
+    private final ChannelHandlerContext context;
 
-  public MessageStrategyContext(Object msg, MessageStrategy strategy,
-      ChannelHandlerContext context) {
-    this.msg = msg;
-    this.strategy = strategy;
-    this.context = context;
-  }
+    public MessageStrategyContext(Object msg, MessageStrategy strategy,
+                                  ChannelHandlerContext context) {
+        this.msg = msg;
+        this.strategy = strategy;
+        this.context = context;
+    }
 
-  public Object getMsg() {
-    return msg;
-  }
+    public Object getMsg() {
+        return msg;
+    }
 
-  public MessageStrategy getStrategy() {
-    return strategy;
-  }
+    public MessageStrategy getStrategy() {
+        return strategy;
+    }
 
-  public void invoke() throws Exception {
-    strategy.handleMessage(context, msg);
-  }
+    public void invoke() throws Exception {
+        strategy.handleMessage(context, msg);
+    }
 }

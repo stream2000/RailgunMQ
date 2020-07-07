@@ -14,7 +14,7 @@ public class FakeSubscription extends Subscription {
     private final Logger log = LoggerFactory.getLogger(LoggerName.BROKER);
 
     public FakeSubscription(String clientId, Channel channel, String topic, AckManager ackManager) {
-        super(clientId, channel, topic);
+        super(clientId, channel, topic, ackManager);
         this.ackManager = ackManager;
     }
 

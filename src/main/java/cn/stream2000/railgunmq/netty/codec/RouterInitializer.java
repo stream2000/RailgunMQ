@@ -1,5 +1,6 @@
 package cn.stream2000.railgunmq.netty.codec;
 
+import cn.stream2000.railgunmq.core.ConsumerMessage;
 import cn.stream2000.railgunmq.core.Message;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 
@@ -19,6 +20,16 @@ public class RouterInitializer {
             ProducerMessage.SetChannelName.getDefaultInstance());
     router.register((byte) Message.MessageType.DisconnecType.getNumber(),
             ProducerMessage.Disconnect.getDefaultInstance());
+    router.register((byte) Message.MessageType.SubMessageRequestType.getNumber(),
+            ConsumerMessage.SubMessageRequest.getDefaultInstance());
+    router.register((byte) Message.MessageType.SubMessageResponseType.getNumber(),
+            ConsumerMessage.SubMessageAck.getDefaultInstance());
+    router.register((byte) Message.MessageType.SendMessageResponseType.getNumber(),
+            ConsumerMessage.SendMessageAck.getDefaultInstance());
+    router.register((byte) Message.MessageType.CreateChannelRequestType.getNumber(),
+            ConsumerMessage.CreateChannelRequest.getDefaultInstance());
+    router.register((byte) Message.MessageType.CreateChannelResponseType.getNumber(),
+            ConsumerMessage.CreateChannelResponse.getDefaultInstance());
     return router;
   }
 

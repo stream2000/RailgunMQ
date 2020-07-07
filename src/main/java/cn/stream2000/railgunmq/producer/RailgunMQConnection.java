@@ -1,5 +1,6 @@
 package cn.stream2000.railgunmq.producer;
 
+import cn.stream2000.railgunmq.core.Connection;
 import cn.stream2000.railgunmq.core.ProducerMessage;
 import cn.stream2000.railgunmq.core.SemaphoreCache;
 import cn.stream2000.railgunmq.netty.MessageStrategy;
@@ -9,14 +10,11 @@ import cn.stream2000.railgunmq.netty.codec.ProtobufEncoder;
 import cn.stream2000.railgunmq.netty.codec.RouterInitializer;
 import com.google.protobuf.ByteString;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,10 +23,9 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 @ChannelHandler.Sharable
 public class RailgunMQConnection {
-
     private final String host;
     private final int port;
-    private Channel channel;
+    private Connection connection;
     private BlockingQueue<ProducerMessage.PubMessageAck> blockingQueue;
     private String channelId;
 
@@ -39,23 +36,30 @@ public class RailgunMQConnection {
         channelId = "";
         EventLoopGroup group = new NioEventLoopGroup(1);
         Bootstrap bootstrap =
-            new Bootstrap().group(group).channel(NioSocketChannel.class)
-                .handler(new ClientInitializer());
-        channel = bootstrap.connect(host, port).sync().channel();
+                new Bootstrap().group(group).channel(NioSocketChannel.class)
+                        .handler(new ClientInitializer());
+        Channel channel = bootstrap.connect(host, port).sync().channel();
         SemaphoreCache.acquire("client init");
+        connection = new Connection();
+        connection.setChannel(channel);
+        connection.setConnectionName(channel.id().asLongText());
+
+
         blockingQueue = new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
     }
 
-    public RailgunMQConnection(String host, int port, String connectionName)
-        throws InterruptedException {
+    public RailgunMQConnection(String host, int port, String connectionName) throws InterruptedException {
         this.host = host;
         this.port = port;
         EventLoopGroup group = new NioEventLoopGroup(1);
         Bootstrap bootstrap =
-            new Bootstrap().group(group).channel(NioSocketChannel.class)
-                .handler(new ClientInitializer());
-        channel = bootstrap.connect(host, port).sync().channel();
+                new Bootstrap().group(group).channel(NioSocketChannel.class)
+                        .handler(new ClientInitializer());
+        Channel channel = bootstrap.connect(host, port).sync().channel();
         SemaphoreCache.acquire("client init");
+        connection = new Connection();
+        connection.setConnectionName(connectionName);
+        connection.setChannel(channel);
         blockingQueue = new LinkedBlockingDeque<ProducerMessage.PubMessageAck>();
         SetChannelName(connectionName);
     }
@@ -63,9 +67,10 @@ public class RailgunMQConnection {
     public void SetChannelName(String ChannelName) {
         int uuid = UUID.randomUUID().hashCode();
         ProducerMessage.SetChannelName setChannelName =
-            ProducerMessage.SetChannelName.newBuilder().setChannelId(channelId)
-                .setNewname(ChannelName).setLetterId(uuid).build();
-        channel.writeAndFlush(setChannelName);
+                ProducerMessage.SetChannelName.newBuilder().setChannelId(channelId)
+                        .setNewname(ChannelName).setLetterId(uuid).build();
+        connection.setConnectionName(ChannelName);
+        connection.getChannel().writeAndFlush(setChannelName);
     }
 
 
@@ -74,9 +79,9 @@ public class RailgunMQConnection {
         try {
             int uuid = UUID.randomUUID().hashCode();
             ProducerMessage.Disconnect disconnect = ProducerMessage.Disconnect
-                .newBuilder().setChannelId(channelId)
-                .setLetterId(uuid).build();
-            channel.writeAndFlush(disconnect);
+                    .newBuilder().setChannelId(channelId)
+                    .setLetterId(uuid).build();
+            connection.getChannel().writeAndFlush(disconnect);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,12 +119,12 @@ public class RailgunMQConnection {
         try {
             int uuid = UUID.randomUUID().hashCode();
             ProducerMessage.PubMessageRequest request =
-                ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
-                    .setLetterId(uuid)
-                    .setType(ProducerMessage.PubMessageRequest.payload_type.Text)
-                    .setData(ByteString.copyFromUtf8(message))
-                    .setTopic(topic).build();
-            channel.writeAndFlush(request);
+                    ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
+                            .setLetterId(uuid)
+                            .setType(ProducerMessage.PubMessageRequest.payload_type.Text)
+                            .setData(ByteString.copyFromUtf8(message))
+                            .setTopic(topic).build();
+            connection.getChannel().writeAndFlush(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,12 +135,12 @@ public class RailgunMQConnection {
         try {
             int uuid = UUID.randomUUID().hashCode();
             ProducerMessage.PubMessageRequest request =
-                ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
-                    .setLetterId(uuid)
-                    .setType(ProducerMessage.PubMessageRequest.payload_type.Binary)
-                    .setData(ByteString.copyFrom(bytes))
-                    .setTopic(topic).build();
-            channel.writeAndFlush(request);
+                    ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
+                            .setLetterId(uuid)
+                            .setType(ProducerMessage.PubMessageRequest.payload_type.Binary)
+                            .setData(ByteString.copyFrom(bytes))
+                            .setTopic(topic).build();
+            connection.getChannel().writeAndFlush(request);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,12 +151,12 @@ public class RailgunMQConnection {
         try {
             int uuid = UUID.randomUUID().hashCode();
             ProducerMessage.PubMessageRequest request =
-                ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
-                    .setLetterId(uuid)
-                    .setType(ProducerMessage.PubMessageRequest.payload_type.Integer)
-                    .setData(ByteString.copyFromUtf8(Integer.toString(value)))
-                    .setTopic(topic).build();
-            channel.writeAndFlush(request);
+                    ProducerMessage.PubMessageRequest.newBuilder().setChannelId(channelId)
+                            .setLetterId(uuid)
+                            .setType(ProducerMessage.PubMessageRequest.payload_type.Integer)
+                            .setData(ByteString.copyFromUtf8(Integer.toString(value)))
+                            .setTopic(topic).build();
+            connection.getChannel().writeAndFlush(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -189,9 +194,9 @@ public class RailgunMQConnection {
             ch.pipeline().addLast(encoder);
             ch.pipeline().addLast(new MessageStrategyProtobufDecoder(router));
             router.registerHandler(ProducerMessage.PubMessageAck.getDefaultInstance(),
-                new PubMessageResponseStrategy());
+                    new PubMessageResponseStrategy());
             router.registerHandler(ProducerMessage.CreateChannelResponse.getDefaultInstance(),
-                new ClientInitStrategy());
+                    new ClientInitStrategy());
             ch.pipeline().addLast(handler);
         }
     }
