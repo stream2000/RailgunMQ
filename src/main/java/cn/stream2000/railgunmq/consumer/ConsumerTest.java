@@ -16,6 +16,7 @@ public class ConsumerTest {
         result = consumer.getMessages(1000);
         for (SubMessage subMessage : result) {
             System.out.println(subMessage.getData().toStringUtf8());
+            consumer.sendSubAck(subMessage.getTopic(), subMessage.getId(), true);
         }
         System.out.println("here  !!!!!!!");
         TimeUnit.MILLISECONDS.sleep(6000);

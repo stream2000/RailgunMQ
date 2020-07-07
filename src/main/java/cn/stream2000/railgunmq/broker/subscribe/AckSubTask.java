@@ -3,11 +3,9 @@ package cn.stream2000.railgunmq.broker.subscribe;
 import cn.stream2000.railgunmq.broker.AckManager;
 import cn.stream2000.railgunmq.common.config.LoggerName;
 import cn.stream2000.railgunmq.core.ConsumerMessage;
+import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.UUID;
-import java.util.concurrent.Callable;
 
 /**
  * @author: 19028
@@ -26,11 +24,9 @@ public class AckSubTask implements Callable<Void> {
 
     @Override
     public Void call() throws Exception {
-        String msgId = UUID.randomUUID().toString();
-        if (ack.getIsSuccess() && TopicManager.getAll().contains(ack.getTopic())) {
-            ackManager.ackMessage(ack.getTopic(), msgId);
-        }
-        log.debug("[FakeSubscription] ack message with topic: {} id: {}", ack.getTopic(), msgId);
+        ackManager.ackMessage(ack.getTopic(), ack.getMsgId());
+        log.info("[FakeSubscription] ack message with topic: {} id: {}", ack.getTopic(),
+            ack.getMsgId());
         return null;
     }
 }

@@ -67,6 +67,10 @@ public final class Message {
      * <code>SubMessageType = 12;</code>
      */
     SubMessageType(12),
+    /**
+     * <code>SendMessageAckType = 13;</code>
+     */
+    SendMessageAckType(13),
     UNRECOGNIZED(-1),
     ;
 
@@ -118,6 +122,10 @@ public final class Message {
      * <code>SubMessageType = 12;</code>
      */
     public static final int SubMessageType_VALUE = 12;
+    /**
+     * <code>SendMessageAckType = 13;</code>
+     */
+    public static final int SendMessageAckType_VALUE = 13;
 
 
     public final int getNumber() {
@@ -156,6 +164,7 @@ public final class Message {
         case 9: return SubMessageRequestType;
         case 10: return SubMessageResponseType;
         case 12: return SubMessageType;
+        case 13: return SendMessageAckType;
         default: return null;
       }
     }
@@ -762,7 +771,7 @@ public final class Message {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\"\n\n\010HeatBeat*\257\002\n\013MessageT" +
+      "\n\rmessage.proto\"\n\n\010HeatBeat*\307\002\n\013MessageT" +
       "ype\022\t\n\005Empty\020\000\022\031\n\025PubMessageRequestType\020" +
       "\001\022\032\n\026PubMessageResponseType\020\002\022\034\n\030CreateC" +
       "hannelRequestType\020\003\022\035\n\031CreateChannelResp" +
@@ -770,10 +779,11 @@ public final class Message {
       "eartBeatType\020\006\022\026\n\022SetChannelNameType\020\007\022\022" +
       "\n\016DisconnectType\020\010\022\031\n\025SubMessageRequestT" +
       "ype\020\t\022\032\n\026SubMessageResponseType\020\n\022\022\n\016Sub" +
-      "MessageType\020\014*T\n\tErrorType\022\006\n\002OK\020\000\022\027\n\023In" +
-      "ternalServerError\020\001\022\020\n\014InvalidTopic\020\002\022\024\n" +
-      "\020FullMessageQueue\020\003B\'\n\034cn.stream2000.rai" +
-      "lgunmq.coreB\007Messageb\006proto3"
+      "MessageType\020\014\022\026\n\022SendMessageAckType\020\r*T\n" +
+      "\tErrorType\022\006\n\002OK\020\000\022\027\n\023InternalServerErro" +
+      "r\020\001\022\020\n\014InvalidTopic\020\002\022\024\n\020FullMessageQueu" +
+      "e\020\003B\'\n\034cn.stream2000.railgunmq.coreB\007Mes" +
+      "sageb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

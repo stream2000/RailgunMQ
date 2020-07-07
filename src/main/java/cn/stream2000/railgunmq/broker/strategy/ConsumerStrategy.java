@@ -1,5 +1,6 @@
 package cn.stream2000.railgunmq.broker.strategy;
 
+import cn.stream2000.railgunmq.broker.AckManager;
 import cn.stream2000.railgunmq.broker.subscribe.AckSubTaskFactory;
 import cn.stream2000.railgunmq.broker.subscribe.Subscription;
 import cn.stream2000.railgunmq.broker.subscribe.Topic;
@@ -50,7 +51,6 @@ public class ConsumerStrategy {
     }
 
     public static class AckMessageStrategy implements MessageStrategyWithBusinessPool {
-
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
             ConsumerMessage.SendMessageAck ack = (ConsumerMessage.SendMessageAck) message;
