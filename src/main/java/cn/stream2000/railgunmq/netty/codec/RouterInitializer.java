@@ -21,12 +21,15 @@ public class RouterInitializer {
             ProducerMessage.SetChannelName.getDefaultInstance());
         router.register((byte) MessageType.DisconnectType.getNumber(),
             ProducerMessage.Disconnect.getDefaultInstance());
+
         router.register((byte) MessageType.SubMessageRequestType.getNumber(),
             ConsumerMessage.SubMessageRequest.getDefaultInstance());
         router.register((byte) MessageType.SubMessageResponseType.getNumber(),
             ConsumerMessage.SubMessageAck.getDefaultInstance());
         router.register((byte) MessageType.SubMessageType.getNumber(),
             ConsumerMessage.SubMessage.getDefaultInstance());
+        router.register((byte) MessageType.SendMessageAckType.getNumber(),
+            ConsumerMessage.SendMessageAck.getDefaultInstance());
         return router;
     }
 

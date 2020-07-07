@@ -12,10 +12,10 @@ public class ProducerTest {
         //测试一开始就提供Connection名字
 
         //连接1发送消息
-        railgunMQClient.Publish("default", "文本内容");
-        railgunMQClient.Publish("default", "文本内容");
-        railgunMQClient.Publish("default", "文本内容");
-        railgunMQClient.Publish("default", "文本内容");
+        railgunMQClient.Publish("default", "文本内容-1");
+        railgunMQClient.Publish("default", "文本内容-2");
+        railgunMQClient.Publish("default", "文本内容-3");
+        railgunMQClient.Publish("default", "文本内容-4");
         ProducerMessage.PubMessageAck pubMessageAck = ProducerMessage.PubMessageAck.newBuilder()
             .setErrorMessage("HELLO").build();
         railgunMQClient.Publish("test", pubMessageAck.toByteArray());

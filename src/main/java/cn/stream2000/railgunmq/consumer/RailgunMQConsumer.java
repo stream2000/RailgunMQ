@@ -94,7 +94,7 @@ public class RailgunMQConsumer {
 
     public void sendSubAck(String topic, String msgId, boolean isSuccess) {
         ConsumerMessage.SendMessageAck ack =
-            ConsumerMessage.SendMessageAck.newBuilder().setChannelId(channelId)
+            ConsumerMessage.SendMessageAck.newBuilder()
                 .setTopic(topic)
                 .setMsgId(msgId)
                 .setIsSuccess(isSuccess).build();

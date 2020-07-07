@@ -16,6 +16,7 @@ enum MessageType {
   SubMessageRequestType = 9;
   SubMessageResponseType = 10;
   SubMessageType = 12;
+  SendMessageAckType = 13;
 }
 
 enum ErrorType {
