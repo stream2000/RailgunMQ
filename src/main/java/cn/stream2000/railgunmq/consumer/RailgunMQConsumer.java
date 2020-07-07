@@ -107,7 +107,7 @@ public class RailgunMQConsumer {
         channel.writeAndFlush(disconnect);
     }
 
-    public class SubMessageResponseStrategy implements MessageStrategy {
+    private class SubMessageResponseStrategy implements MessageStrategy {
 
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
@@ -118,7 +118,7 @@ public class RailgunMQConsumer {
         }
     }
 
-    public class SubMessageStrategy implements MessageStrategy {
+    private class SubMessageStrategy implements MessageStrategy {
 
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
@@ -127,7 +127,7 @@ public class RailgunMQConsumer {
         }
     }
 
-    public class ClientInitStrategy implements MessageStrategy {
+    private class ClientInitStrategy implements MessageStrategy {
 
         @Override
         public void handleMessage(ChannelHandlerContext channelHandlerContext, Object message) {
@@ -137,7 +137,7 @@ public class RailgunMQConsumer {
         }
     }
 
-    public class ConsumerInitializer extends ChannelInitializer<SocketChannel> {
+    private class ConsumerInitializer extends ChannelInitializer<SocketChannel> {
 
         ProtobufEncoder encoder = new ProtobufEncoder(RouterInitializer.initialize());
         ProtoRouter router = RouterInitializer.initialize();
