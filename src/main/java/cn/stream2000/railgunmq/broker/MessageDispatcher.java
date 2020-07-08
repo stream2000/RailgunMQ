@@ -116,10 +116,10 @@ public class MessageDispatcher {
             StoredMessage storedMessage = new StoredMessage(
                 message.getTopic(), message.getMsgId(), message.getType(),
                 message.getPayload());
+            offlineMessageStore.addMessage(message.getTopic(), message.getMsgId());
             persistenceMessageStore.storeMessage(storedMessage);
             Subscription sub = topic.getNextSubscription();
             if (sub == null) {
-                offlineMessageStore.addMessage(message.getTopic(), message.getMsgId());
 
                 if (message.isNeedAck()) {
                     ProducerMessage.PubMessageAck ack = ProducerMessage.PubMessageAck
