@@ -1,12 +1,7 @@
 var vue = new Vue({
     el: '#products',
     data: {
-      connects: [{
-        channelId:"111",
-        ConnectionName: "123",
-        role: "Producer",
-        topic:"non"
-      }],
+      connects: [],
       mode: "normal",
       addStatus: true,
     },
@@ -35,10 +30,20 @@ var vue = new Vue({
         method: 'get',
         success: function (data) {
           console.log("data",data);
-          for(var i=0;i<data.length;i++)
+          if(data.length != 0)
           {
-            vue.$set(vue.connects,i,data[i]);
+            for(var i=0;i<data.length;i++)
+          {
+             var connect = {
+              channelId:data[i].channelId,
+              ConnectionName: data[i].connectionName,
+              role: data[i].role,
+              topic:data[i].topic
+             }
+            vue.$set(vue.connects,i,connect);
           }
+          }
+          
           
         },
         error: function (error) {

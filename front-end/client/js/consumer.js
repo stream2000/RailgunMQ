@@ -1,21 +1,7 @@
 var vue = new Vue({
   el: '#products',
   data: {
-    messages: [{
-        messageId: "001",
-        messageContent: "message-1",
-        isAcked:false
-      },
-      {
-        messageId: "002",
-        messageContent: "message-2",
-        isAcked:false
-      },
-      {
-        messageId: "003",
-        messageContent: "message-3",
-        isAcked:false
-      },
+    messages: [
     ],
     connections: [],
     mode: "normal",
@@ -27,31 +13,38 @@ var vue = new Vue({
   },
   methods: {
     ack: function (id, event) {
-
+      console.log(event.currentTarget);
+      event.currentTarget.disabled = true;
       $.ajax({
-        url: /*this.url+*/ '/spring2/producer/ack',
+        url: /*this.url+*/ '/spring2/consumer/send',
         data: {
-          "id": id
+          "name":GetQueryString("id"),
+          "id": id,
+          "topic":vue.topic,
+          "isSuccess":true
         },
-        method: 'get',
+        method: 'POST',
         success: function (data) {
-          console.log(data);
-          console.log(event.currentTarget);
-          event.currentTarget.disabled = true;
 
-          var messages = JSON.parse(localStorage.getItem(GetQueryString("id")));
-          for (var i = 0; i < messages.length; i++) {
-            if (messages[i].messageId == id) {
-              var newMessage = {
-                "messageId":id,
-                "messageContent":messages[i].messageContent,
-                "isAcked":true
+          if(data)
+          {
+            var messages = JSON.parse(sessionStorage.getItem(GetQueryString("id")));
+            console.log("messages: "+messages);
+            for (var i = 0; i < messages.length; i++) {
+              if (messages[i].messageId == id) {
+                var newMessage = {
+                  "messageId":id,
+                  "messageContent":messages[i].messageContent,
+                  "isAcked":true
+                }
+                messages.splice(i,1,newMessage);
+                renderForm(messages);
+                sessionStorage.setItem(GetQueryString("id"),JSON.stringify(messages));
               }
-              messages.splice(i,1,newMessage);
-              renderForm(messages);
-              sessionStorage.setItem(GetQueryString("id"),JSON.stringify(messages));
             }
           }
+          
+         
         },
         error: function (error) {
           console.log(error);
@@ -96,13 +89,13 @@ var vue = new Vue({
       this.topic = "";
       this.clientName = ""
       $.ajax({
-        url: /*this.url+*/ '/spring2/producer/disconnect',
+        url: /*this.url+*/ '/spring2/consumer/disconnect',
         method: 'GET',
-        data:{"id":GetQueryString("id")},
+        data:{"name":GetQueryString("id")},
         success: function (data) {
           console.log(data);
-          var connections = JSON.stringify(localStorage.getItem('connections'));
-          connections.splice(this.connectionPos, 1);
+          var connections = JSON.parse(localStorage.getItem('connections'));
+          connections.splice(vue.connectionPos, 1);
           localStorage.setItem('connections', JSON.stringify(connections));
           window.location = "index.html"
         },
@@ -131,6 +124,7 @@ var vue = new Vue({
     var self = this;
     var id = GetQueryString("id");
     console.log("id: ", id);
+    sessionStorage.setItem(id,'[]');
     var connections = JSON.parse(localStorage.getItem('connections'));
 
     for (var i = 0; i < connections.length; i++) {
@@ -143,17 +137,31 @@ var vue = new Vue({
 
     setInterval(function () {
       $.ajax({
-        url: /*this.url+*/ '/consumer2/getMessages',
+        url: /*this.url+*/ '/spring2/consumer/getMessages',
         method: 'POST',
-        data:{"name":GetQueryString("id"),"maxTime":500},
+        data:{"name":GetQueryString("id"),"maxTime":1000},
         success: function (data) {
-          console.log(data);
+          
           var messages = JSON.parse(sessionStorage.getItem(id));
-          if (messages != null) {
-            messages.push(data);
-            renderForm(messages);
-            sessionStorage.setItem(id,JSON.stringify(messages));
-          } else {
+          if (messages != null ) {
+            if(data.length != 0)
+            {
+              for(var i = 0; i<data.length;i++)
+              {
+                console.log(data.data);
+                var message = {
+                  "messageId": data[i].id,
+                  "messageContent": data[i].data,
+                  "isAcked":false
+                }
+                messages.push(message);
+                renderForm(messages);
+                sessionStorage.setItem(id,JSON.stringify(messages));
+              }
+              
+            }
+            
+          } else if(messages == null ){
             sessionStorage.setItem(id, JSON.stringify(data));
           }
          
@@ -168,6 +176,10 @@ var vue = new Vue({
 });
 
 function renderForm(messages){
+  if(messages.length == 0)
+  {
+    vue.messages = "[]";
+  }
   for(var i = 0;i<messages.length;i++)
   {
     vue.$set(vue.messages,i,messages[i]);

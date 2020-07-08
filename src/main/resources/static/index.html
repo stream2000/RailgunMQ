@@ -102,11 +102,9 @@
                             <td>{{topic.topicName}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary"
-                                    v-on:click='status(topic.topicName,topic.active)'>STATUS</button>
+                                    v-on:click='status(topic.topicName,topic.nextSubscription)'>Status</button>
                                 <button type="button" class="btn btn-primary"
-                                    v-on:click='consumer(topic.topicName,topic.nextSubscription)'>CONSUMER</button>
-                                <button type="button" class="btn btn-primary"
-                                    v-on:click='reset(topic.topic_id)'>RESET</button>
+                                    v-on:click='connection(topic.topicName,topic.nextSubscription)'>Connection</button>
                                 <button type="button" class="btn btn-danger"
                                     v-on:click='del(topic.topicName)'>DELETE</button>
                                 <div class="newBar">

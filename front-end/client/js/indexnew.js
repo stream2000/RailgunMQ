@@ -42,37 +42,28 @@
           console.log("This!");
           $.ajax({
             url: /*this.url +*/ '/spring/producer/connect',
-            method: 'GET',
+            method: 'POST',
+            data: {
+              "name": name
+            },
             success: function (data) {
               console.log(data);
               var id = data;
-              if (data != null) {
-                $.ajax({
-                  url: /*this.url +*/ '/spring/producer/setChannelName',
-                  method: 'POST',
-                  data: {
-                    "id": id,
-                    "name": name
-                  },
-                  success: function (data) {
-                    console.log(data);
-                    this.clientName = name;
-                    var newConnection = {
-                      "connectionId": id,
-                      "connectionName": name,
-                      "role": "producer",
-                      "topic": topicName
-                    }
-                    var connections = JSON.parse(localStorage.getItem('connections'));
-                    connections.push(newConnection);
-                    localStorage.setItem('connections', JSON.stringify(connections));
-                    window.location = "Producer.html?id=" + id;
-                  },
-                  error: function (error) {
-                    console.log(error);
-                  }
-                })
+
+
+              this.clientName = name;
+              var newConnection = {
+                "connectionId": id,
+                "connectionName": name,
+                "role": "producer",
+                "topic": topicName
               }
+              var connections = JSON.parse(localStorage.getItem('connections'));
+              connections.push(newConnection);
+              localStorage.setItem('connections', JSON.stringify(connections));
+              window.location = "Producer.html?id=" + id;
+
+
 
             },
             error: function (error) {
@@ -109,12 +100,11 @@
               "name": name
             },
             success: function (data) {
-              console.log(data);
 
               var newConnection = {
                 "connectionId": data.id,
                 "connectionName": name,
-                "connectionRole": "consumer",
+                "role": "consumer",
                 "topic": topicName
               }
               var connections = JSON.parse(localStorage.getItem('connections'));
