@@ -124,6 +124,7 @@ var vue = new Vue({
     var self = this;
     var id = GetQueryString("id");
     console.log("id: ", id);
+    sessionStorage.setItem(id,'[]');
     var connections = JSON.parse(localStorage.getItem('connections'));
 
     for (var i = 0; i < connections.length; i++) {

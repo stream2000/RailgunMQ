@@ -100,7 +100,6 @@
               "name": name
             },
             success: function (data) {
-              alert(data.id);
 
               var newConnection = {
                 "connectionId": data.id,
