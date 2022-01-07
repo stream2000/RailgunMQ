@@ -110,7 +110,7 @@
       <artifactId>protobuf-java</artifactId>
       <groupId>com.google.protobuf</groupId>
       <scope>(default)</scope>
-      <version>3.12.1</version>
+      <version>3.16.1</version>
     </dependency>
     <!-- yml -->
     <dependency>
