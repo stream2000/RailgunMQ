@@ -82,7 +82,7 @@
       <artifactId>spring-core</artifactId>
       <groupId>org.springframework</groupId>
       <scope>compile</scope>
-      <version>5.2.6.RELEASE</version>
+      <version>5.3.19</version>
     </dependency>
     <dependency>
       <artifactId>commons-pool</artifactId>
