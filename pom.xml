@@ -117,7 +117,7 @@
       <artifactId>snakeyaml</artifactId>
       <groupId>org.yaml</groupId>
       <scope>(default)</scope>
-      <version>1.26</version>
+      <version>1.32</version>
     </dependency>
 
     <!-- lombok -->
